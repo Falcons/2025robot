@@ -100,7 +100,7 @@ public final class Constants {
         public static final double rotationKD = 0;
 
     }
-    //all of this is placeholders if you somehow cant figger that out
+    //TODO:make not placeholder
     public static final class ShooterConstants {
         public static final int motarRatio = 4; //4:1 once i find the proper variable type
         public static final int leftMoterCANID = 0;
@@ -111,8 +111,9 @@ public final class Constants {
         public static final double TOFFrontTriggerMin = 0;
         public static final double slowModeSpeed = 0; //again, change this to proper variable type
     }
-    public static final class AlgageConstants {
+    public static final class AlgaeConstants {
         public static final int motarRatio = 0; //?:1 once someone finds the ratio
+        public static final double pivotMoterRotToMeter = 0; //TODO:find the formula for this
         public static final int pivotMoterCANID = 0;
         public static final int whealMoterCANID = 0;
         public static final double slowModeSpeed = 0;//same here
@@ -121,6 +122,15 @@ public final class Constants {
         public static final int motarRatio = 12; //12:1 once i find the proper variable type
         public static final int liftMoter1CANID = 0;
         public static final int liftMoter2CANID = 0;
+        public static final int TOFCANID = 0;
+        public static final double TOFTriggerL1Min = 0;
+        public static final double TOFTriggerL1Max = 0;
+        public static final double TOFTriggerL2Min = 0;
+        public static final double TOFTriggerL2Max = 0;
+        public static final double TOFTriggerL3Min = 0;
+        public static final double TOFTriggerL3Max = 0;
+        public static final double TOFTriggerL4Min = 0;
+        public static final double TOFTriggerL4Max = 0;
         public static final double slowModeSpeed = 0;//wow quess what, same here
     }
 }
