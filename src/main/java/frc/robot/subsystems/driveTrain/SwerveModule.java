@@ -104,7 +104,7 @@ public class SwerveModule {
     /** @return Integrated Turning Encoder in degrees (-180 to 180) CCW+ */
     public double getTurningEncoderDegree() {
         return Math.IEEEremainder(turningEncoder.getPosition(), 360);
-      } 
+      }
     
 
     public double getTurningVelocity() {

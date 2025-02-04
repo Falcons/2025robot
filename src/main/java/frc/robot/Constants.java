@@ -110,12 +110,18 @@ public final class Constants {
         public static final double TOFBackTriggerMin = 0;
         public static final double TOFFrontTriggerMin = 0;
         public static final double slowModeSpeed = 0; //again, change this to proper variable type
+        public static final double reefL1 = 0;
+        public static final double reefL2 = 0;
+        public static final double reefL3 = 0;
+        public static final double reefL4 = 0;
     }
-    public static final class AlgageConstants {
+    public static final class AlgaeConstants {
         public static final int motarRatio = 0; //?:1 once someone finds the ratio
         public static final int pivotMoterCANID = 0;
-        public static final int whealMoterCANID = 0;
+        public static final int intakeMoterCANID = 0;
         public static final double slowModeSpeed = 0;//same here
+        public static final double pivotMotorRotToDegree = 360;//same here - by AI
+        public static final double algeaPivotSetpoint = 5; //placeholder
     }
     public static final class ElevatorConstants {
         public static final int motarRatio = 12; //12:1 once i find the proper variable type
