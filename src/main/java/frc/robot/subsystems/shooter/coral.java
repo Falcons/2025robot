@@ -12,15 +12,16 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.AlgaeConstants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.airlock;
 
 public class coral extends SubsystemBase {
   private final SparkMax leftShooter, rightShooter;
   private SparkMaxConfig shooterConfig;
   /** Creates a new coral thing. */
-  public coral() {
-    this.leftShooter = new SparkMax(AlgaeConstants.intakeMoterCANID, MotorType.kBrushless);
-    this.rightShooter = new SparkMax(AlgaeConstants.intakeMoterCANID, MotorType.kBrushless);
+  public coral(airlock airlock) {
+    this.leftShooter = new SparkMax(ShooterConstants.leftMoterCANID, MotorType.kBrushless);
+    this.rightShooter = new SparkMax(ShooterConstants.rightMoterCANID, MotorType.kBrushless);
 
     leftShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     rightShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
