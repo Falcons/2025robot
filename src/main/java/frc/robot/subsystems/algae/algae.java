@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.algea;
+package frc.robot.subsystems.algae;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
 
-public class algea extends SubsystemBase {
+public class algae extends SubsystemBase {
   private final SparkMax pivot, intake;
   private SparkMaxConfig pivotConfig, intakeConfig;
-  PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algea
+  PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
   double pivotAngle = 0;
   /** Creates a new algea_pivot. */
-  public algea() {
+  public algae() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMoterCANID, MotorType.kBrushless);
     this.intake = new SparkMax(AlgaeConstants.intakeMoterCANID, MotorType.kBrushless);
     pivotConfig.idleMode(IdleMode.kBrake);
@@ -35,22 +35,18 @@ public class algea extends SubsystemBase {
     pivotPid.setTolerance(0.1);
     pivotPid.setIntegratorRange(-0.01, 0.01);
   }
-  public void stopAll() {
-    pivot.set(0);
-    intake.set(0);
-  }
   public void stopPivot() {
-    pivot.set(0);
+    pivot.stopMotor();
   }
   public void stopIntake() {
-    intake.set(0);
+    intake.stopMotor();
   }
   @Override
   public void periodic() {
-    pivotAngle = pivot.getEncoder().getPosition();
     SmartDashboard.putNumber("Pivot Encoder", pivot.getEncoder().getPosition());
     SmartDashboard.putNumber("Intake Encoder", intake.getEncoder().getPosition());
-    SmartDashboard.putNumber("Pivot angle", pivotAngle);
+
+    pivotAngle = pivot.getEncoder().getPosition();
   }
   public void pidReset() {
     pivotPid.reset();
