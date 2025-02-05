@@ -14,12 +14,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.SwerveJoystick;
-import frc.robot.commands.AllModulePID;
-import frc.robot.commands.SwervePositionPIDTuning;
 import frc.robot.commands.algaePivot;
 import frc.robot.commands.shoot;
 import frc.robot.commands.intake;
 import frc.robot.commands.elevatorManual;
+import frc.robot.subsystems.airlock;
 import frc.robot.subsystems.algae.algae;
 import frc.robot.subsystems.shooter.coral;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
@@ -27,9 +26,10 @@ import frc.robot.subsystems.elevator.elevator;
 
 public class RobotContainer {
 
-  private final coral coral = new coral();
+  private final airlock airlock = new airlock();
+  private final coral coral = new coral(airlock);
   private final algae algae = new algae();
-  private final elevator elevator = new elevator();
+  private final elevator elevator = new elevator(airlock);
 
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(0);
