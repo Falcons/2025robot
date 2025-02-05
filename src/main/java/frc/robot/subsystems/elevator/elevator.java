@@ -21,7 +21,7 @@ import frc.robot.Constants.ElevatorConstants;
 public class elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig = new SparkMaxConfig();
-    private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFCANID);
+    private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     private double maxSpeed = 1;
     /** Creates a new elevator. */
   public elevator() {

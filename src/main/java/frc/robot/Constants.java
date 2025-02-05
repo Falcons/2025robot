@@ -100,35 +100,32 @@ public final class Constants {
         public static final double rotationKD = 0;
 
     }
-    //TODO:make not placeholder
+    //TODO: make not placeholder
     public static final class ShooterConstants {
-        public static final int motarRatio = 4; //4:1 once i find the proper variable type
         public static final int leftMoterCANID = 0;
         public static final int rightMoterCANID = 0;
-        public static final int TOFbackCANID = 0;
-        public static final int TOFFrontCANID = 0;
-        public static final double TOFBackTriggerMin = 0;
-        public static final double TOFFrontTriggerMin = 0;
-        public static final double slowModeSpeed = 0; //again, change this to proper variable type
+        public static final int backTOFCANID = 0;
+        public static final int frontTOFCANID = 0;
+        public static final double backTOFTriggerMin = 0;
+        public static final double frontTOFTriggerMin = 0;
         public static final double reefL1 = 0;
         public static final double reefL2 = 0;
         public static final double reefL3 = 0;
         public static final double reefL4 = 0;
     }
     public static final class AlgaeConstants {
-        public static final int motarRatio = 0; //?:1 once someone finds the ratio
-        public static final double pivotMoterRotToMeter = 0; //TODO:find the formula for this
         public static final int pivotMoterCANID = 0;
         public static final int intakeMoterCANID = 0;
+        public static final double motarRatio = 85.5; //85.5:1 once someone finds the ratio
         public static final double slowModeSpeed = 0;//same here
-        public static final double pivotMotorRotToDegree = 360;//same here - by AI
+        public static final double pivotMotorRotToDegree = 360;//TODO: find proper converson factor
         public static final double algeaPivotSetpoint = 5; //placeholder
     }
     public static final class ElevatorConstants {
         public static final int motarRatio = 12; //12:1 once i find the proper variable type
         public static final int liftMoter1CANID = 0;
         public static final int liftMoter2CANID = 0;
-        public static final int TOFCANID = 0;
+        public static final int TOFTopCANID = 0;
         public static final double TOFTriggerL1Min = 0;
         public static final double TOFTriggerL1Max = 0;
         public static final double TOFTriggerL2Min = 0;

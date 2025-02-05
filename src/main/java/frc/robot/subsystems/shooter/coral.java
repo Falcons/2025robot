@@ -7,22 +7,25 @@ package frc.robot.subsystems.shooter;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.AlgaeConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class coral extends SubsystemBase {
   private final SparkMax leftShooter, rightShooter;
+  private TimeOfFlight frontTOF, backTOF;
   private SparkMaxConfig shooterConfig;
   /** Creates a new coral thing. */
   public coral() {
-    this.leftShooter = new SparkMax(AlgaeConstants.intakeMoterCANID, MotorType.kBrushless);
-    this.rightShooter = new SparkMax(AlgaeConstants.intakeMoterCANID, MotorType.kBrushless);
+    this.leftShooter = new SparkMax(ShooterConstants.leftMoterCANID, MotorType.kBrushless);
+    this.rightShooter = new SparkMax(ShooterConstants.rightMoterCANID, MotorType.kBrushless);
+
+    frontTOF = new TimeOfFlight(ShooterConstants.frontTOFCANID);
+    backTOF = new TimeOfFlight(ShooterConstants.backTOFCANID);
 
     leftShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     rightShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
