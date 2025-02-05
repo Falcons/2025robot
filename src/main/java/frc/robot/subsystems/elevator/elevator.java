@@ -12,19 +12,20 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.subsystems.airlock;
 
 public class elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig = new SparkMaxConfig();
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
+    private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", Alert.AlertType.kInfo);
     private double maxSpeed = 1;
     /** Creates a new elevator. */
-  public elevator() {
+  public elevator(airlock airlock) {
     this.rightMoter = new SparkMax(ElevatorConstants.liftMoter1CANID, MotorType.kBrushless);
     rightConfig.idleMode(IdleMode.kBrake);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
@@ -43,7 +44,7 @@ public class elevator extends SubsystemBase {
     SmartDashboard.putNumber("TOF range", TOF.getRange());
   }
 
-  public void set(double speed){
+  public void set(double speed){ //TODO: add safety checks
     rightMoter.set(speed * maxSpeed);
   }
   public void stop(){
@@ -52,11 +53,10 @@ public class elevator extends SubsystemBase {
   public void setSlowMode(boolean toggle){
     if (toggle) {
       maxSpeed = ElevatorConstants.slowModeSpeed;
-      Shuffleboard.addEventMarker("elevator slow mode active", EventImportance.kLow);
     }else{
       maxSpeed = 1;
-      Shuffleboard.addEventMarker("elevator slow mode active", null);
     }
+    slowModeAlert.set(toggle);
   }
 
   public double getTOF(){

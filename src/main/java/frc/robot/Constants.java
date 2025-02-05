@@ -104,10 +104,6 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final int leftMoterCANID = 0;
         public static final int rightMoterCANID = 0;
-        public static final int backTOFCANID = 0;
-        public static final int frontTOFCANID = 0;
-        public static final double backTOFTriggerMin = 0;
-        public static final double frontTOFTriggerMin = 0;
         public static final double reefL1 = 0;
         public static final double reefL2 = 0;
         public static final double reefL3 = 0;
@@ -135,5 +131,13 @@ public final class Constants {
         public static final double TOFTriggerL4Min = 0;
         public static final double TOFTriggerL4Max = 0;
         public static final double slowModeSpeed = 0;//wow quess what, same here
+    }
+    public static final class airlockConstants {
+        public static final int backTOFCANID = 0;
+        public static final int frontTOFCANID = 0;
+        public static final double frontTOFTriggerMin = 0;
+        public static final double frontTOFTriggerMax = 0;
+        public static final double backTOFTriggerMin = 0;
+        public static final double backTOFTriggerMax = 0;
     }
 }
