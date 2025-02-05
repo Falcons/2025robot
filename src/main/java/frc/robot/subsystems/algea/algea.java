@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
 
-public class algea_pivot extends SubsystemBase {
+public class algea extends SubsystemBase {
   private final SparkMax pivot, intake;
   private SparkMaxConfig pivotConfig, intakeConfig;
   PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algea
   double pivotAngle = 0;
   /** Creates a new algea_pivot. */
-  public algea_pivot() {
+  public algea() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMoterCANID, MotorType.kBrushless);
     this.intake = new SparkMax(AlgaeConstants.intakeMoterCANID, MotorType.kBrushless);
     pivotConfig.idleMode(IdleMode.kBrake);
@@ -35,16 +35,22 @@ public class algea_pivot extends SubsystemBase {
     pivotPid.setTolerance(0.1);
     pivotPid.setIntegratorRange(-0.01, 0.01);
   }
-  public void stop() {
+  public void stopAll() {
     pivot.set(0);
+    intake.set(0);
+  }
+  public void stopPivot() {
+    pivot.set(0);
+  }
+  public void stopIntake() {
     intake.set(0);
   }
   @Override
   public void periodic() {
+    pivotAngle = pivot.getEncoder().getPosition();
     SmartDashboard.putNumber("Pivot Encoder", pivot.getEncoder().getPosition());
     SmartDashboard.putNumber("Intake Encoder", intake.getEncoder().getPosition());
-
-    pivotAngle = pivot.getEncoder().getPosition();
+    SmartDashboard.putNumber("Pivot angle", pivotAngle);
   }
   public void pidReset() {
     pivotPid.reset();
