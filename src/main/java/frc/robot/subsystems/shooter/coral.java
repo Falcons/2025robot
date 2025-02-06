@@ -18,10 +18,8 @@ import frc.robot.subsystems.Airlock;
 public class Coral extends SubsystemBase {
   private final SparkMax leftShooter, rightShooter;
   private SparkMaxConfig shooterConfig;
-  private Airlock airlock;
   /** Creates a new coral thing. */
   public Coral(Airlock airlock) {
-    this.airlock = airlock;
     this.leftShooter = new SparkMax(ShooterConstants.leftMoterCANID, MotorType.kBrushless);
     this.rightShooter = new SparkMax(ShooterConstants.rightMoterCANID, MotorType.kBrushless);
 

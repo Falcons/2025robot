@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.Coral;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Shoot extends Command {
+public class CoralShoot extends Command {
   double speed;
   Coral coral;
   /** Creates a new shoot. */
-  public Shoot(Coral coral, double speed) {
+  public CoralShoot(Coral coral, double speed) {
     this.coral = coral;
     this.speed = speed;
     addRequirements(coral);

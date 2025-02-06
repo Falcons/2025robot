@@ -9,12 +9,12 @@ import frc.robot.subsystems.algae.Algae;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaePivotPID extends Command {
-  double speed;
   Algae algae;
+  double level;
   /** Creates a new shoot. */
-  public AlgaePivotPID(Algae algae, double speed) {
+  public AlgaePivotPID(Algae algae, double level) {
     this.algae = algae;
-    this.speed = speed;
+    this.level = level;
     addRequirements(algae);
   }
 
@@ -25,7 +25,7 @@ public class AlgaePivotPID extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    algae.setPivotpid(speed);
+    algae.setPivotpid(level);
   }
 
   // Called once the command ends or is interrupted.

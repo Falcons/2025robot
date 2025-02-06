@@ -57,7 +57,7 @@ public class Algae extends SubsystemBase {
   public void setIntake(double speed) {
     intake.set(speed);
   }
-  public void setPivotpid(double speed){ //TODO: change encoder value to an angle
-    pivot.set(pivotPid.calculate(pivotAngle, AlgaeConstants.algeaPivotSetpoint));
+  public void setPivotpid(double level) {
+    pivot.set(pivotPid.calculate(pivotAngle, level));
   }
 }

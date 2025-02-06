@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.SwerveJoystick;
 import frc.robot.commands.AlgaePivot;
-import frc.robot.commands.Shoot;
+import frc.robot.commands.CoralShoot;
 import frc.robot.commands.Intake;
 import frc.robot.commands.ElevatorManual;
 import frc.robot.subsystems.Airlock;
@@ -23,7 +23,6 @@ import frc.robot.subsystems.algae.Algae;
 import frc.robot.subsystems.shooter.Coral;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 import frc.robot.subsystems.elevator.Elevator;
-
 public class RobotContainer {
 
   private final Airlock airlock = new Airlock();
@@ -44,9 +43,8 @@ public class RobotContainer {
       () -> -driver.getLeftX(), 
       () -> -driver.getRightX(), 
       () -> !driver.getHID().getLeftBumper()));
-    coral.setDefaultCommand(new Shoot(coral, operator.getRightTriggerAxis())); // intake
-    coral.setDefaultCommand(new Shoot(coral, -operator.getLeftTriggerAxis())); //outake
-    algae.setDefaultCommand(new AlgaePivot(algae, -operator.getLeftY())); // pivot
+    coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis())); // outake
+    algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
     elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
     configureBindings();
 
@@ -58,8 +56,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    operator.x().whileTrue(new Intake(algae, 0.1));
-    operator.a().whileTrue(new Intake(algae, -0.1));
+    operator.x().whileTrue(new Intake(algae, 0.1)); // intake algae
+    operator.a().whileTrue(new Intake(algae, -0.1)); // shoot algae
 
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));
     driver.povUpRight().whileTrue(swerve.modulePIDTuning("Front Right"));
