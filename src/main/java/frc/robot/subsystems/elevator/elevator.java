@@ -16,22 +16,23 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.subsystems.airlock;
+import frc.robot.subsystems.Airlock;
 
-public class elevator extends SubsystemBase {
+public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig = new SparkMaxConfig();
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", Alert.AlertType.kInfo);
-    private double maxSpeed = 1;
+    private double speedMod = 1;
+    private Airlock airlock;
     /** Creates a new elevator. */
-  public elevator(airlock airlock) {
+  public Elevator(Airlock airlock) {
+    this.airlock = airlock;
     this.rightMoter = new SparkMax(ElevatorConstants.liftMoter1CANID, MotorType.kBrushless);
     rightConfig.idleMode(IdleMode.kBrake);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMoter2CANID, MotorType.kBrushless);
     leftConfig.idleMode(IdleMode.kBrake);
-    leftConfig.follow(rightMoter);
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
   }
@@ -45,16 +46,18 @@ public class elevator extends SubsystemBase {
   }
 
   public void set(double speed){ //TODO: add safety checks
-    rightMoter.set(speed * maxSpeed);
+    rightMoter.set(speed * speedMod);
+    leftMoter.set(speed * speedMod);
   }
   public void stop(){
     rightMoter.stopMotor();
+    leftMoter.stopMotor();
   }
   public void setSlowMode(boolean toggle){
     if (toggle) {
-      maxSpeed = ElevatorConstants.slowModeSpeed;
+      speedMod = ElevatorConstants.slowModeSpeed;
     }else{
-      maxSpeed = 1;
+      speedMod = 1;
     }
     slowModeAlert.set(toggle);
   }
@@ -65,7 +68,8 @@ public class elevator extends SubsystemBase {
   public double getEncoder(){
     return rightMoter.getEncoder().getPosition();
   }
-  public boolean getSlowMode(){ //returns true if slow mode is active
-    return maxSpeed == ElevatorConstants.slowModeSpeed;
+  /**returns true if slow mode is active*/
+  public boolean getSlowMode(){ 
+    return speedMod == ElevatorConstants.slowModeSpeed;
   }
 }

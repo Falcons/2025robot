@@ -80,6 +80,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final PIDController xPID = new PIDController(DriveConstants.translationKP, 0, 0);
   private final PIDController yPID = new PIDController(DriveConstants.translationKP, 0, 0);
   private final PIDController rotationPID = new PIDController(DriveConstants.rotationKP, DriveConstants.rotationKI, 0);
+  private final double speedMod = 1;
   private final SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(
     DriveConstants.kDriveKinematics, 
     getRotation2d(), 
@@ -113,7 +114,7 @@ public class SwerveSubsystem extends SubsystemBase {
   //StructPublisher<Pose2d> posPublisher = NetworkTableInstance.getDefault().getStructTopic("SwervePose/Actual", Pose2d.struct).publish();
 
   public SwerveSubsystem() {
-    SmartDashboard.putNumber("max speed", ModuleConstants.driveMaxSpeedMPS);
+    //SmartDashboard.putNumber("max speed", ModuleConstants.driveMaxSpeedMPS); //adjust via SmartDashboard 
     //photonCam = new PhotonCamera("USB2.0_PC_CAMERA");
     rotationPID.enableContinuousInput(-Math.PI, Math.PI);
     rotationPID.setIZone(0.05);
@@ -241,7 +242,7 @@ public class SwerveSubsystem extends SubsystemBase {
   /** Sets all 4 Modules to specified Speed and Angle */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     commandedStatePublisher.set(desiredStates);
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SmartDashboard.getNumber("max speed", ModuleConstants.driveMaxSpeedMPS));
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, ModuleConstants.driveMaxSpeedMPS * speedMod);
     frontLeft.setDesiredState(desiredStates[0]);
     frontRight.setDesiredState(desiredStates[1]);
     backLeft.setDesiredState(desiredStates[2]);

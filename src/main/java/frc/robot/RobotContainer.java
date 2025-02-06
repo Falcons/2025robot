@@ -18,18 +18,18 @@ import frc.robot.commands.algaePivot;
 import frc.robot.commands.shoot;
 import frc.robot.commands.intake;
 import frc.robot.commands.elevatorManual;
-import frc.robot.subsystems.airlock;
-import frc.robot.subsystems.algae.algae;
-import frc.robot.subsystems.shooter.coral;
+import frc.robot.subsystems.Airlock;
+import frc.robot.subsystems.algae.Algae;
+import frc.robot.subsystems.shooter.Coral;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
-import frc.robot.subsystems.elevator.elevator;
+import frc.robot.subsystems.elevator.Elevator;
 
 public class RobotContainer {
 
-  private final airlock airlock = new airlock();
-  private final coral coral = new coral(airlock);
-  private final algae algae = new algae();
-  private final elevator elevator = new elevator(airlock);
+  private final Airlock airlock = new Airlock();
+  private final Elevator elevator = new Elevator(airlock);
+  private final Coral coral = new Coral(airlock);
+  private final Algae algae = new Algae();
 
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(0);

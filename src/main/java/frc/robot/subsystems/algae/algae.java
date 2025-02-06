@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
 
-public class algae extends SubsystemBase {
+public class Algae extends SubsystemBase {
   private final SparkMax pivot, intake;
   private SparkMaxConfig pivotConfig, intakeConfig;
   PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
   double pivotAngle = 0;
   /** Creates a new algea_pivot. */
-  public algae() {
+  public Algae() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMoterCANID, MotorType.kBrushless);
     this.intake = new SparkMax(AlgaeConstants.intakeMoterCANID, MotorType.kBrushless);
     pivotConfig.idleMode(IdleMode.kBrake);

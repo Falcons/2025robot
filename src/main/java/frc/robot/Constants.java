@@ -21,7 +21,7 @@ public final class Constants {
 
         //4.60 m/s
         public static final double driveMaxSpeedMPS = neoFreeSpeedRPM * driveMotorRPMToMetresPerSecond;
-        public static final double slowModeSpeed = driveMaxSpeedMPS * 0.3;
+        public static final double slowModeSpeed = driveMaxSpeedMPS * 0.2;
 
         //Turning Motor
 
@@ -113,7 +113,7 @@ public final class Constants {
         public static final int pivotMoterCANID = 0;
         public static final int intakeMoterCANID = 0;
         public static final double motarRatio = 85.5; //85.5:1 once someone finds the ratio
-        public static final double slowModeSpeed = 0;//same here
+        public static final double slowModeSpeed = 0.2;
         public static final double pivotMotorRotToDegree = 360;//TODO: find proper converson factor
         public static final double algeaPivotSetpoint = 5; //placeholder
     }
@@ -130,7 +130,7 @@ public final class Constants {
         public static final double TOFTriggerL3Max = 0;
         public static final double TOFTriggerL4Min = 0;
         public static final double TOFTriggerL4Max = 0;
-        public static final double slowModeSpeed = 0;//wow quess what, same here
+        public static final double slowModeSpeed = 0.2;
     }
     public static final class airlockConstants {
         public static final int backTOFCANID = 0;
