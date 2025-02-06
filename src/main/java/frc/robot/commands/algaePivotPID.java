@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algae.Algae;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class algaePivotPID extends Command {
+public class AlgaePivotPID extends Command {
   double speed;
   Algae algae;
   /** Creates a new shoot. */
-  public algaePivotPID(Algae algae, double speed) {
+  public AlgaePivotPID(Algae algae, double speed) {
     this.algae = algae;
     this.speed = speed;
     addRequirements(algae);

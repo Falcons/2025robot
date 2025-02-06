@@ -114,7 +114,7 @@ public final class Constants {
         public static final int intakeMoterCANID = 0;
         public static final double motarRatio = 85.5; //85.5:1 once someone finds the ratio
         public static final double slowModeSpeed = 0.2;
-        public static final double pivotMotorRotToDegree = 360;//TODO: find proper converson factor
+        public static final double pivotMotorRotToDegree = motarRatio * 360;//TODO: find proper converson factor
         public static final double algeaPivotSetpoint = 5; //placeholder
     }
     public static final class ElevatorConstants {
@@ -122,6 +122,8 @@ public final class Constants {
         public static final int liftMoter1CANID = 0;
         public static final int liftMoter2CANID = 0;
         public static final int TOFTopCANID = 0;
+        public static final double TOFMin = 0;
+        public static final double TOFMax = 0;
         public static final double TOFTriggerL1Min = 0;
         public static final double TOFTriggerL1Max = 0;
         public static final double TOFTriggerL2Min = 0;

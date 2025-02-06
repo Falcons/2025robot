@@ -37,12 +37,12 @@ public class Airlock extends SubsystemBase {
 
   /** true if the front TOF sensor's range is withien defiend triggers*/
   public boolean isFrontInRange(){
-    double range = frontTOF.getRange();
+    double range = getFrontRange();
     return range >= airlockConstants.backTOFTriggerMin && range <= airlockConstants.backTOFTriggerMax;
   }
   /**true if the back TOF sensor's range is withien defiend triggers*/
   public boolean isBackInRange(){
-    double range = backTOF.getRange();
+    double range = getBackRange();
     return range >= airlockConstants.backTOFTriggerMin && range <= airlockConstants.backTOFTriggerMax;
   }
   /**true if its safe to move elevator*/

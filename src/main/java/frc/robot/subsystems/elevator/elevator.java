@@ -45,7 +45,10 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("TOF range", TOF.getRange());
   }
 
-  public void set(double speed){ //TODO: add safety checks
+  public void set(double speed){
+    if (!airlock.checkSafety()) return;
+    if (getTOF() == ElevatorConstants.TOFMin && speed < 0)return; //if the elevator is at the bottom and the speed is negative, stop the elevator
+    if (getTOF() == ElevatorConstants.TOFMax && speed > 0)return; //if the elevator is at the top and the speed is positive, stop the elevator
     rightMoter.set(speed * speedMod);
     leftMoter.set(speed * speedMod);
   }

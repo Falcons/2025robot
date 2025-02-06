@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.SwerveJoystick;
-import frc.robot.commands.algaePivot;
-import frc.robot.commands.shoot;
-import frc.robot.commands.intake;
-import frc.robot.commands.elevatorManual;
+import frc.robot.commands.AlgaePivot;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.Intake;
+import frc.robot.commands.ElevatorManual;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.algae.Algae;
 import frc.robot.subsystems.shooter.Coral;
@@ -44,10 +44,10 @@ public class RobotContainer {
       () -> -driver.getLeftX(), 
       () -> -driver.getRightX(), 
       () -> !driver.getHID().getLeftBumper()));
-    coral.setDefaultCommand(new shoot(coral, operator.getRightTriggerAxis())); // intake
-    coral.setDefaultCommand(new shoot(coral, -operator.getLeftTriggerAxis())); //outake
-    algae.setDefaultCommand(new algaePivot(algae, -operator.getLeftY())); // pivot
-    elevator.setDefaultCommand(new elevatorManual(elevator, operator.getRightY())); // elevator
+    coral.setDefaultCommand(new Shoot(coral, operator.getRightTriggerAxis())); // intake
+    coral.setDefaultCommand(new Shoot(coral, -operator.getLeftTriggerAxis())); //outake
+    algae.setDefaultCommand(new AlgaePivot(algae, -operator.getLeftY())); // pivot
+    elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
     configureBindings();
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
@@ -58,8 +58,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    operator.x().whileTrue(new intake(algae, 0.1));
-    operator.a().whileTrue(new intake(algae, -0.1));
+    operator.x().whileTrue(new Intake(algae, 0.1));
+    operator.a().whileTrue(new Intake(algae, -0.1));
 
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));
     driver.povUpRight().whileTrue(swerve.modulePIDTuning("Front Right"));
