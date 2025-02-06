@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class elevatorManual extends Command {
+public class ElevatorManual extends Command {
   double speed;
   Elevator elevator;
   /** Creates a new elevatorManual. */
-  public elevatorManual(Elevator elevator, double speed) {
+  public ElevatorManual(Elevator elevator, double speed) {
     this.speed = speed;
     this.elevator = elevator;
     addRequirements(elevator);

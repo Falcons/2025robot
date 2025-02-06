@@ -115,7 +115,10 @@ public final class Constants {
         public static final double motarRatio = 85.5; //85.5:1 once someone finds the ratio
         public static final double slowModeSpeed = 0.2;
         public static final double pivotMotorRotToDegree = 360;//TODO: find proper converson factor
-        public static final double algeaPivotSetpoint = 5; //placeholder
+        public static final double algeaPivotSetpointL1 = 0; //placeholder
+        public static final double algeaPivotSetpointL2 = 0; //placeholder
+        public static final double algeaPivotSetpointL3 = 0; //placeholder
+        public static final double algeaPivotSetpointL4 = 0; //placeholder
     }
     public static final class ElevatorConstants {
         public static final int motarRatio = 12; //12:1 once i find the proper variable type
