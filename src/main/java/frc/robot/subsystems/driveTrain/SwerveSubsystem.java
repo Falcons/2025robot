@@ -26,9 +26,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -80,12 +82,9 @@ public class SwerveSubsystem extends SubsystemBase {
   private final PIDController xPID = new PIDController(DriveConstants.translationKP, 0, 0);
   private final PIDController yPID = new PIDController(DriveConstants.translationKP, 0, 0);
   private final PIDController rotationPID = new PIDController(DriveConstants.rotationKP, DriveConstants.rotationKI, 0);
-  private final double speedMod = 1;
-  private final SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(
-    DriveConstants.kDriveKinematics, 
-    getRotation2d(), 
-    getModulePositions(), 
-    new Pose2d());
+  private final SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, getRotation2d(), getModulePositions(), new Pose2d());
+  private Alert slowModeAlert = new Alert("drive slow mode active", AlertType.kInfo);
+  private double speedMod = 1;
 
   private final Field2d field2024 = new Field2d();
 
@@ -161,7 +160,8 @@ public class SwerveSubsystem extends SubsystemBase {
           return alliance.get() == DriverStation.Alliance.Red;
         }
         return false;
-      }
+      },
+      this
       );
   }
 
@@ -294,6 +294,19 @@ public class SwerveSubsystem extends SubsystemBase {
       backLeft.getPosition(),
       backRight.getPosition()
     };
+  }
+
+  public void setSlowMode(boolean toggle) {
+    if (toggle) {
+      speedMod = ModuleConstants.slowModeSpeed;
+    } else {
+      speedMod = 1;
+    }
+    slowModeAlert.set(toggle);
+  }
+  /** @return true if slow mode is active */
+  public boolean getSlowMode() {
+    return speedMod == ModuleConstants.slowModeSpeed;
   }
 
   /** Updates Robot Pose based on Gyro and Module Positions */

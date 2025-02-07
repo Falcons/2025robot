@@ -20,7 +20,7 @@ import frc.robot.subsystems.Airlock;
 
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
-    private SparkMaxConfig leftConfig, rightConfig = new SparkMaxConfig();
+    private SparkMaxConfig leftConfig, rightConfig;
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", Alert.AlertType.kInfo);
     private double speedMod = 1;
@@ -29,9 +29,11 @@ public class Elevator extends SubsystemBase {
   public Elevator(Airlock airlock) {
     this.airlock = airlock;
     this.rightMoter = new SparkMax(ElevatorConstants.liftMoter1CANID, MotorType.kBrushless);
+    rightConfig = new SparkMaxConfig();
     rightConfig.idleMode(IdleMode.kBrake);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMoter2CANID, MotorType.kBrushless);
+    leftConfig = new SparkMaxConfig();
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);

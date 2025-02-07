@@ -5,6 +5,7 @@
 package frc.robot;
 
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -13,11 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.SwerveJoystick;
-import frc.robot.commands.AlgaePivot;
-import frc.robot.commands.CoralShoot;
-import frc.robot.commands.Intake;
-import frc.robot.commands.ElevatorManual;
+import frc.robot.commands.algae.AlgaePivot;
+import frc.robot.commands.algae.Intake;
+import frc.robot.commands.coral.CoralShoot;
+import frc.robot.commands.driveTrain.SwerveJoystick;
+import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
+import frc.robot.commands.elevator.ElevatorManual;
+import frc.robot.commands.elevator.ElevatorToggleSlowMode;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.algae.Algae;
 import frc.robot.subsystems.shooter.Coral;
@@ -35,7 +38,7 @@ public class RobotContainer {
 
   private final SwerveSubsystem swerve = new SwerveSubsystem();
 
-  SendableChooser<PathPlannerAuto> path_chooser = new SendableChooser<PathPlannerAuto>();
+  SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   public RobotContainer() {
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 
@@ -49,16 +52,16 @@ public class RobotContainer {
     configureBindings();
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
-    path_chooser.setDefaultOption("none", null);
-    path_chooser.addOption("figure 8", new PathPlannerAuto("better figure 8"));
-    path_chooser.addOption("auto 1", new PathPlannerAuto("Auto 1"));
-    SmartDashboard.putData(path_chooser);
+    path_chooser = AutoBuilder.buildAutoChooser("default");
+    SmartDashboard.putData("auto", path_chooser);
   }
 
   private void configureBindings() {
     operator.x().whileTrue(new Intake(algae, 0.1)); // intake algae
     operator.a().whileTrue(new Intake(algae, -0.1)); // shoot algae
+    operator.y().onTrue(new ElevatorToggleSlowMode(elevator));
 
+    driver.y().onTrue(new SwerveToggleSlowMode(swerve));
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));
     driver.povUpRight().whileTrue(swerve.modulePIDTuning("Front Right"));
     driver.povDownLeft().whileTrue(swerve.modulePIDTuning("Back Left"));

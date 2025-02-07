@@ -102,16 +102,16 @@ public final class Constants {
     }
     //TODO: make not placeholder
     public static final class ShooterConstants {
-        public static final int leftMoterCANID = 0;
-        public static final int rightMoterCANID = 0;
+        public static final int leftMoterCANID = 1111;
+        public static final int rightMoterCANID = 1112;
         public static final double reefL1 = 0;
         public static final double reefL2 = 0;
         public static final double reefL3 = 0;
         public static final double reefL4 = 0;
     }
     public static final class AlgaeConstants {
-        public static final int pivotMoterCANID = 0;
-        public static final int intakeMoterCANID = 0;
+        public static final int pivotMoterCANID = 1113;
+        public static final int intakeMoterCANID = 1114;
         public static final double motarRatio = 85.5; //85.5:1 once someone finds the ratio
         public static final double slowModeSpeed = 0.2;
         public static final double pivotMotorRotToDegree = motarRatio * 360;//TODO: find proper converson factor
@@ -122,9 +122,9 @@ public final class Constants {
     }
     public static final class ElevatorConstants {
         public static final int motarRatio = 12; //12:1 once i find the proper variable type
-        public static final int liftMoter1CANID = 0;
-        public static final int liftMoter2CANID = 0;
-        public static final int TOFTopCANID = 0;
+        public static final int liftMoter1CANID = 1115;
+        public static final int liftMoter2CANID = 1116;
+        public static final int TOFTopCANID = 1117;
         public static final double TOFMin = 0;
         public static final double TOFMax = 0;
         public static final double TOFTriggerL1Min = 0;
@@ -138,8 +138,8 @@ public final class Constants {
         public static final double slowModeSpeed = 0.2;
     }
     public static final class airlockConstants {
-        public static final int backTOFCANID = 0;
-        public static final int frontTOFCANID = 0;
+        public static final int backTOFCANID = 1118;
+        public static final int frontTOFCANID = 1119;
         public static final double frontTOFTriggerMin = 0;
         public static final double frontTOFTriggerMax = 0;
         public static final double backTOFTriggerMin = 0;

@@ -25,6 +25,8 @@ public class Algae extends SubsystemBase {
   public Algae() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMoterCANID, MotorType.kBrushless);
     this.intake = new SparkMax(AlgaeConstants.intakeMoterCANID, MotorType.kBrushless);
+    pivotConfig = new SparkMaxConfig();
+    intakeConfig = new SparkMaxConfig();
     pivotConfig.idleMode(IdleMode.kBrake);
     intakeConfig.encoder.positionConversionFactor(AlgaeConstants.pivotMotorRotToDegree);//distance per pulse
 
