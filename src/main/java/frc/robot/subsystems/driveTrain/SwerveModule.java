@@ -34,6 +34,7 @@ public class SwerveModule {
         this.moduleName = name;
         
         this.driveMotor = new SparkMax(driveMotorID, MotorType.kBrushless);
+        driveConfig = new SparkMaxConfig();
         driveConfig.idleMode(IdleMode.kBrake);
         driveConfig.encoder.positionConversionFactor(ModuleConstants.driveMotorRotToMetre);
         driveConfig.encoder.velocityConversionFactor(ModuleConstants.driveMotorRPMToMetresPerSecond);
@@ -41,6 +42,7 @@ public class SwerveModule {
         
 
         this.turningMotor = new SparkMax(turningMotorID, MotorType.kBrushless);
+        turningConfig = new SparkMaxConfig();
         turningConfig.idleMode(IdleMode.kBrake);
         turningConfig.inverted(reversed);
         turningConfig.analogSensor.positionConversionFactor(ModuleConstants.voltToRad);

@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,12 +18,12 @@ import frc.robot.subsystems.Airlock;
 
 public class Coral extends SubsystemBase {
   private final SparkMax leftShooter, rightShooter;
-  private SparkMaxConfig shooterConfig;
+  private SparkMaxConfig shooterConfig = new SparkMaxConfig();;
   /** Creates a new coral thing. */
   public Coral(Airlock airlock) {
     this.leftShooter = new SparkMax(ShooterConstants.leftMoterCANID, MotorType.kBrushless);
     this.rightShooter = new SparkMax(ShooterConstants.rightMoterCANID, MotorType.kBrushless);
-
+      shooterConfig.idleMode(IdleMode.kBrake);
     leftShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     rightShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
@@ -39,4 +40,4 @@ public class Coral extends SubsystemBase {
     leftShooter.set(speed);
     rightShooter.set(speed);
   }
-}
+} 
