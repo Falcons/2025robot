@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,6 +19,12 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
     DriverStation.silenceJoystickConnectionWarning(true);
+    for (int port = 5800; port <= 5809; port++) {
+      PortForwarder.add(port, "limelight-tag.local", port);
+    }
+    for (int port = 5800; port <= 5809; port++) {
+      PortForwarder.add(port+10, "limelight-colour.local", port);
+    }
   }
 
   @Override

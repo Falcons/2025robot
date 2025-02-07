@@ -305,7 +305,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     //using megatag 1
     if (!useMegaTag2) { 
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-colour");
 
       if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
         if (mt1.rawFiducials[0].ambiguity > 0.7) {

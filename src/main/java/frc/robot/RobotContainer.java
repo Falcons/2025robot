@@ -57,12 +57,13 @@ public class RobotContainer {
 
   private void configureBindings() {
     operator.x().whileTrue(new Intake(algae, 0.1)); // intake algae
-    operator.a().whileTrue(new Intake(algae, -0.1)); // shoot algae
+    operator.a().whileTrue(new Intake(algae, -0.1)); // shoot algaey
 
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));
     driver.povUpRight().whileTrue(swerve.modulePIDTuning("Front Right"));
     driver.povDownLeft().whileTrue(swerve.modulePIDTuning("Back Left"));
     driver.povDownRight().whileTrue(swerve.modulePIDTuning("Back Right"));
+    //swerve.resetPose(null);
   }
 
   public Command getAutonomousCommand() {
