@@ -120,12 +120,13 @@ public final class Constants {
     }
     public static final class ElevatorConstants {
         public static final int motarRatio = 12; //12:1 once i find the proper variable type
+        public static final double motorRotToMeter = motarRatio; //yeah idk what to put here
         public static final int liftMoter1CANID = 1115;
         public static final int liftMoter2CANID = 1116;
         public static final int TOFTopCANID = 1117;
         public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness
         public static final double TOFSlowModetrigger = 305;
-        public static final double TOFMax = 0;
+        public static final double TOFMax = 0; 
         /**array [min, max]*/public static final double[] TOFTriggerL1 = {0,0}; 
         /**array [min, max]*/public static final double[] TOFTriggerL2 = {0,0};
         /**array [min, max]*/public static final double[] TOFTriggerL3 = {0,0};

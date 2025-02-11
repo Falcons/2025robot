@@ -6,11 +6,14 @@ package frc.robot.subsystems;
 
 import com.playingwithfusion.TimeOfFlight;
 
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.airlockConstants;
 
 public class Airlock extends SubsystemBase {
+    private Alert notSafeAlert = new Alert("coral is in airlock", AlertType.kWarning);
     public TimeOfFlight frontTOF, backTOF;
 
   /** Creates a new airlock. */
@@ -46,7 +49,13 @@ public class Airlock extends SubsystemBase {
   }
   /**@return true if its safe to move elevator*/
   public boolean checkSafety(){ 
-    return isFrontInRange() && !isBackInRange();
+    if (isFrontInRange() && !isBackInRange()) {
+      notSafeAlert.set(false);
+      return true;
+    }else {
+      notSafeAlert.set(true);
+      return false;
+    }
   }
   /**@return true if a coral should be moved*/
   public boolean checkStep(){ 

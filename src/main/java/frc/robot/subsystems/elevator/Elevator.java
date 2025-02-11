@@ -61,11 +61,8 @@ public class Elevator extends SubsystemBase {
   }
   /**toggles slow mode*/
   public void setSlowMode(boolean toggle){
-    if (toggle) {
-      speedMod = ElevatorConstants.slowModeSpeed;
-    }else{
-      speedMod = 1;
-    }
+    if (toggle) speedMod = ElevatorConstants.slowModeSpeed;
+    else speedMod = 1;
     slowModeAlert.set(toggle);
   }
   /**@return the range of the TOF sensor*/

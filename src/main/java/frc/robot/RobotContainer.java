@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -49,6 +50,10 @@ public class RobotContainer {
     algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
     elevator.setDefaultCommand(new ElevatorManual(elevator, swerve, operator.getRightY())); // elevator
     configureBindings();
+
+    NamedCommands.registerCommand("intake algae", new Intake(algae, 1));
+    NamedCommands.registerCommand("outake algae", new Intake(algae, -1));
+    // NamedCommands.registerCommand("set elevator", new AlgaePivot(algae, 1));
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
     path_chooser = AutoBuilder.buildAutoChooser("default");
