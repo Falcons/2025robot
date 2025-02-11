@@ -123,8 +123,8 @@ public final class Constants {
         public static final int liftMoter1CANID = 1115;
         public static final int liftMoter2CANID = 1116;
         public static final int TOFTopCANID = 1117;
-        public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment
-        public static final double TOFSlowModetrigger = 0;
+        public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness
+        public static final double TOFSlowModetrigger = 305;
         public static final double TOFMax = 0;
         /**array [min, max]*/public static final double[] TOFTriggerL1 = {0,0}; 
         /**array [min, max]*/public static final double[] TOFTriggerL2 = {0,0};

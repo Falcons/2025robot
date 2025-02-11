@@ -17,7 +17,7 @@ import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.Intake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.driveTrain.SwerveJoystick;
-import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
+import frc.robot.commands.driveTrain.SwerveToggleSlowMode; //keep this for debug -madness
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorToggleSlowMode;
 import frc.robot.subsystems.Airlock;
@@ -47,7 +47,7 @@ public class RobotContainer {
       () -> !driver.getHID().getLeftBumper()));
     coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis())); // outake
     algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
-    elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
+    elevator.setDefaultCommand(new ElevatorManual(elevator, swerve, operator.getRightY())); // elevator
     configureBindings();
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
@@ -57,10 +57,10 @@ public class RobotContainer {
 
   private void configureBindings() {
     operator.x().whileTrue(new Intake(algae, 0.1)); // intake algae
-    operator.a().whileTrue(new Intake(algae, -0.1)); // shoot algaey
+    operator.a().whileTrue(new Intake(algae, -0.1)); // shoot algae
     operator.y().onTrue(new ElevatorToggleSlowMode(elevator));
 
-    driver.y().onTrue(new SwerveToggleSlowMode(swerve));
+    // driver.y().onTrue(new SwerveToggleSlowMode(swerve)); made automatic | only use in dubug -madness
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));
     driver.povUpRight().whileTrue(swerve.modulePIDTuning("Front Right"));
     driver.povDownLeft().whileTrue(swerve.modulePIDTuning("Back Left"));
