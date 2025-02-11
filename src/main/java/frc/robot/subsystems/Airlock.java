@@ -26,30 +26,29 @@ public class Airlock extends SubsystemBase {
     SmartDashboard.putNumber("Back TOF range", backTOF.getRange());
   }
 
-  /**returns front TOF sensors range*/
+  /**@return front TOF sensors range*/
   public double getFrontRange(){
     return frontTOF.getRange();
   }
-  /**returns back TOF sensors range*/
+  /**@return back TOF sensors range*/
   public double getBackRange(){
     return backTOF.getRange();
   }
-
-  /** true if the front TOF sensor's range is withien defiend triggers*/
+  /**@return true if the front TOF sensor's range is within defiend triggers*/
   public boolean isFrontInRange(){
     double range = getFrontRange();
-    return range >= airlockConstants.backTOFTriggerMin && range <= airlockConstants.backTOFTriggerMax;
+    return range >= airlockConstants.backTOFTrigger[0] && range <= airlockConstants.backTOFTrigger[1];
   }
-  /**true if the back TOF sensor's range is withien defiend triggers*/
+  /**@return true if the back TOF sensor's range is within defiend triggers*/
   public boolean isBackInRange(){
     double range = getBackRange();
-    return range >= airlockConstants.backTOFTriggerMin && range <= airlockConstants.backTOFTriggerMax;
+    return range >= airlockConstants.backTOFTrigger[0] && range <= airlockConstants.backTOFTrigger[1];
   }
-  /**true if its safe to move elevator*/
+  /**@return true if its safe to move elevator*/
   public boolean checkSafety(){ 
     return isFrontInRange() && !isBackInRange();
   }
-  /**true if a coral should be moved*/
+  /**@return true if a coral should be moved*/
   public boolean checkStep(){ 
     return !isFrontInRange() && isBackInRange();
   }

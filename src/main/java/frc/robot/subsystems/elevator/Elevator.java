@@ -46,7 +46,7 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("right encoder", rightMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("TOF range", TOF.getRange());
   }
-
+  /**sets the speed of the elevator*/
   public void set(double speed){
     if (!airlock.checkSafety()) return;
     if (getTOF() == ElevatorConstants.TOFMin && speed < 0)return; //if the elevator is at the bottom and the speed is negative, stop the elevator
@@ -54,10 +54,12 @@ public class Elevator extends SubsystemBase {
     rightMoter.set(speed * speedMod);
     leftMoter.set(speed * speedMod);
   }
+  /**stops the elevator*/
   public void stop(){
     rightMoter.stopMotor();
     leftMoter.stopMotor();
   }
+  /**toggles slow mode*/
   public void setSlowMode(boolean toggle){
     if (toggle) {
       speedMod = ElevatorConstants.slowModeSpeed;
@@ -66,15 +68,24 @@ public class Elevator extends SubsystemBase {
     }
     slowModeAlert.set(toggle);
   }
-
+  /**@return the range of the TOF sensor*/
   public double getTOF(){
     return TOF.getRange();
   }
+  /**@return the encoder position of the right motor*/
   public double getEncoder(){
     return rightMoter.getEncoder().getPosition();
   }
-  /**returns true if slow mode is active*/
+  /**@return true if slow mode is active*/
   public boolean getSlowMode(){ 
     return speedMod == ElevatorConstants.slowModeSpeed;
+  }
+  /**@return the level of the elevator*/
+  public int getLevel(){
+    if(getTOF() > ElevatorConstants.TOFTriggerL1[0] && getTOF() < ElevatorConstants.TOFTriggerL1[1])return 1;
+    if(getTOF() > ElevatorConstants.TOFTriggerL2[0] && getTOF() < ElevatorConstants.TOFTriggerL2[1])return 2;
+    if(getTOF() > ElevatorConstants.TOFTriggerL3[0] && getTOF() < ElevatorConstants.TOFTriggerL3[1])return 3;
+    if(getTOF() > ElevatorConstants.TOFTriggerL4[0] && getTOF() < ElevatorConstants.TOFTriggerL4[1])return 4;
+    else return 0;
   }
 }
