@@ -10,10 +10,6 @@ import java.util.Map;
 //import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 //import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
@@ -28,8 +24,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DigitalInput;
-//import edu.wpi.first.networktables.StructPublisher;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,7 +35,6 @@ import frc.robot.Constants.ModuleConstants;
 //import frc.robot.LimelightHelpers;
 
 public class SwerveSubsystem extends SubsystemBase {
-  RobotConfig config;
   private final SwerveModule frontLeft = new SwerveModule(
     "Front Left",
     ModuleConstants.frontLeftDriveCANID, 
@@ -138,13 +131,8 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putData("RobotPID/Y PID", yPID);
     SmartDashboard.putData("RobotPID/Rotation PID", rotationPID);
     SmartDashboard.putNumber("Module Setpoint", 0);
-    try{
-      config = RobotConfig.fromGUISettings();
-    }catch (Exception e) {
-      e.printStackTrace();
-    }
 
-    // PathPlanner Initialization
+    /** PathPlanner Initialization
     AutoBuilder.configure(
       this::getPose, 
       this::resetPose, 
@@ -162,7 +150,7 @@ public class SwerveSubsystem extends SubsystemBase {
         return false;
       },
       this
-      );
+      );*/
   }
 
   @Override

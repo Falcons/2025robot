@@ -120,7 +120,7 @@ public final class Constants {
     }
     public static final class ElevatorConstants {
         public static final int motarRatio = 12; //12:1 once i find the proper variable type
-        public static final double motorRotToMeter = motarRatio; //yeah idk what to put here
+        public static final double motorRotToMeter = motarRatio; //yeah idk what to put here TODO: make this shit
         public static final int liftMoter1CANID = 1115;
         public static final int liftMoter2CANID = 1116;
         public static final int TOFTopCANID = 1117;

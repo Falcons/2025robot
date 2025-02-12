@@ -4,10 +4,7 @@
 
 package frc.robot;
 
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-
+import choreo.auto.AutoFactory;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +37,7 @@ public class RobotContainer {
 
   SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   public RobotContainer() {
+    
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 
       () -> -driver.getLeftY(), 
@@ -51,13 +49,8 @@ public class RobotContainer {
     elevator.setDefaultCommand(new ElevatorManual(elevator, swerve, operator.getRightY())); // elevator
     configureBindings();
 
-    NamedCommands.registerCommand("intake algae", new Intake(algae, 1));
-    NamedCommands.registerCommand("outake algae", new Intake(algae, -1));
-    // NamedCommands.registerCommand("set elevator", new AlgaePivot(algae, 1));
-
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
-    path_chooser = AutoBuilder.buildAutoChooser("default");
-    SmartDashboard.putData("auto", path_chooser);
+    
   }
 
   private void configureBindings() {
