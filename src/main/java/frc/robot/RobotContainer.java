@@ -5,7 +5,6 @@
 package frc.robot;
 
 
-import java.util.List;
 import java.util.Map;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -24,7 +23,7 @@ import frc.robot.commands.driveTrain.SwerveJoystick;
 // import frc.robot.commands.driveTrain.SwerveToggleSlowMode; //keep this for debug -madness
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorToggleSlowMode;
-import frc.robot.commands.elevator.SetElevatorPID;
+import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.algae.Algae;
 import frc.robot.subsystems.shooter.Coral;
@@ -59,11 +58,11 @@ public class RobotContainer {
     commandList.put("intake algae", new Intake(algae, 1));
     commandList.put("outTake algae", new Intake(algae, -1));
     commandList.put("outTake coral", new CoralShoot(coral, 1));
-    commandList.put("set elevator 0", new SetElevatorPID(elevator, 0));
-    commandList.put("set elevator 1", new SetElevatorPID(elevator, 1));
-    commandList.put("set elevator 2", new SetElevatorPID(elevator, 2));
-    commandList.put("set elevator 3", new SetElevatorPID(elevator, 3));
-    commandList.put("set elevator 4", new SetElevatorPID(elevator, 4));
+    commandList.put("set elevator bottom", new ElevatorTrapezoidalMove(elevator,10,1, 0));
+    commandList.put("set elevator L1", new ElevatorTrapezoidalMove(elevator,10,1, 1));
+    commandList.put("set elevator L2", new ElevatorTrapezoidalMove(elevator,10,1, 2));
+    commandList.put("set elevator L3", new ElevatorTrapezoidalMove(elevator,10,1, 3));
+    commandList.put("set elevator L4", new ElevatorTrapezoidalMove(elevator,10,1, 4));
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
     path_chooser = AutoBuilder.buildAutoChooser("default");

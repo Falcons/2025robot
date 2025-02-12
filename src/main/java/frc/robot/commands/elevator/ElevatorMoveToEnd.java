@@ -13,7 +13,9 @@ public class ElevatorMoveToEnd extends Command {
   double speed;
   /** Creates a new MoveToEnd. */
   public ElevatorMoveToEnd(Elevator elevator, double speed) {
-    // Use addRequirements() here to declare subsystem dependencies.
+    this.elevator = elevator;
+    this.speed = speed;
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.
@@ -22,15 +24,20 @@ public class ElevatorMoveToEnd extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    elevator.set(speed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    elevator.stop();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(elevator.getLeftCurent() >= 150 || elevator.getRightCurent() >= 150) return true;
     return false;
   }
 }

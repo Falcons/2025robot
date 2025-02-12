@@ -3,8 +3,10 @@ package frc.robot.subsystems.driveTrain;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkAnalogSensor;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.Faults;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkBase.Warnings;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -14,6 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ModuleConstants;
@@ -29,7 +32,8 @@ public class SwerveModule {
     private final SparkAnalogSensor absEncoder;
     private final AnalogEncoder absEncoderRIOAIPin;
     private final double absEncoderOffset;
-    
+    public Alert driveFaultAlert, turningFaultAlert = new Alert("Faults", "", Alert.AlertType.kError);
+    public Alert driveWarningAlert, turningWarningAlert = new Alert("Warnings", "", Alert.AlertType.kWarning);
     public SwerveModule(String name, int driveMotorID, int turningMotorID, int absEncoderPort, boolean reversed, double offsetDegrees) {
         this.moduleName = name;
         
@@ -152,6 +156,30 @@ public class SwerveModule {
         turningEncoder.setPosition(getAbsEncoderDeg());
     }
 
+    public boolean hasActiveDriveFault() {
+        return driveMotor.hasActiveFault();
+    }
+    public Faults getActiveDriveFaults() {
+        return driveMotor.getFaults();
+    }
+    public boolean hasActiveDriveWarning() {
+        return driveMotor.hasActiveWarning();
+    }
+    public Warnings getActiveDriveWarnings() {
+        return driveMotor.getWarnings();
+    }
+    public boolean hasActiveTurningFault() {
+        return turningMotor.hasActiveFault();
+    }
+    public Faults getActiveTurningFaults() {
+        return turningMotor.getFaults();
+    }
+    public boolean hasActiveTurningWarning() {
+        return turningMotor.hasActiveWarning();
+    }
+    public Warnings getActiveTurningWarnings() {
+        return turningMotor.getWarnings();
+    }
 // SwerveModuleState
 
     /** @return Current Speed and Angle of Module */

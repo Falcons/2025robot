@@ -14,6 +14,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
@@ -24,7 +25,9 @@ public class Elevator extends SubsystemBase {
     private SparkMaxConfig leftConfig, rightConfig;
     PIDController Pid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for elecvator
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
-    private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", Alert.AlertType.kInfo);
+    private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", AlertType.kInfo);
+    private Alert leftFaultAlert, rightFaultAlert = new Alert("Faults","", AlertType.kError);
+    private Alert leftWarningAlert, rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
     private double speedMod = 1;
     private Airlock airlock;
     /** Creates a new elevator. */
@@ -40,7 +43,6 @@ public class Elevator extends SubsystemBase {
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
-    Pid.enableContinuousInput(-180, 180);
     Pid.setTolerance(0.1);
     Pid.setIntegratorRange(-0.01, 0.01);
   }
@@ -51,6 +53,10 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("left encoder", leftMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("right encoder", rightMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("TOF range", TOF.getRange());
+    if(leftMoter.hasActiveFault()) leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(true);
+    if(rightMoter.hasActiveFault()) rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(true);
+    if(leftMoter.hasActiveWarning()) leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(true);
+    if(rightMoter.hasActiveWarning()) rightWarningAlert.setText("elevator right:" + rightMoter.getWarnings().toString()); rightWarningAlert.set(true);
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
@@ -60,10 +66,9 @@ public class Elevator extends SubsystemBase {
     rightMoter.set(speed * speedMod);
     leftMoter.set(speed * speedMod);
   }
+  /**sets the elevator to a specific position*/
   public void setPID(double setpoint){
-    double encoder = getEncoder();
-    rightMoter.set(Pid.calculate(encoder, setpoint));
-    leftMoter.set(Pid.calculate(encoder, setpoint));
+    set(Pid.calculate(getEncoder(), setpoint));
   }
   /**stops the elevator*/
   public void stop(){
@@ -76,13 +81,25 @@ public class Elevator extends SubsystemBase {
     else speedMod = 1;
     slowModeAlert.set(toggle);
   }
+  public boolean atSetpoint(){
+    return Pid.atSetpoint();
+  }
   /**@return the range of the TOF sensor*/
   public double getTOF(){
     return TOF.getRange();
   }
-  /**@return the encoder position of the right motor*/
+  /**@return the encoder position of the left motor*/
   public double getEncoder(){
     return rightMoter.getEncoder().getPosition();
+  }
+  public double getVelocity(){
+    return rightMoter.getEncoder().getVelocity();
+  }
+  public double getLeftCurent(){
+    return leftMoter.getOutputCurrent();
+  }
+  public double getRightCurent(){
+    return rightMoter.getOutputCurrent();
   }
   /**@return true if slow mode is active*/
   public boolean getSlowMode(){ 

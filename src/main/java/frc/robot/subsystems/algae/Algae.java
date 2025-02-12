@@ -12,6 +12,8 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
@@ -21,6 +23,9 @@ public class Algae extends SubsystemBase {
   private SparkMaxConfig pivotConfig, intakeConfig;
   PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
   double pivotAngle = 0;
+
+  Alert pivotFaultAlert, intakeFaultAlert = new Alert("Faults","", AlertType.kError); 
+  Alert pivotWarningAlert, intakeWarningAlert = new Alert("Warnings","", AlertType.kWarning); 
   /** Creates a new algea_pivot. */
   public Algae() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMoterCANID, MotorType.kBrushless);
@@ -47,8 +52,10 @@ public class Algae extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Pivot Encoder", pivot.getEncoder().getPosition());
     SmartDashboard.putNumber("Intake Encoder", intake.getEncoder().getPosition());
-
-    pivotAngle = pivot.getEncoder().getPosition();
+    if(pivot.hasActiveFault()) pivotFaultAlert.setText("algea pivot:" + pivot.getFaults().toString()); pivotFaultAlert.set(true);
+    if(intake.hasActiveFault()) intakeFaultAlert.setText("algea intake:" + intake.getFaults().toString()); intakeFaultAlert.set(true);
+    if(pivot.hasActiveWarning()) pivotWarningAlert.setText("algea pivot:" + pivot.getFaults().toString()); pivotWarningAlert.set(true);
+    if(intake.hasActiveWarning()) intakeWarningAlert.setText("algea intake:" + intake.getFaults().toString()); intakeWarningAlert.set(true);
   }
   public void pidReset() {
     pivotPid.reset();
@@ -60,6 +67,7 @@ public class Algae extends SubsystemBase {
     intake.set(speed);
   }
   public void setPivotpid(double level) {
+    pivotAngle = pivot.getEncoder().getPosition();
     pivot.set(pivotPid.calculate(pivotAngle, level));
   }
 }
