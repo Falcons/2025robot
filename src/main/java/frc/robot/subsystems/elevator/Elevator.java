@@ -26,8 +26,10 @@ public class Elevator extends SubsystemBase {
     PIDController Pid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for elecvator
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", AlertType.kInfo);
-    private Alert leftFaultAlert, rightFaultAlert = new Alert("Faults","", AlertType.kError);
-    private Alert leftWarningAlert, rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
+    Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
+    Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
+    Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
+    Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
     private double speedMod = 1;
     private Airlock airlock;
     /** Creates a new elevator. */
@@ -35,10 +37,12 @@ public class Elevator extends SubsystemBase {
     this.airlock = airlock;
     this.rightMoter = new SparkMax(ElevatorConstants.liftMoter1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
+    rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToMM);
     rightConfig.idleMode(IdleMode.kBrake);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMoter2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
+    leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToMM);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
@@ -51,12 +55,14 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("left encoder", leftMoter.getEncoder().getPosition());
+    SmartDashboard.putNumber("left current", leftMoter.getOutputCurrent());
     SmartDashboard.putNumber("right encoder", rightMoter.getEncoder().getPosition());
+    SmartDashboard.putNumber("right current", rightMoter.getOutputCurrent());
     SmartDashboard.putNumber("TOF range", TOF.getRange());
-    if(leftMoter.hasActiveFault()) leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(true);
-    if(rightMoter.hasActiveFault()) rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(true);
-    if(leftMoter.hasActiveWarning()) leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(true);
-    if(rightMoter.hasActiveWarning()) rightWarningAlert.setText("elevator right:" + rightMoter.getWarnings().toString()); rightWarningAlert.set(true);
+    leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(leftMoter.hasActiveFault());
+    rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
+    leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
+    rightWarningAlert.setText("elevator right:" + rightMoter.getWarnings().toString()); rightWarningAlert.set(rightMoter.hasActiveWarning());
   }
   /**sets the speed of the elevator*/
   public void set(double speed){

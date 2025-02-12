@@ -25,8 +25,8 @@ public class Airlock extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Front TOF range", frontTOF.getRange());
-    SmartDashboard.putNumber("Back TOF range", backTOF.getRange());
+    SmartDashboard.putNumber("airlock:Front TOF range", frontTOF.getRange());
+    SmartDashboard.putNumber("airloc:Back TOF range", backTOF.getRange());
   }
 
   /**@return front TOF sensors range*/

@@ -122,7 +122,8 @@ public final class Constants {
         public static final int liftMoter1CANID = 1115;
         public static final int liftMoter2CANID = 1116;
         public static final int TOFTopCANID = 1117;
-        public static final double motorRotToMeter = motarRatio; //yeah idk what to put here
+        public static final double motorRotToMM = motarRatio * (2 * Math.PI) / 1234; //ratio * 2pi / gear radius in millimeters
+        //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
         public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness
         public static final double TOFSlowModetrigger = 305;
         public static final double TOFMax = 0; 

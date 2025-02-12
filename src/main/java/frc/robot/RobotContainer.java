@@ -5,6 +5,7 @@
 package frc.robot;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -16,12 +17,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.algae.AlgaePivot;
+// import frc.robot.commands.algae.AlgaePivot;
+import frc.robot.commands.algae.AlgaePivotFeedforward;
 import frc.robot.commands.algae.Intake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 // import frc.robot.commands.driveTrain.SwerveToggleSlowMode; //keep this for debug -madness
-import frc.robot.commands.elevator.ElevatorManual;
+// import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorToggleSlowMode;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.subsystems.Airlock;
@@ -35,7 +37,7 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator(airlock);
   private final Coral coral = new Coral(airlock);
   private final Algae algae = new Algae();
-  private Map<String, Command> commandList;
+  private Map<String, Command> commandList = new HashMap<>();
 
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(0);
@@ -51,8 +53,10 @@ public class RobotContainer {
       () -> -driver.getRightX(), 
       () -> !driver.getHID().getLeftBumper()));
     coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis())); // outake
-    algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
-    elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
+    // algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
+    algae.setDefaultCommand(new AlgaePivotFeedforward(algae, algae.getPivotPos()+Math.round(operator.getLeftY()), operator.getLeftY())); //idk im quessing for this -madness
+    // elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
+    elevator.setDefaultCommand(new ElevatorTrapezoidalMove(elevator, 10, 1, elevator.getEncoder()+operator.getRightY())); //idk im quessing for this -madness
     configureBindings();
 
     commandList.put("intake algae", new Intake(algae, 1));
@@ -75,7 +79,7 @@ public class RobotContainer {
     operator.a().whileTrue(new Intake(algae, -0.1)); // shoot algae
     operator.y().onTrue(new ElevatorToggleSlowMode(elevator));
 
-    // driver.y().onTrue(new SwerveToggleSlowMode(swerve)); made automatic | only use in dubug -madness
+    //driver.y().onTrue(new SwerveToggleSlowMode(swerve)); made automatic | only use in dubug -madness
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));
     driver.povUpRight().whileTrue(swerve.modulePIDTuning("Front Right"));
     driver.povDownLeft().whileTrue(swerve.modulePIDTuning("Back Left"));

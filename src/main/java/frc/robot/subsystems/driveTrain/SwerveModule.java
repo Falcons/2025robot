@@ -32,8 +32,10 @@ public class SwerveModule {
     private final SparkAnalogSensor absEncoder;
     private final AnalogEncoder absEncoderRIOAIPin;
     private final double absEncoderOffset;
-    public Alert driveFaultAlert, turningFaultAlert = new Alert("Faults", "", Alert.AlertType.kError);
-    public Alert driveWarningAlert, turningWarningAlert = new Alert("Warnings", "", Alert.AlertType.kWarning);
+    public Alert driveFaultAlert = new Alert("Faults", "", Alert.AlertType.kError);
+    public Alert turningFaultAlert = new Alert( "Faults", "", Alert.AlertType.kError);
+    public Alert driveWarningAlert = new Alert("Warnings", "", Alert.AlertType.kWarning);
+    public Alert turningWarningAlert = new Alert("Warnings", "", Alert.AlertType.kWarning);
     public SwerveModule(String name, int driveMotorID, int turningMotorID, int absEncoderPort, boolean reversed, double offsetDegrees) {
         this.moduleName = name;
         
