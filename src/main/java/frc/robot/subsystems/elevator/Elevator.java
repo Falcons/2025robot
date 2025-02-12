@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,6 +22,7 @@ import frc.robot.subsystems.Airlock;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
+    PIDController Pid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for elecvator
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", Alert.AlertType.kInfo);
     private double speedMod = 1;
@@ -37,6 +39,10 @@ public class Elevator extends SubsystemBase {
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+
+    Pid.enableContinuousInput(-180, 180);
+    Pid.setTolerance(0.1);
+    Pid.setIntegratorRange(-0.01, 0.01);
   }
 
   @Override
@@ -53,6 +59,11 @@ public class Elevator extends SubsystemBase {
     if (getTOF() == ElevatorConstants.TOFMax && speed > 0)return; //if the elevator is at the top and the speed is positive, stop the elevator
     rightMoter.set(speed * speedMod);
     leftMoter.set(speed * speedMod);
+  }
+  public void setPID(double setpoint){
+    double encoder = getEncoder();
+    rightMoter.set(Pid.calculate(encoder, setpoint));
+    leftMoter.set(Pid.calculate(encoder, setpoint));
   }
   /**stops the elevator*/
   public void stop(){

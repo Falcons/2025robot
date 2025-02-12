@@ -5,6 +5,9 @@
 package frc.robot;
 
 
+import java.util.List;
+import java.util.Map;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -18,9 +21,10 @@ import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.Intake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.driveTrain.SwerveJoystick;
-import frc.robot.commands.driveTrain.SwerveToggleSlowMode; //keep this for debug -madness
+// import frc.robot.commands.driveTrain.SwerveToggleSlowMode; //keep this for debug -madness
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorToggleSlowMode;
+import frc.robot.commands.elevator.SetElevatorPID;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.algae.Algae;
 import frc.robot.subsystems.shooter.Coral;
@@ -32,6 +36,7 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator(airlock);
   private final Coral coral = new Coral(airlock);
   private final Algae algae = new Algae();
+  private Map<String, Command> commandList;
 
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(0);
@@ -48,16 +53,22 @@ public class RobotContainer {
       () -> !driver.getHID().getLeftBumper()));
     coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis())); // outake
     algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
-    elevator.setDefaultCommand(new ElevatorManual(elevator, swerve, operator.getRightY())); // elevator
+    elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
     configureBindings();
 
-    NamedCommands.registerCommand("intake algae", new Intake(algae, 1));
-    NamedCommands.registerCommand("outake algae", new Intake(algae, -1));
-    // NamedCommands.registerCommand("set elevator", new AlgaePivot(algae, 1));
+    commandList.put("intake algae", new Intake(algae, 1));
+    commandList.put("outTake algae", new Intake(algae, -1));
+    commandList.put("outTake coral", new CoralShoot(coral, 1));
+    commandList.put("set elevator 0", new SetElevatorPID(elevator, 0));
+    commandList.put("set elevator 1", new SetElevatorPID(elevator, 1));
+    commandList.put("set elevator 2", new SetElevatorPID(elevator, 2));
+    commandList.put("set elevator 3", new SetElevatorPID(elevator, 3));
+    commandList.put("set elevator 4", new SetElevatorPID(elevator, 4));
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
     path_chooser = AutoBuilder.buildAutoChooser("default");
     SmartDashboard.putData("auto", path_chooser);
+    NamedCommands.registerCommands(commandList);
   }
 
   private void configureBindings() {
@@ -75,5 +86,8 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return path_chooser.getSelected();
+  }
+  public Command getTestCommand() {
+    return null;
   }
 }
