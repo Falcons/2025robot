@@ -145,4 +145,12 @@ public final class Constants {
         public static final double backTOFTriggerMin = 0;
         public static final double backTOFTriggerMax = 0;
     }
+    public static final class limelightConstants {
+        public static final double aprilTagX[] = {
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        };//too many 0, not good
+        public static final double aprilTagY[] = {
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        };//too many 0, not good
+    }   
 }
