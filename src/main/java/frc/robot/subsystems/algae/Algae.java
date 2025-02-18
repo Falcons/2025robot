@@ -30,6 +30,7 @@ public class Algae extends SubsystemBase {
   Alert intakeFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   Alert intakeWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
+  double previousCurrent = 0;
   /** Creates a new algea_pivot. */
   public Algae() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMoterCANID, MotorType.kBrushless);
@@ -65,7 +66,9 @@ public class Algae extends SubsystemBase {
     pivotPid.reset();
   }
   public void setPivot(double speed) {
-    pivot.set(speed);
+    if (!currentSpike()) {
+      pivot.set(speed);
+    }
   }
   public void setIntake(double speed) {
     intake.set(speed);
@@ -91,5 +94,12 @@ public class Algae extends SubsystemBase {
   }
   public double getPivotCurrent() {
     return pivot.getOutputCurrent();
+  }
+  public boolean currentSpike(){
+    if (previousCurrent - getPivotCurrent() > AlgaeConstants.voltageSpikeDifference) {
+      return true;
+    }
+    previousCurrent = getPivotCurrent();
+    return false;
   }
 }
