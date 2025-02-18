@@ -54,7 +54,7 @@ public class RobotContainer {
       () -> !driver.getHID().getLeftBumper()));
     coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis())); // outake
     // algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
-    algae.setDefaultCommand(new AlgaePivotFeedforward(algae, algae.getPivotPos()+Math.round(operator.getLeftY()), operator.getLeftY())); //idk im quessing for this -madness
+    algae.setDefaultCommand(new AlgaePivotFeedforward(algae, algae.getPivotPos()+operator.getLeftY(), operator.getLeftY(), 1)); //idk im quessing for this -madness
     // elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
     elevator.setDefaultCommand(new ElevatorTrapezoidalMove(elevator, 10, 1, elevator.getEncoder()+operator.getRightY())); //idk im quessing for this -madness
     configureBindings();

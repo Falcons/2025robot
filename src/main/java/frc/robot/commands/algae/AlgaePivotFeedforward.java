@@ -10,12 +10,13 @@ import frc.robot.subsystems.algae.Algae;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaePivotFeedforward extends Command {
   Algae algae;
-  double speed, pos;
+  double speed, pos, accel;
   /** Creates a new AlgaePivotFeedforward. */
-  public AlgaePivotFeedforward(Algae algae, double pos, double speed) {
+  public AlgaePivotFeedforward(Algae algae, double pos, double speed, double acceleration) {
     this.algae = algae;
     this.speed = speed;
     this.pos = pos;
+    this.accel = acceleration;
     addRequirements(algae);
   }
 
@@ -26,7 +27,7 @@ public class AlgaePivotFeedforward extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    algae.setPivotFeedFowerd(pos, speed, null);
+    algae.setPivotFeedFowerd(pos, speed, accel);
   }
 
   // Called once the command ends or is interrupted.
