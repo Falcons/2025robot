@@ -3,8 +3,9 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "source",
-    "reef"
+    "New Folder",
+    "reef",
+    "source"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.5,
