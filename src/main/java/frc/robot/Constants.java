@@ -116,6 +116,7 @@ public final class Constants {
         public static final double algeaPivotSetpointL2 = 0; 
         public static final double algeaPivotSetpointL3 = 0; 
         public static final double algeaPivotSetpointL4 = 0; 
+        public static final double voltageSpikeDifference = 0;
     }
     public static final class ElevatorConstants {
         public static final int motarRatio = 12; //12:1 once i find the proper variable type
