@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -104,46 +105,40 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final int leftMoterCANID = 1111;
         public static final int rightMoterCANID = 1112;
-        public static final double reefL1 = 0;
-        public static final double reefL2 = 0;
-        public static final double reefL3 = 0;
-        public static final double reefL4 = 0;
     }
     public static final class AlgaeConstants {
         public static final int pivotMoterCANID = 1113;
         public static final int intakeMoterCANID = 1114;
-        public static final double motarRatio = 85.5; //85.5:1 once someone finds the ratio
+        public static final double motarRatio = 85.5; //85.5:1 wtf kind of ratio is that
         public static final double slowModeSpeed = 0.2;
-        public static final double pivotMotorRotToDegree = motarRatio * 360;//TODO: find proper converson factor
-        public static final double algeaPivotSetpointL1 = 0; //placeholder
-        public static final double algeaPivotSetpointL2 = 0; //placeholder
-        public static final double algeaPivotSetpointL3 = 0; //placeholder
-        public static final double algeaPivotSetpointL4 = 0; //placeholder
+        public static final double pivotMotorRotToDegree = motarRatio * 360;
+        public static final double algeaPivotSetpointL1 = 0; 
+        public static final double algeaPivotSetpointL2 = 0; 
+        public static final double algeaPivotSetpointL3 = 0; 
+        public static final double algeaPivotSetpointL4 = 0; 
     }
     public static final class ElevatorConstants {
         public static final int motarRatio = 12; //12:1 once i find the proper variable type
         public static final int liftMoter1CANID = 1115;
         public static final int liftMoter2CANID = 1116;
         public static final int TOFTopCANID = 1117;
-        public static final double TOFMin = 0;
-        public static final double TOFMax = 0;
-        public static final double TOFTriggerL1Min = 0;
-        public static final double TOFTriggerL1Max = 0;
-        public static final double TOFTriggerL2Min = 0;
-        public static final double TOFTriggerL2Max = 0;
-        public static final double TOFTriggerL3Min = 0;
-        public static final double TOFTriggerL3Max = 0;
-        public static final double TOFTriggerL4Min = 0;
-        public static final double TOFTriggerL4Max = 0;
-        public static final double slowModeSpeed = 0.2;
+        public static final double motorRotToMM = motarRatio * (2 * Math.PI) / 1234; //ratio * 2pi / gear radius in millimeters
+        //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
+        public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness
+        public static final double TOFSlowModetrigger = 305;
+        public static final double TOFMax = 0; 
+        public static final double TOFEdgeBuffer = 100;
+        /**array [min, max]*/public static final double[] TOFTriggerL1 = {0,0}; 
+        /**array [min, max]*/public static final double[] TOFTriggerL2 = {0,0};
+        /**array [min, max]*/public static final double[] TOFTriggerL3 = {0,0};
+        /**array [min, max]*/public static final double[] TOFTriggerL4 = {0,0};
+        public static final double slowModeSpeed = 0.2; 
     }
     public static final class airlockConstants {
         public static final int backTOFCANID = 1118;
         public static final int frontTOFCANID = 1119;
-        public static final double frontTOFTriggerMin = 0;
-        public static final double frontTOFTriggerMax = 0;
-        public static final double backTOFTriggerMin = 0;
-        public static final double backTOFTriggerMax = 0;
+        /**array [min, max]*/public static final double[] frontTOFTrigger = {0,0};
+        /**array [min, max]*/public static final double[] backTOFTrigger = {0,0};
     }
     public static final class limelightConstants {
         public static final double aprilTagX[] = {

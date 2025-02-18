@@ -178,6 +178,10 @@ public class SwerveSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Module/Angle/" + module.moduleName, module.getState().angle.getDegrees());
       SmartDashboard.putNumber(module.moduleName + "raw Abs", module.getAbsEncoderRaw());
       SmartDashboard.putNumber(module.moduleName + "raw Abs", module.getRawPositionWithOffset());
+      module.driveFaultAlert.set(module.hasActiveDriveFault()); module.driveFaultAlert.setText(module.getActiveDriveFaults().toString());
+      module.turningFaultAlert.set(module.hasActiveTurningFault()); module.turningFaultAlert.setText(module.getActiveTurningFaults().toString());
+      module.driveWarningAlert.set(module.hasActiveDriveWarning()); module.driveWarningAlert.setText(module.getActiveDriveWarnings().toString());
+      module.turningWarningAlert.set(module.hasActiveTurningWarning()); module.turningWarningAlert.setText(module.getActiveTurningWarnings().toString());
     }
 
     // SmartDashboard.putNumber("Back Right Raw Abs", backRight.getAbsEncoderRaw());

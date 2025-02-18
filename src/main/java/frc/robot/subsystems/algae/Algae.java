@@ -11,7 +11,10 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
@@ -20,7 +23,13 @@ public class Algae extends SubsystemBase {
   private final SparkMax pivot, intake;
   private SparkMaxConfig pivotConfig, intakeConfig;
   PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
+  ArmFeedforward feedforward = new ArmFeedforward(0.05, 0.05, 0.05); //TODO: change feedforward values for algaes
   double pivotAngle = 0;
+
+  Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
+  Alert intakeFaultAlert = new Alert("Faults", "", AlertType.kError);
+  Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
+  Alert intakeWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   /** Creates a new algea_pivot. */
   public Algae() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMoterCANID, MotorType.kBrushless);
@@ -47,8 +56,10 @@ public class Algae extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Pivot Encoder", pivot.getEncoder().getPosition());
     SmartDashboard.putNumber("Intake Encoder", intake.getEncoder().getPosition());
-
-    pivotAngle = pivot.getEncoder().getPosition();
+    pivotFaultAlert.setText("algea pivot:" + pivot.getFaults().toString()); pivotFaultAlert.set(pivot.hasActiveFault());
+    intakeFaultAlert.setText("algea intake:" + intake.getFaults().toString()); intakeFaultAlert.set(intake.hasActiveFault());
+    pivotWarningAlert.setText("algea pivot:" + pivot.getFaults().toString()); pivotWarningAlert.set(pivot.hasActiveWarning());
+    intakeWarningAlert.setText("algea intake:" + intake.getFaults().toString()); intakeWarningAlert.set(intake.hasActiveWarning());
   }
   public void pidReset() {
     pivotPid.reset();
@@ -60,6 +71,25 @@ public class Algae extends SubsystemBase {
     intake.set(speed);
   }
   public void setPivotpid(double level) {
+    pivotAngle = pivot.getEncoder().getPosition();
     pivot.set(pivotPid.calculate(pivotAngle, level));
+  }
+  /**
+   * @param p position
+   * @param v volocity
+   * @param a acceleration
+   */
+  public void setPivotFeedFowerd(double p, double v,Double a) {
+    pivot.setVoltage(feedforward.calculate(p, v, a));
+  }
+
+  public double getPivotPos() {
+    return pivot.getEncoder().getPosition();
+  }
+  public double getIntakeVel() {
+    return intake.getEncoder().getVelocity();
+  }
+  public double getPivotCurrent() {
+    return pivot.getOutputCurrent();
   }
 }
