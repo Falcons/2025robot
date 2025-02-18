@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1 to reef"
+            "pathName": "2 to reef B"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "set elevator"
+            "name": "set elevator L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "outTake coral"
           }
         }
       ]

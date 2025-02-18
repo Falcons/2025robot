@@ -140,12 +140,4 @@ public final class Constants {
         /**array [min, max]*/public static final double[] frontTOFTrigger = {0,0};
         /**array [min, max]*/public static final double[] backTOFTrigger = {0,0};
     }
-    public static final class limelightConstants {
-        public static final double aprilTagX[] = {
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        };//too many 0, not good
-        public static final double aprilTagY[] = {
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        };//too many 0, not good
-    }   
 }

@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1 to reef B"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "set elevator L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "outTake coral"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
