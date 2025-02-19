@@ -12,20 +12,20 @@
         "y": 4.638642374390056
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "blue 3"
     },
     {
       "anchor": {
-        "x": 5.2455,
-        "y": 2.767249999999999
+        "x": 5.2,
+        "y": 2.8
       },
       "prevControl": {
-        "x": 5.0589570404181705,
-        "y": 2.600811650361305
+        "x": 5.013457040418171,
+        "y": 2.633561650361306
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "reef BR"
     }
   ],
   "rotationTargets": [],
