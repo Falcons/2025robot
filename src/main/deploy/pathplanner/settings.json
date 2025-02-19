@@ -10,7 +10,9 @@
   ],
   "autoFolders": [
     "Bad",
-    "Test"
+    "To Source",
+    "Test",
+    "To Processor"
   ],
   "defaultMaxVel": 4.5,
   "defaultMaxAccel": 5.0,
