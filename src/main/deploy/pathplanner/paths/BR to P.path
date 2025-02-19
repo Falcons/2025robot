@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8,
-        "y": 5.2
+        "x": 5.2,
+        "y": 2.8
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.418,
-        "y": 4.71725
+        "x": 5.669905534855667,
+        "y": 1.8524908673825786
       },
       "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.91525,
-        "y": 2.4259999999999993
-      },
-      "prevControl": {
-        "x": 2.1255,
-        "y": 3.137749999999999
-      },
-      "nextControl": {
-        "x": 3.8373474444502085,
-        "y": 1.5949739080880827
-      },
-      "isLocked": false,
-      "linkedName": null
+      "linkedName": "reef BR"
     },
     {
       "anchor": {
@@ -36,8 +20,8 @@
         "y": 0.6514999999999997
       },
       "prevControl": {
-        "x": 5.688346432740799,
-        "y": 0.895997131835155
+        "x": 5.574837002746471,
+        "y": 1.9201235944417405
       },
       "nextControl": null,
       "isLocked": false,
@@ -64,7 +48,7 @@
   "folder": "processor",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 121.53479190518829
   },
   "useDefaultConstraints": true
 }
