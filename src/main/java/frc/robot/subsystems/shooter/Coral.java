@@ -21,21 +21,19 @@ import frc.robot.subsystems.Airlock;
 public class Coral extends SubsystemBase {
   private final SparkMax leftShooter, rightShooter;
   private SparkMaxConfig shooterConfig = new SparkMaxConfig();
+  private Airlock airlock;
   private Alert leftFaultAlert = new Alert("Faults", "", AlertType.kError);
   private Alert rightFaultAlert = new Alert("Faults", "", AlertType.kError);
   private Alert leftWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   private Alert rightWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   /** Creates a new coral thing. */
   public Coral(Airlock airlock) {
+    this.airlock = airlock;
     this.leftShooter = new SparkMax(ShooterConstants.leftMoterCANID, MotorType.kBrushless);
     this.rightShooter = new SparkMax(ShooterConstants.rightMoterCANID, MotorType.kBrushless);
       shooterConfig.idleMode(IdleMode.kBrake);
     leftShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     rightShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-  }
-  public void stop() {
-    leftShooter.stopMotor();
-    rightShooter.stopMotor();
   }
   @Override
   public void periodic() {
@@ -45,9 +43,14 @@ public class Coral extends SubsystemBase {
     rightFaultAlert.setText("coral right:" + rightShooter.getFaults().toString()); rightFaultAlert.set(rightShooter.hasActiveFault());
     leftWarningAlert.setText("coral left:" + leftShooter.getWarnings().toString()); leftWarningAlert.set(leftShooter.hasActiveWarning());
     rightWarningAlert.setText("coral right:" + rightShooter.getWarnings().toString()); rightWarningAlert.set(rightShooter.hasActiveWarning());
+    if (airlock.checkStep()) set(0.1);
   }
   public void set(double speed) {
     leftShooter.set(speed);
     rightShooter.set(speed);
+  }
+  public void stop() {
+    leftShooter.stopMotor();
+    rightShooter.stopMotor();
   }
 } 
