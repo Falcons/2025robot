@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1 to FL"
+            "pathName": "1 to FR"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "FL to P"
+            "pathName": "FR to P"
           }
         },
         {
@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "right source to FR"
+            "pathName": "right source to F"
           }
         }
       ]
