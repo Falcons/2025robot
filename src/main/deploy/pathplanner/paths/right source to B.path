@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8,
-        "y": 5.2
+        "x": 1.1,
+        "y": 1.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.457,
-        "y": 4.912249999999999
+        "x": 2.052837441491646,
+        "y": 1.2638664513556108
       },
       "isLocked": false,
-      "linkedName": "reef FL"
+      "linkedName": "right source"
     },
     {
       "anchor": {
-        "x": 2.91525,
-        "y": 2.4259999999999993
+        "x": 5.31375,
+        "y": 1.7727499999999998
       },
       "prevControl": {
-        "x": 2.36925,
-        "y": 2.972
+        "x": 4.289201187996969,
+        "y": 0.7693748368742634
       },
       "nextControl": {
-        "x": 3.51599216926145,
-        "y": 1.825257830738548
+        "x": 6.115022626155455,
+        "y": 2.5574632733530898
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.015750000000001,
-        "y": 0.6514999999999997
+        "x": 5.9,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 5.793471506711368,
-        "y": 0.8788243836726901
+        "x": 5.77878418258664,
+        "y": 3.781352508340912
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "processor"
+      "linkedName": "reef B"
     }
   ],
   "rotationTargets": [],
@@ -58,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "processor",
+  "folder": "reef",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 56.0
   },
   "useDefaultConstraints": true
 }
