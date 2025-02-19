@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1 to B"
+            "pathName": "3 to B"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "set elevator L4"
+            "pathName": "B to P"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "outTake coral"
+            "pathName": null
           }
         }
       ]

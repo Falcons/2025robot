@@ -8,11 +8,11 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.8542499999999995,
-        "y": 5.26325
+        "x": 7.0395,
+        "y": 6.940249999999999
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "reef BL"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.6514999999999997
       },
       "prevControl": {
-        "x": 6.122999999999999,
-        "y": 1.88
+        "x": 7.390499999999999,
+        "y": 1.5875
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
-    "maxAcceleration": 1.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 617.56,
     "maxAngularAcceleration": 600.0,
     "nominalVoltage": 12.0,
