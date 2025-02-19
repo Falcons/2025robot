@@ -11,15 +11,69 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "set elevator L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "outTake coral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "set elevator L3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intake algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "set elevator bottom"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "B to P"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "outTake algae"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "P to right source"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right source to BR"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "2 To Processor",
+  "folder": "2 to processor",
   "choreoAuto": false
 }

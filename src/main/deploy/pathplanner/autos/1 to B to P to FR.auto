@@ -41,36 +41,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "set elevator L4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "outTake coral"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "set elevator L3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "intake algae"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "set elevator bottom"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "B to P"
@@ -79,7 +49,7 @@
         {
           "type": "named",
           "data": {
-            "name": "intake algae"
+            "name": "outTake algae"
           }
         },
         {
@@ -104,6 +74,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "1 To Processor",
+  "folder": "1 to processor",
   "choreoAuto": false
 }

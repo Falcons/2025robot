@@ -47,9 +47,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "outTake algae"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "P to right source"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {
@@ -62,6 +74,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "1 To Processor",
+  "folder": "1 to processor",
   "choreoAuto": false
 }

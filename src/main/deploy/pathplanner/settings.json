@@ -9,11 +9,11 @@
     "source"
   ],
   "autoFolders": [
-    "1 To Processor",
-    "Bad",
-    "2 To Processor",
-    "Test",
-    "To Source"
+    "1 to processor",
+    "2 to processor",
+    "bad",
+    "test",
+    "3 to processor"
   ],
   "defaultMaxVel": 4.5,
   "defaultMaxAccel": 5.0,
