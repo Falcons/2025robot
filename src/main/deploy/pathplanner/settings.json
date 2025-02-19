@@ -9,9 +9,10 @@
     "source"
   ],
   "autoFolders": [
+    "1 To Processor",
     "Bad",
+    "2 To Processor",
     "Test",
-    "To Processor",
     "To Source"
   ],
   "defaultMaxVel": 4.5,
