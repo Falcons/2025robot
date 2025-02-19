@@ -6,6 +6,7 @@ package frc.robot.subsystems.elevator;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.playingwithfusion.TimeOfFlight;
+import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -35,14 +36,15 @@ public class Elevator extends SubsystemBase {
     /** Creates a new elevator. */
   public Elevator(Airlock airlock) {
     this.airlock = airlock;
+    TOF.setRangingMode(RangingMode.Medium, 24);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMoter1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
-    rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToMM);
+    rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
     rightConfig.idleMode(IdleMode.kBrake);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMoter2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
-    leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToMM);
+    leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
@@ -90,9 +92,9 @@ public class Elevator extends SubsystemBase {
   public boolean atSetpoint(){
     return Pid.atSetpoint();
   }
-  /**@return the range of the TOF sensor*/
+  /**@return the range of the TOF sensor in inchs*/
   public double getTOF(){
-    return TOF.getRange();
+    return TOF.getRange()/25.4;
   }
   /**@return the encoder position of the left motor*/
   public double getEncoder(){
