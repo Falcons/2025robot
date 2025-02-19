@@ -12,7 +12,7 @@
         "y": 3.841515666356762
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "reef B"
     },
     {
       "anchor": {
@@ -50,7 +50,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
-    "maxAcceleration": 1.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 617.56,
     "maxAngularAcceleration": 600.0,
     "nominalVoltage": 12.0,

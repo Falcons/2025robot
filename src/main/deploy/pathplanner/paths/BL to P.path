@@ -12,7 +12,7 @@
         "y": 5.26325
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "reef BL"
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "processor"
     }
   ],
   "rotationTargets": [],
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
-    "maxAcceleration": 1.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 617.56,
     "maxAngularAcceleration": 600.0,
     "nominalVoltage": 12.0,
