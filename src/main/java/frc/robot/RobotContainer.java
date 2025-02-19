@@ -7,6 +7,7 @@ package frc.robot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ElevatorConstants;
 // import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.AlgaePivotFeedforward;
 import frc.robot.commands.algae.Intake;
@@ -55,19 +57,23 @@ public class RobotContainer {
     // algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
     algae.setDefaultCommand(new AlgaePivotFeedforward(algae, algae.getPivotPos()+operator.getLeftY(), operator.getLeftY()*globalSpeedMod, 1)); //idk im quessing for this -madness
     elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
+
     configureBindings();
 
     commandList.put("intake algae", new Intake(algae, 1*globalSpeedMod));
     commandList.put("outTake algae", new Intake(algae, -1*globalSpeedMod));
     commandList.put("outTake coral", new CoralShoot(coral, 1*globalSpeedMod));
-    commandList.put("set elevator bottom", new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 0));
-    commandList.put("set elevator L1", new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 1));
-    commandList.put("set elevator L2", new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 2));
-    commandList.put("set elevator L3", new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 3));
-    commandList.put("set elevator L4", new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 4));
-
+		commandList.put("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerBottom[0]));
+    commandList.put("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL1[0]));
+    commandList.put("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL2[0]));
+    commandList.put("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL3[0]));
+    commandList.put("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL4[0]));
+ 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
-    path_chooser = AutoBuilder.buildAutoChooser("default");
+    path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", 
+		stream -> 
+		stream.filter(auto -> !auto.getName().startsWith("."))
+);
     SmartDashboard.putData("auto", path_chooser);
     NamedCommands.registerCommands(commandList);
   }
