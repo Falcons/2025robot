@@ -4,60 +4,44 @@
     {
       "anchor": {
         "x": 8.8,
-        "y": 7.3
+        "y": 6.2
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.879159722417128,
-        "y": 6.893756383201995
+        "x": 6.903,
+        "y": 6.013999999999999
       },
       "isLocked": false,
-      "linkedName": "blue 1"
+      "linkedName": "blue 2"
     },
     {
       "anchor": {
-        "x": 6.649500000000001,
-        "y": 6.16025
-      },
-      "prevControl": {
-        "x": 7.288922909977866,
-        "y": 6.645274926168016
-      },
-      "nextControl": {
-        "x": 6.4028232808410035,
-        "y": 5.973136971000768
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 6.230250000000001,
-        "y": 3.0987499999999994
-      },
-      "prevControl": {
-        "x": 6.433587723098058,
-        "y": 3.2826223388759472
-      },
-      "nextControl": {
-        "x": 6.04482074439015,
-        "y": 2.9310717629983634
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 5.2,
+        "x": 6.279000000000001,
         "y": 2.8
       },
       "prevControl": {
-        "x": 4.957952042855095,
-        "y": 2.73744773032113
+        "x": 6.760802578658988,
+        "y": 3.334339216115999
+      },
+      "nextControl": {
+        "x": 5.3527499999999995,
+        "y": 1.7727499999999998
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.8,
+        "y": 2.8
+      },
+      "prevControl": {
+        "x": 3.500515814567836,
+        "y": 2.7477963346494394
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "reef BR"
+      "linkedName": "reef FR"
     }
   ],
   "rotationTargets": [],
@@ -74,7 +58,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 121.53479190518829
+    "rotation": 56.0
   },
   "reversed": false,
   "folder": "reef",
