@@ -8,7 +8,12 @@
     "reef",
     "source"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Bad",
+    "To Source",
+    "Test",
+    "To Processor"
+  ],
   "defaultMaxVel": 4.5,
   "defaultMaxAccel": 5.0,
   "defaultMaxAngVel": 617.56,

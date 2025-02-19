@@ -7,43 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "W1"
+            "pathName": "1 to BL"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "W2"
+            "pathName": "BL to P"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "W3"
+            "pathName": "P to right source"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "W4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "W5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "W6"
+            "pathName": "right source to FR"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Bad",
+  "folder": "To Processor",
   "choreoAuto": false
 }
