@@ -81,6 +81,30 @@
           "data": {
             "name": "outTake coral"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "set elevator L3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intake algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "set elevator bottom"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F to P"
+          }
         }
       ]
     }
