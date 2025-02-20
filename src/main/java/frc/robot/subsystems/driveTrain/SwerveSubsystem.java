@@ -86,7 +86,8 @@ public class SwerveSubsystem extends SubsystemBase {
   private Alert slowModeAlert = new Alert("drive slow mode active", AlertType.kInfo);
   private double speedMod = 1;
 
-  private final Field2d field2024 = new Field2d();
+  // private final Field2d field2024 = new Field2d();
+  private final Field2d field2025 = new Field2d();
 
   private final SwerveModule[] modules = new SwerveModule[] {
     frontLeft,
@@ -171,7 +172,7 @@ public class SwerveSubsystem extends SubsystemBase {
     //posPublisher.set(poseEstimator.getEstimatedPosition());
 
     updatePoseEstimator();
-    field2024.setRobotPose(poseEstimator.getEstimatedPosition());
+    field2025.setRobotPose(poseEstimator.getEstimatedPosition());
     
     for (SwerveModule module:modules) {
       SmartDashboard.putNumber("Module/Speed/" + module.moduleName, module.getState().speedMetersPerSecond);
@@ -196,7 +197,7 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Robot/Heading Radians", getWrappedHeadingRadians());
     SmartDashboard.putNumber("Robot/Turning Speed", getChassisSpeeds().omegaRadiansPerSecond);
 
-    SmartDashboard.putData(field2024);
+    SmartDashboard.putData(field2025);
     SmartDashboard.putBoolean("Limit/Get", opticalLimit.get());
     /*
     var result = photonCam.getLatestResult();

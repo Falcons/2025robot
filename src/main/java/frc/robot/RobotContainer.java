@@ -7,7 +7,6 @@ package frc.robot;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
