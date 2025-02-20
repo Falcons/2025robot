@@ -74,9 +74,9 @@ public class Pivot extends SubsystemBase {
   public void setIntake(double speed) {
     intake.set(speed);
   }
-  public void setPivotpid(double level) {
+  public void setPivotpid(double angle) {
     pivotAngle = pivot.getEncoder().getPosition();
-    pivot.set(pivotPid.calculate(pivotAngle, level));
+    pivot.set(pivotPid.calculate(pivotAngle, angle));
   }
   /**
    * @param p position
