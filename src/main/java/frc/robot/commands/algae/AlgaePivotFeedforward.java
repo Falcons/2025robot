@@ -5,14 +5,14 @@
 package frc.robot.commands.algae;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.algae.Algae;
+import frc.robot.subsystems.algae.Pivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaePivotFeedforward extends Command {
-  Algae algae;
+  Pivot algae;
   double speed, pos, accel;
   /** Creates a new AlgaePivotFeedforward. */
-  public AlgaePivotFeedforward(Algae algae, double pos, double speed, double acceleration) {
+  public AlgaePivotFeedforward(Pivot algae, double pos, double speed, double acceleration) {
     this.algae = algae;
     this.speed = speed;
     this.pos = pos;

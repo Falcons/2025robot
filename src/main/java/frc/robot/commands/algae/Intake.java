@@ -5,14 +5,14 @@
 package frc.robot.commands.algae;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.algae.Algae;
+import frc.robot.subsystems.algae.Pivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Intake extends Command {
   double speed;
-  Algae algae;
+  Pivot algae;
   /** Creates a new shoot. */
-  public Intake(Algae algae, double speed) {
+  public Intake(Pivot algae, double speed) {
     this.algae = algae;
     this.speed = speed;
     addRequirements(algae);
