@@ -4,13 +4,19 @@
 
 package frc.robot.commands.moveToTarget;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.function.Supplier;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.LimelightHelpers;
+import frc.robot.subsystems.driveTrain.SwerveSubsystem;
+
 public class CenterToColor extends Command {
-  /** Creates a new CenterToColor. */
-  public CenterToColor() {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+  SwerveSubsystem swerveSubsystem;
+  
+  public CenterToColor(SwerveSubsystem swerve, Supplier<Boolean> field) {
+    this.swerveSubsystem = swerve;
   }
 
   // Called when the command is initially scheduled.
@@ -19,7 +25,22 @@ public class CenterToColor extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    ChassisSpeeds chassisSpeeds;
+
+    chassisSpeeds = new ChassisSpeeds(Xspeed(), 0, 0);
+
+    swerveSubsystem.driveRobotRelative(chassisSpeeds);
+  }
+  double Xspeed(){
+    double kP = .035;
+    double Xspeed = LimelightHelpers.getTX("limelight-colour");
+
+    if (Xspeed < kP && Xspeed > -kP) {
+      Xspeed = 0;
+    }
+    return Xspeed;
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -10,18 +10,15 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.subsystems.Limelights.LimelightTag;
+import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class MoveToTag extends Command {
 
-  LimelightTag limelightTag;
   SwerveSubsystem swerveSubsystem;
   private final Supplier<Boolean> fieldOriented;
   /** Creates a new MoveToTag. */
-  public MoveToTag(SwerveSubsystem swerve, LimelightTag limelightTag, Supplier<Boolean> field) {
-    this.limelightTag = limelightTag;
+  public MoveToTag(SwerveSubsystem swerve, Supplier<Boolean> field) {
     this.swerveSubsystem = swerve;
     this.fieldOriented = field;
   }
@@ -44,12 +41,12 @@ public class MoveToTag extends Command {
     swerveSubsystem.setModuleStates(moduleStates);
   }
 
-  double turningSpeed() //think i changes it corectly from assisting driving to move to target
+  double turningSpeed() //think i changed it corectly from assisting driving to move to target
   {    
     // kP (constant of proportionality)=this is a hand-tuned number that determines the aggressiveness of our proportional control loop=if it is too high, the robot will oscillate around.=if it is too low, the robot will never reach its target=if the robot never turns in the correct direction, kP should be inverted.
     double kP = .035;
     // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of=your limelight 3 feed, tx should return roughly 31 degrees.
-    double targetingAngularVelocity = limelightTag.getX() /** * kP*/;
+    double targetingAngularVelocity =  LimelightHelpers.getTX("limelight-tag"); /* *kp */
 
     // convert to radians per second for our drive method
     //targetingAngularVelocity *= Drivetrain.kMaxAngularSpeed;
@@ -63,7 +60,7 @@ public class MoveToTag extends Command {
   }
   double xSpeed(){
     double kP = .035;
-    double X = limelightTag.getTargetPoseX();
+    double X = LimelightHelpers.getTargetPose3d_RobotSpace("limelight-tag").getX();
     double poseX = swerveSubsystem.getPose().getX();
     double Xspeed = X - poseX;
 
@@ -74,7 +71,7 @@ public class MoveToTag extends Command {
   }
   double ySpeed(){
     double kP = .035;
-    double Y = limelightTag.getTargetPoseY();
+    double Y = LimelightHelpers.getTargetPose3d_RobotSpace("limelight-tag").getY();
     double poseY = swerveSubsystem.getPose().getY();
     double Yspeed = Y - poseY;
 

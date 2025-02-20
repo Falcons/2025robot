@@ -20,28 +20,44 @@
         "y": 6.881749999999999
       },
       "prevControl": {
-        "x": 5.4697499999999994,
-        "y": 6.6964999999999995
+        "x": 1.0627499999999994,
+        "y": 0.6222499999999993
       },
       "nextControl": {
-        "x": 5.888283327467807,
-        "y": 7.094106661094417
+        "x": 5.847382277319619,
+        "y": 7.1301608517779576
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.9097500000000003,
-        "y": 5.9555
+        "x": 4.4265,
+        "y": 6.08225
       },
       "prevControl": {
-        "x": 3.3748955217200995,
-        "y": 5.3955742180507285
+        "x": 3.9117045509530044,
+        "y": 5.503828147138207
       },
       "nextControl": {
-        "x": 4.53375,
-        "y": 6.60875
+        "x": 5.294250000000002,
+        "y": 7.05725
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.22725,
+        "y": 0.6807499999999993
+      },
+      "prevControl": {
+        "x": 4.02675,
+        "y": 0.6514999999999997
+      },
+      "nextControl": {
+        "x": 2.1950770269409565,
+        "y": 0.7185124258436221
       },
       "isLocked": false,
       "linkedName": null
@@ -60,9 +76,29 @@
       "linkedName": "reef F"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.4962655601659487,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.6804979253112062,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 3.3,
+        "y": 2.0
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 2.4813895781637716,
+      "maxWaypointRelativePos": 3.62481389578162,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [
     {
       "name": "",
