@@ -6,18 +6,18 @@ package frc.robot.commands.algae;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.algae.Pivot;
+import frc.robot.subsystems.algae.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeForTime extends Command {
   Timer timer = new Timer();
-  Pivot algae;
+  Intake algae;
   double speed;
   double time;
   /** Creates a new IntakeForTime. 
    * @param time time in seconds
   */
-  public IntakeForTime(Pivot algae, double speed, double time) {
+  public IntakeForTime(Intake algae, double speed, double time) {
     this.algae = algae;
     this.speed = speed;
     this.time = time;

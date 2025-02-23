@@ -3,16 +3,14 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.algae;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.algae.Pivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Intake extends Command {
   double speed;
-  Pivot algae;
+  frc.robot.subsystems.algae.Intake algae;
   /** Creates a new shoot. */
-  public Intake(Pivot algae, double speed) {
+  public Intake(frc.robot.subsystems.algae.Intake algae, double speed) {
     this.algae = algae;
     this.speed = speed;
     addRequirements(algae);

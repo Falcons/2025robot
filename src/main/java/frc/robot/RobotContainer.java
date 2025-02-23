@@ -37,7 +37,8 @@ public class RobotContainer {
   private final Airlock airlock = new Airlock();
   private final Elevator elevator = new Elevator(airlock);
   private final Coral coral = new Coral(airlock);
-  private final Pivot algae = new Pivot();
+  private final Pivot algaeP = new Pivot();
+  private final frc.robot.subsystems.algae.Intake algaeI = new frc.robot.subsystems.algae.Intake();
   private final SwerveSubsystem swerve = new SwerveSubsystem();
   private Map<String, Command> commandList = new HashMap<>();
   private final CommandXboxController driver = new CommandXboxController(0);
@@ -54,13 +55,13 @@ public class RobotContainer {
       () -> !driver.getHID().getLeftBumper()));
     coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis())); // outake
     // algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
-    algae.setDefaultCommand(new AlgaePivotFeedforward(algae, algae.getPivotPos()+operator.getLeftY(), operator.getLeftY()*globalSpeedMod, 1)); //idk im quessing for this -madness
+    algaeP.setDefaultCommand(new AlgaePivotFeedforward(algaeP, algaeP.getPivotPos()+operator.getLeftY(), operator.getLeftY()*globalSpeedMod, 1)); //idk im quessing for this -madness
     elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
 
     configureBindings();
 
-    commandList.put("intake algae", new Intake(algae, 1*globalSpeedMod));
-    commandList.put("outTake algae", new Intake(algae, -1*globalSpeedMod));
+    commandList.put("intake algae", new Intake(algaeI, 1*globalSpeedMod));
+    commandList.put("outTake algae", new Intake(algaeI, -1*globalSpeedMod));
     commandList.put("outTake coral", new CoralShoot(coral, 1*globalSpeedMod));
 		commandList.put("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerBottom[0]));
     commandList.put("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL1[0]));
@@ -78,8 +79,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    operator.x().whileTrue(new Intake(algae, 1*globalSpeedMod)); // intake algae
-    operator.a().whileTrue(new Intake(algae, -1*globalSpeedMod)); // shoot algae
+    operator.x().whileTrue(new Intake(algaeI, 1*globalSpeedMod)); // intake algae
+    operator.a().whileTrue(new Intake(algaeI, -1*globalSpeedMod)); // shoot algae
     operator.y().onTrue(new ElevatorToggleSlowMode(elevator));
 
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 1));

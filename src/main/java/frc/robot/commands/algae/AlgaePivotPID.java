@@ -10,9 +10,9 @@ import frc.robot.subsystems.algae.Pivot;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaePivotPID extends Command {
   Pivot algae;
-  double level;
+  double angle;
   /** Creates a new shoot. */
-  public AlgaePivotPID(Pivot algae, double level) {
+  public AlgaePivotPID(Pivot algae, double angle) {
     this.algae = algae;
     this.angle = angle;
     addRequirements(algae);
