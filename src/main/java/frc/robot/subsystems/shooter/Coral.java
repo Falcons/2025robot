@@ -37,8 +37,8 @@ public class Coral extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Left shooter encoder", leftShooter.getEncoder().getPosition());
-    SmartDashboard.putNumber("Right shooter encoder", rightShooter.getEncoder().getPosition());
+    SmartDashboard.putNumber("Shooter/Left encoder", leftShooter.getEncoder().getPosition());
+    SmartDashboard.putNumber("Shooter/Right encoder", rightShooter.getEncoder().getPosition());
     leftFaultAlert.setText("coral left:" + leftShooter.getFaults().toString()); leftFaultAlert.set(leftShooter.hasActiveFault());
     rightFaultAlert.setText("coral right:" + rightShooter.getFaults().toString()); rightFaultAlert.set(rightShooter.hasActiveFault());
     leftWarningAlert.setText("coral left:" + leftShooter.getWarnings().toString()); leftWarningAlert.set(leftShooter.hasActiveWarning());

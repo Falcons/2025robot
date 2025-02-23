@@ -109,9 +109,9 @@ public final class Constants {
     public static final class AlgaeConstants {
         public static final int pivotMoterCANID = 1113;
         public static final int intakeMoterCANID = 1114;
-        public static final double motarRatio = 85.5; //85.5:1 wtf kind of ratio is that
+        public static final double moterRatio = 85.5; //85.5:1 wtf kind of ratio is that
         public static final double slowModeSpeed = 0.2;
-        public static final double pivotMotorRotToDegree = motarRatio * 360;
+        public static final double pivotMoterRotToDegree = moterRatio * 360;
         public static final double algeaPivotSetpointL1 = 0; 
         public static final double algeaPivotSetpointL2 = 0; 
         public static final double algeaPivotSetpointL3 = 0; 
@@ -119,13 +119,13 @@ public final class Constants {
         public static final double voltageSpikeDifference = 0;
     }
     public static final class ElevatorConstants {
-        public static final int motarRatio = 12; //12:1 once i find the proper variable type
+        public static final int moterRatio = 12; //12:1 
         public static final int liftMoter1CANID = 1115;
         public static final int liftMoter2CANID = 1116;
         public static final int TOFTopCANID = 1117;
         public static final double maxSpeed = 47.19; //inches per second
         public static final double maxAcceleration = 30; //inches per second squared
-        public static final double motorRotToIN = motarRatio * (2 * Math.PI); //ratio * 2pi / gear radius in inchs
+        public static final double moterRotToIN = moterRatio * (2 * Math.PI); //ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
         public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness
         public static final double TOFSlowModetrigger = 6;

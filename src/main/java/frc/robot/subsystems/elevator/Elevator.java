@@ -39,12 +39,12 @@ public class Elevator extends SubsystemBase {
     TOF.setRangingMode(RangingMode.Medium, 24);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMoter1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
-    rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
+    rightConfig.encoder.positionConversionFactor(ElevatorConstants.moterRotToIN);
     rightConfig.idleMode(IdleMode.kBrake);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMoter2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
-    leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
+    leftConfig.encoder.positionConversionFactor(ElevatorConstants.moterRotToIN);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
@@ -56,11 +56,11 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("left encoder", leftMoter.getEncoder().getPosition());
-    SmartDashboard.putNumber("left current", leftMoter.getOutputCurrent());
-    SmartDashboard.putNumber("right encoder", rightMoter.getEncoder().getPosition());
-    SmartDashboard.putNumber("right current", rightMoter.getOutputCurrent());
-    SmartDashboard.putNumber("TOF range", TOF.getRange());
+    SmartDashboard.putNumber("Elevator/left encoder", leftMoter.getEncoder().getPosition());
+    SmartDashboard.putNumber("Elevator/left current", leftMoter.getOutputCurrent());
+    SmartDashboard.putNumber("Elevator/right encoder", rightMoter.getEncoder().getPosition());
+    SmartDashboard.putNumber("Elevator/right current", rightMoter.getOutputCurrent());
+    SmartDashboard.putNumber("Elevator/TOF range", TOF.getRange());
     leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(leftMoter.hasActiveFault());
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
