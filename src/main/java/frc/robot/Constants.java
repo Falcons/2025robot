@@ -37,32 +37,32 @@ public final class Constants {
         public static final double voltToRad = 2 * Math.PI / 3.3;
         
         //Front Left
-        public static final int frontLeftDriveCANID = 4;
-        public static final int frontLeftTurningCANID = 3;
+        public static final int frontLeftDriveCANID = 3;
+        public static final int frontLeftTurningCANID = 1;
         public static final boolean frontLeftReversed = true;
         public static final double frontLeftAbsoluteOffset = 221.86;
         public static final double frontLeftTurningkP = 0.0035;
         public static final double frontLeftTurningkI = 0.05;
 
         //Front Right
-        public static final int frontRightDriveCANID = 7;
-        public static final int frontRightTurningCANID = 8;
+        public static final int frontRightDriveCANID = 9;
+        public static final int frontRightTurningCANID = 11;
         public static final boolean frontRightReversed = true;
         public static final double frontRightAbsoluteOffset = 152.70;
         public static final double frontRightTurningkP = 0.004;
         public static final double frontRightTurningkI = 0.05;
 
         //Back Left
-        public static final int backLeftDriveCANID = 2;
-        public static final int backLeftTurningCANID = 1;
+        public static final int backLeftDriveCANID = 4;
+        public static final int backLeftTurningCANID = 2;
         public static final boolean backLeftReversed = true;
         public static final double backLeftAbsoluteOffset = 72.73;
         public static final double backLeftTurningkP = 0.004;
         public static final double backLeftTurningkI = 0.05;
 
         //Back Right
-        public static final int backRightDriveCANID = 5;
-        public static final int backRightTurningCANID = 6;
+        public static final int backRightDriveCANID = 8;
+        public static final int backRightTurningCANID = 10;
         public static final boolean backRightReversed = true;
         public static final double backRightAbsoluteOffset = Units.radiansToDegrees(1.639);//95.95;
         public static final double backRightTurningkP = 0.004;
@@ -70,7 +70,7 @@ public final class Constants {
     }
 
     public static final class DriveConstants {
-        public static final int pigeonCANID = 12;
+        public static final int pigeonCANID = 6;
         public static final double kDeadband = 0.05;
 
         public static final double kTrackwidth = Units.inchesToMeters(23.75);
@@ -103,12 +103,12 @@ public final class Constants {
     }
     //TODO: make not placeholder
     public static final class ShooterConstants {
-        public static final int leftMotorCANID = 1111;
-        public static final int rightMotorCANID = 1112;
+        public static final int leftMotorCANID = 14;
+        public static final int rightMotorCANID = 13;
     }
     public static final class AlgaeConstants {
-        public static final int pivotMotorCANID = 1113;
-        public static final int intakeMotorCANID = 1114;
+        public static final int pivotMotorCANID = 12;
+        public static final int intakeMotorCANID = 15;
         public static final double motorRatio = 85.5; //85.5:1 wtf kind of ratio is that
         public static final double slowModeSpeed = 0.2;
         public static final double pivotMotorRotToDegree = motorRatio * 360;
@@ -120,8 +120,8 @@ public final class Constants {
     }
     public static final class ElevatorConstants {
         public static final int motorRatio = 12; //12:1 
-        public static final int liftMotor1CANID = 1115;
-        public static final int liftMotor2CANID = 1116;
+        public static final int liftMotor1CANID = 5;
+        public static final int liftMotor2CANID = 7;
         public static final int TOFTopCANID = 1117;
         public static final double maxSpeed = 47.19; //inches per second
         public static final double maxAcceleration = 30; //inches per second squared

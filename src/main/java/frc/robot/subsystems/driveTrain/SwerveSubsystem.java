@@ -319,7 +319,7 @@ public class SwerveSubsystem extends SubsystemBase {
     boolean useMegaTag2 = true; 
     boolean doTRejectUpdate = false;
     boolean doCRejectUpdate = false;
-
+    /*
     //using megatag 1
     if (!useMegaTag2) { 
       LimelightHelpers.PoseEstimate mt1_T = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-tag");
@@ -335,7 +335,7 @@ public class SwerveSubsystem extends SubsystemBase {
         if (mt1_C.rawFiducials[0].ambiguity > 0.7 || mt1_C.rawFiducials[0].distToCamera > 3) {
           doCRejectUpdate = true;
         }
-      } */
+      } 
 
       if (mt1_T.tagCount == 0) doTRejectUpdate = true;
       // if (mt1_C.tagCount == 0) doCRejectUpdate = true;
@@ -366,7 +366,7 @@ public class SwerveSubsystem extends SubsystemBase {
       if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_T.pose, mt2_T.timestampSeconds);
       // if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_C.pose, mt2_C.timestampSeconds);
     }
-     
+    */
   }
 
 // PID
