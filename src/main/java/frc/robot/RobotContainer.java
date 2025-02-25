@@ -20,7 +20,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.AlgaePivotFeedforward;
-import frc.robot.commands.algae.Intake;
+import frc.robot.commands.algae.IntakeForTime;
+import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
@@ -60,8 +61,8 @@ public class RobotContainer {
 
     configureBindings();
 
-    commandList.put("intake algae", new Intake(algaeI, 1*globalSpeedMod));
-    commandList.put("outTake algae", new Intake(algaeI, -1*globalSpeedMod));
+    commandList.put("intake algae", new AlgaeIntake(algaeI, 1*globalSpeedMod));
+    commandList.put("outTake algae", new IntakeForTime(algaeI, -1*globalSpeedMod, 0.5));
     commandList.put("outTake coral", new CoralShoot(coral, 1*globalSpeedMod));
 		commandList.put("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerBottom[0]));
     commandList.put("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL1[0]));
@@ -77,10 +78,10 @@ public class RobotContainer {
     SmartDashboard.putData("auto", path_chooser);
     NamedCommands.registerCommands(commandList);
   }
-
+  
   private void configureBindings() {
-    operator.x().whileTrue(new Intake(algaeI, 1*globalSpeedMod)); // intake algae
-    operator.a().whileTrue(new Intake(algaeI, -1*globalSpeedMod)); // shoot algae
+    operator.x().whileTrue(new AlgaeIntake(algaeI, 1*globalSpeedMod)); // intake algae
+    operator.a().whileTrue(new AlgaeIntake(algaeI, -1*globalSpeedMod)); // shoot algae
     operator.y().onTrue(new ElevatorToggleSlowMode(elevator));
 
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 1));

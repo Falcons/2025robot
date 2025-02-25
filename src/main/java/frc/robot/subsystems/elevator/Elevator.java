@@ -39,14 +39,14 @@ public class Elevator extends SubsystemBase {
   public Elevator(Airlock airlock) {
     this.airlock = airlock;
     TOF.setRangingMode(RangingMode.Medium, 24);
-    this.rightMoter = new SparkMax(ElevatorConstants.liftMoter1CANID, MotorType.kBrushless);
+    this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
-    rightConfig.encoder.positionConversionFactor(ElevatorConstants.moterRotToIN);
+    rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
     rightConfig.idleMode(IdleMode.kBrake);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
-    this.leftMoter = new SparkMax(ElevatorConstants.liftMoter2CANID, MotorType.kBrushless);
+    this.leftMoter = new SparkMax(ElevatorConstants.liftMotor2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
-    leftConfig.encoder.positionConversionFactor(ElevatorConstants.moterRotToIN);
+    leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);

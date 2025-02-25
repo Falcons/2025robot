@@ -103,15 +103,15 @@ public final class Constants {
     }
     //TODO: make not placeholder
     public static final class ShooterConstants {
-        public static final int leftMoterCANID = 1111;
-        public static final int rightMoterCANID = 1112;
+        public static final int leftMotorCANID = 1111;
+        public static final int rightMotorCANID = 1112;
     }
     public static final class AlgaeConstants {
-        public static final int pivotMoterCANID = 1113;
-        public static final int intakeMoterCANID = 1114;
-        public static final double moterRatio = 85.5; //85.5:1 wtf kind of ratio is that
+        public static final int pivotMotorCANID = 1113;
+        public static final int intakeMotorCANID = 1114;
+        public static final double motorRatio = 85.5; //85.5:1 wtf kind of ratio is that
         public static final double slowModeSpeed = 0.2;
-        public static final double pivotMoterRotToDegree = moterRatio * 360;
+        public static final double pivotMotorRotToDegree = motorRatio * 360;
         public static final double algeaPivotSetpointL1 = 0; 
         public static final double algeaPivotSetpointL2 = 0; 
         public static final double algeaPivotSetpointL3 = 0; 
@@ -119,13 +119,13 @@ public final class Constants {
         public static final double voltageSpikeDifference = 0;
     }
     public static final class ElevatorConstants {
-        public static final int moterRatio = 12; //12:1 
-        public static final int liftMoter1CANID = 1115;
-        public static final int liftMoter2CANID = 1116;
+        public static final int motorRatio = 12; //12:1 
+        public static final int liftMotor1CANID = 1115;
+        public static final int liftMotor2CANID = 1116;
         public static final int TOFTopCANID = 1117;
         public static final double maxSpeed = 47.19; //inches per second
         public static final double maxAcceleration = 30; //inches per second squared
-        public static final double moterRotToIN = moterRatio * (2 * Math.PI); //ratio * 2pi / gear radius in inchs
+        public static final double motorRotToIN = motorRatio * (2 * Math.PI); //ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
         public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness//why is there a comment in a comment -ai chan //why are you guys talking in the comments -madness //rip convo
         public static final double TOFSlowModetrigger = 6;

@@ -29,8 +29,8 @@ public class Coral extends SubsystemBase {
   /** Creates a new coral thing. */
   public Coral(Airlock airlock) {
     this.airlock = airlock;
-    this.leftShooter = new SparkMax(ShooterConstants.leftMoterCANID, MotorType.kBrushless);
-    this.rightShooter = new SparkMax(ShooterConstants.rightMoterCANID, MotorType.kBrushless);
+    this.leftShooter = new SparkMax(ShooterConstants.leftMotorCANID, MotorType.kBrushless);
+    this.rightShooter = new SparkMax(ShooterConstants.rightMotorCANID, MotorType.kBrushless);
       shooterConfig.idleMode(IdleMode.kBrake);
     leftShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     rightShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);

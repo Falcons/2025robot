@@ -26,7 +26,7 @@ public class Intake extends SubsystemBase {
   double previousCurrent = 0;
   /** Creates a new intake. */
   public Intake() {
-    this.intake = new SparkMax(AlgaeConstants.intakeMoterCANID, MotorType.kBrushless);
+    this.intake = new SparkMax(AlgaeConstants.intakeMotorCANID, MotorType.kBrushless);
     intakeConfig = new SparkMaxConfig();
     intakeConfig.idleMode(IdleMode.kBrake);
 
