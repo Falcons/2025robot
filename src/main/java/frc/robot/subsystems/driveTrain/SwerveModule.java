@@ -79,7 +79,7 @@ public class SwerveModule {
         turningPID.setIntegratorRange(-0.01, 0.01);
         turningEncoder.setPosition(getAbsEncoderDeg());
         
-        SmartDashboard.putData("TurningPID/" + this.moduleName, this.turningPID);
+        SmartDashboard.putData("swerve/TurningPID/" + this.moduleName, this.turningPID);
 
         resetEncoders();
     }
@@ -216,7 +216,7 @@ public class SwerveModule {
 
     /** Sets PID setpoint from Smartdashboard value */
     public void setpoint() {
-        double stpt = SmartDashboard.getNumber("Module Setpoint", 0);
+        double stpt = SmartDashboard.getNumber("swerve/Module Setpoint", 0);
         turningPID.setSetpoint(stpt);
     }   
 

@@ -113,7 +113,7 @@ public class SwerveSubsystem extends SubsystemBase {
   //StructPublisher<Pose2d> posPublisher = NetworkTableInstance.getDefault().getStructTopic("SwervePose/Actual", Pose2d.struct).publish();
 
   public SwerveSubsystem() {
-    //SmartDashboard.putNumber("max speed", ModuleConstants.driveMaxSpeedMPS); //adjust via SmartDashboard 
+    //SmartDashboard.putNumber("swerve/max speed", ModuleConstants.driveMaxSpeedMPS); //adjust via SmartDashboard 
     //photonCam = new PhotonCamera("USB2.0_PC_CAMERA");
     rotationPID.enableContinuousInput(-Math.PI, Math.PI);
     rotationPID.setIZone(0.05);
@@ -137,7 +137,7 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putData("RobotPID/X PID", xPID);
     SmartDashboard.putData("RobotPID/Y PID", yPID);
     SmartDashboard.putData("RobotPID/Rotation PID", rotationPID);
-    SmartDashboard.putNumber("Module Setpoint", 0);
+    SmartDashboard.putNumber("swerve/Module Setpoint", 0);
     try{
       config = RobotConfig.fromGUISettings();
     }catch (Exception e) {

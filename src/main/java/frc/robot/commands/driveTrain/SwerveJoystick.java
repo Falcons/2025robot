@@ -53,9 +53,9 @@ public class SwerveJoystick extends Command {
     double ySpeed = ySpeedFunc.get();
     double turningSpeed = turningSpeedFunc.get();
 
-    SmartDashboard.putNumber("X Speed", xSpeed);
-    SmartDashboard.putNumber("Y Speed", ySpeed);
-    SmartDashboard.putNumber("Turning Speed", turningSpeed);
+    SmartDashboard.putNumber("joystick/X Speed", xSpeed);
+    SmartDashboard.putNumber("joystick/Y Speed", ySpeed);
+    SmartDashboard.putNumber("joystick/Turning Speed", turningSpeed);
 
     xSpeed = Math.abs(xSpeed) > DriveConstants.kDeadband ? xSpeed : 0.0;
     ySpeed = Math.abs(ySpeed) > DriveConstants.kDeadband ? ySpeed : 0.0;
