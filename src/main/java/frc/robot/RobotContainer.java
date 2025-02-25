@@ -18,12 +18,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants;
-// import frc.robot.commands.algae.AlgaePivot;
+import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.AlgaePivotFeedforward;
 import frc.robot.commands.algae.Intake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.driveTrain.SwerveJoystick;
-// import frc.robot.commands.driveTrain.SwerveToggleSlowMode; //keep this for debug -madness
+import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorToggleSlowMode;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
@@ -54,8 +54,8 @@ public class RobotContainer {
       () -> -driver.getRightX(), 
       () -> !driver.getHID().getLeftBumper()));
     coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis())); // outake
-    // algae.setDefaultCommand(new AlgaePivot(algae, operator.getLeftY())); // pivot
-    algaeP.setDefaultCommand(new AlgaePivotFeedforward(algaeP, algaeP.getPivotPos()+operator.getLeftY(), operator.getLeftY()*globalSpeedMod, 1)); //idk im quessing for this -madness
+    algaeP.setDefaultCommand(new AlgaePivot(algaeP, operator.getLeftY())); // pivot
+    // algaeP.setDefaultCommand(new AlgaePivotFeedforward(algaeP, algaeP.getPivotPos()+operator.getLeftY(), 1*globalSpeedMod)); //idk im quessing for this -madness
     elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
 
     configureBindings();

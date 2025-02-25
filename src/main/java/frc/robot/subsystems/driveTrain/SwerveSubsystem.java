@@ -15,7 +15,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
-//import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -38,7 +38,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
-//import frc.robot.LimelightHelpers;
+import frc.robot.LimelightHelpers;
 
 public class SwerveSubsystem extends SubsystemBase {
   RobotConfig config;
@@ -152,8 +152,8 @@ public class SwerveSubsystem extends SubsystemBase {
       this::getChassisSpeeds, 
       (speeds, feedforwards) -> driveRobotRelative(speeds),
       new PPHolonomicDriveController(
-        new PIDConstants(2.3, 0, 0),
-        new PIDConstants(2.5, 1.2, 0)),
+        new PIDConstants(DriveConstants.translationKP, DriveConstants.translationKI, DriveConstants.translationKD),
+        new PIDConstants(DriveConstants.rotationKP, DriveConstants.rotationKI, DriveConstants.rotationKD)),
       config,
       () -> {
         var alliance = DriverStation.getAlliance();
@@ -317,50 +317,57 @@ public class SwerveSubsystem extends SubsystemBase {
   /** Updates Robot Pose based on Gyro and Module Positions */
   public void updatePoseEstimator() {
     poseEstimator.update(getRotation2d(), getModulePositions());
-    /*
-    boolean useMegaTag2 = false; 
-    boolean doRejectUpdate = false;
+    boolean useMegaTag2 = true; 
+    boolean doTRejectUpdate = false;
+    boolean doCRejectUpdate = false;
 
     //using megatag 1
     if (!useMegaTag2) { 
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-colour");
+      LimelightHelpers.PoseEstimate mt1_T = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-tag");
+      // LimelightHelpers.PoseEstimate mt1_C = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-colour");
 
-      if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
-        if (mt1.rawFiducials[0].ambiguity > 0.7) {
-          doRejectUpdate = true;
-        }
-        if (mt1.rawFiducials[0].distToCamera > 3) {
-          doRejectUpdate = true;
+      if (mt1_T.tagCount == 1 && mt1_T.rawFiducials.length == 1) {
+        if (mt1_T.rawFiducials[0].ambiguity > 0.7 || mt1_T.rawFiducials[0].distToCamera > 3) {
+          doTRejectUpdate = true;
         }
       }
+      /*
+      if (mt1_C.tagCount == 1 && mt1_C.rawFiducials.length == 1) {
+        if (mt1_C.rawFiducials[0].ambiguity > 0.7 || mt1_C.rawFiducials[0].distToCamera > 3) {
+          doCRejectUpdate = true;
+        }
+      } */
 
-      if (mt1.tagCount == 0) {
-        doRejectUpdate = true;
-      }
+      if (mt1_T.tagCount == 0) doTRejectUpdate = true;
+      // if (mt1_C.tagCount == 0) doCRejectUpdate = true;
+      
 
-      if(!doRejectUpdate) {
+      if(!doTRejectUpdate && !doCRejectUpdate) {
         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.5, 0.5, 9999999)); //StdDev from Limelight website
-        poseEstimator.addVisionMeasurement(mt1.pose, mt1.timestampSeconds);
       }
+      if(!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt1_T.pose, mt1_T.timestampSeconds);
+      // if(!doCRejectUpdate) poseEstimator.addVisionMeasurement(mt1_C.pose, mt1_C.timestampSeconds);
       
     //using megatag 2 (updated)
     } else {
       LimelightHelpers.SetRobotOrientation("limelight", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
-      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-
-      if (Math.abs(gyro.getRate()) > 720) {
-        doRejectUpdate = true;
+      LimelightHelpers.PoseEstimate mt2_T = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-tag");
+      // LimelightHelpers.PoseEstimate mt2_C = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-colour");
+  
+      if (Math.abs(-gyro.getAngularVelocityZWorld().getValueAsDouble()) > 720) {
+        doTRejectUpdate = true;
+        doCRejectUpdate = true;
       }
-      if (mt2.tagCount == 0) {
-        doRejectUpdate = true;
-      }
+      if (mt2_T.tagCount == 0) doTRejectUpdate = true;
+      // if (mt2_C.tagCount == 0) doCRejectUpdate = true;
 
-      if (!doRejectUpdate) {
+      if (!doTRejectUpdate && !doCRejectUpdate) {
         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); //StdDev from Limelight website
-        poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
       }
+      if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_T.pose, mt2_T.timestampSeconds);
+      // if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_C.pose, mt2_C.timestampSeconds);
     }
-     */
+     
   }
 
 // PID

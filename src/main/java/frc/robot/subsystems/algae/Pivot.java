@@ -24,7 +24,7 @@ public class Pivot extends SubsystemBase {
   private final SparkMax pivot;
   private SparkMaxConfig pivotConfig;
   PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
-  ArmFeedforward feedforward = new ArmFeedforward(0.05, 0.05, 0.05); //TODO: change feedforward values for algaes
+  ArmFeedforward feedforward = new ArmFeedforward(0.05, 0.05, 0.05,0.05); //TODO: change feedforward values for algaes
   double pivotAngle = 0;
 
   Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
@@ -60,17 +60,17 @@ public class Pivot extends SubsystemBase {
       pivot.set(speed);
     }
   }
-  public void setPivotpid(double level) {
+  public void setPivotpid(double angle) {
     pivotAngle = pivot.getEncoder().getPosition();
-    pivot.set(pivotPid.calculate(pivotAngle, level));
+    pivot.set(pivotPid.calculate(pivotAngle, angle) + feedforward.calculate(angle, 0));
   }
   /**
    * @param p position
    * @param v volocity
    * @param a acceleration
    */
-  public void setPivotFeedFowerd(double p, double v,Double a) {
-    pivot.setVoltage(feedforward.calculate(p, v, a));
+  public void setPivotFeedFowerd(double p, double v) {
+    pivot.setVoltage(feedforward.calculate(p, v));
   }
 
   public double getPivotPos() {
@@ -80,7 +80,7 @@ public class Pivot extends SubsystemBase {
     return pivot.getOutputCurrent();
   }
   public boolean currentSpike(){
-    if (previousCurrent - getPivotCurrent() > AlgaeConstants.voltageSpikeDifference) {
+    if (previousCurrent - getPivotCurrent() >= AlgaeConstants.voltageSpikeDifference) {
       return true;
     }
     previousCurrent = getPivotCurrent();
