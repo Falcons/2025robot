@@ -92,11 +92,11 @@ public final class Constants {
             new Translation2d(-kTrackwidth / 2.0, kTrackwidth / 2.0),
             new Translation2d(-kTrackwidth / 2.0, -kTrackwidth / 2.0));
 
-        public static final double translationKP = 2.3;
+        public static final double translationKP = 5; //2.3
         public static final double translationKI = 0;
         public static final double translationKD = 0;
 
-        public static final double rotationKP = 2.5;
+        public static final double rotationKP = 5; //2.3
         public static final double rotationKI = 1.2;
         public static final double rotationKD = 0;
 
