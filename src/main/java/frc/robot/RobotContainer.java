@@ -54,10 +54,10 @@ public class RobotContainer {
       () -> -driver.getLeftX(), 
       () -> -driver.getRightX(), 
       () -> !driver.getHID().getLeftBumper()));
-    coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis())); // outake
-    algaeP.setDefaultCommand(new AlgaePivot(algaeP, operator.getLeftY())); // pivot
+    coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis()*globalSpeedMod)); // outake
+    algaeP.setDefaultCommand(new AlgaePivot(algaeP, operator.getLeftY()*globalSpeedMod)); // pivot
     // algaeP.setDefaultCommand(new AlgaePivotFeedforward(algaeP, algaeP.getPivotPos()+operator.getLeftY(), 1*globalSpeedMod)); //idk im quessing for this -madness
-    elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
+    elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY()*globalSpeedMod)); // elevator
 
     configureBindings();
 
@@ -78,9 +78,9 @@ public class RobotContainer {
     SmartDashboard.putData("auto", path_chooser);
     NamedCommands.registerCommands(commandList);
   }
-  
+
   private void configureBindings() {
-    operator.x().whileTrue(new AlgaeIntake(algaeI, 1*globalSpeedMod)); // intake algae
+    operator.x().onTrue(new AlgaeIntake(algaeI, 1*globalSpeedMod)); // intake algae
     operator.a().whileTrue(new AlgaeIntake(algaeI, -1*globalSpeedMod)); // shoot algae
     operator.y().onTrue(new ElevatorToggleSlowMode(elevator));
 
