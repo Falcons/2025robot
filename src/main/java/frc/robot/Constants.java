@@ -127,7 +127,7 @@ public final class Constants {
         public static final double maxAcceleration = 30; //inches per second squared
         public static final double moterRotToIN = moterRatio * (2 * Math.PI); //ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
-        public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness
+        public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness//why is there a comment in a comment -ai chan //why are you guys talking in the comments -madness //rip convo
         public static final double TOFSlowModetrigger = 6;
         public static final double TOFMax = 0; 
         public static final double TOFEdgeBuffer = 100;
@@ -137,6 +137,8 @@ public final class Constants {
         /**array [min, max]*/public static final double[] TOFTriggerL3 = {0,0};
         /**array [min, max]*/public static final double[] TOFTriggerL4 = {0,0};
         public static final double slowModeSpeed = 0.2; 
+
+
     }
     public static final class airlockConstants {
         public static final int backTOFCANID = 1118;

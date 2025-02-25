@@ -25,7 +25,6 @@ public class Pivot extends SubsystemBase {
   private SparkMaxConfig pivotConfig;
   PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
   ArmFeedforward feedforward = new ArmFeedforward(0.05, 0.05, 0.05); //TODO: change feedforward values for algaes
-  double pivotAngle = 0;
 
   Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
@@ -35,6 +34,7 @@ public class Pivot extends SubsystemBase {
     this.pivot = new SparkMax(AlgaeConstants.pivotMoterCANID, MotorType.kBrushless);
     pivotConfig = new SparkMaxConfig();
     pivotConfig.idleMode(IdleMode.kBrake);
+    pivotConfig.encoder.positionConversionFactor(AlgaeConstants.pivotMoterRotToDegree);
 
     pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
@@ -61,8 +61,7 @@ public class Pivot extends SubsystemBase {
     }
   }
   public void setPivotpid(double level) {
-    pivotAngle = pivot.getEncoder().getPosition();
-    pivot.set(pivotPid.calculate(pivotAngle, level));
+    pivot.set(pivotPid.calculate(pivot.getEncoder().getPosition(), level));
   }
   /**
    * @param p position
