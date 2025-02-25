@@ -60,7 +60,7 @@ public class RobotContainer {
     elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY()*globalSpeedMod)); // elevator
 
     configureBindings();
-
+    /* 
     commandList.put("intake algae", new AlgaeIntake(algaeI, 1*globalSpeedMod));
     commandList.put("outTake algae", new IntakeForTime(algaeI, -1*globalSpeedMod, 0.5));
     commandList.put("outTake coral", new CoralShoot(coral, 1*globalSpeedMod));
@@ -69,14 +69,14 @@ public class RobotContainer {
     commandList.put("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL2[0]));
     commandList.put("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL3[0]));
     commandList.put("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL4[0]));
- 
+ */
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
+    NamedCommands.registerCommands(commandList);
     path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", 
 		stream -> 
 		stream.filter(auto -> !auto.getName().startsWith("."))
 );
     SmartDashboard.putData("auto", path_chooser);
-    NamedCommands.registerCommands(commandList);
   }
 
   private void configureBindings() {
