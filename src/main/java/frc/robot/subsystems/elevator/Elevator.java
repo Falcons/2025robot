@@ -25,7 +25,7 @@ import frc.robot.subsystems.Airlock;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for elecvator
+    PIDController Pid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for elecvato and FEEDFORWARD
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", AlertType.kInfo);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
@@ -34,6 +34,7 @@ public class Elevator extends SubsystemBase {
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
     private double speedMod = 1;
     private Airlock airlock;
+    ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0, 0, 0);
     /** Creates a new elevator. */
   public Elevator(Airlock airlock) {
     this.airlock = airlock;
@@ -77,7 +78,7 @@ public class Elevator extends SubsystemBase {
   }
   /**sets the elevator to a specific position*/
   public void setPID(double setpoint){
-    set(Pid.calculate(getEncoder(), setpoint));
+    set(Pid.calculate(getEncoder(), setpoint) + feedforward.calculate(setpoint));
   }
   /**stops the elevator*/
   public void stop(){

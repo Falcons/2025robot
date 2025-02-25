@@ -35,6 +35,7 @@ public class Pivot extends SubsystemBase {
     this.pivot = new SparkMax(AlgaeConstants.pivotMoterCANID, MotorType.kBrushless);
     pivotConfig = new SparkMaxConfig();
     pivotConfig.idleMode(IdleMode.kBrake);
+    pivotConfig.encoder.positionConversionFactor(AlgaeConstants.pivotMoterRotToDegree);
 
     pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
