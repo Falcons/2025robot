@@ -7,7 +7,9 @@ package frc.robot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.Attributes.Name;
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -54,33 +56,41 @@ public class RobotContainer {
       () -> -driver.getLeftX(), 
       () -> -driver.getRightX(), 
       () -> !driver.getHID().getLeftBumper()));
-    coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis()*globalSpeedMod)); // outake
-    algaeP.setDefaultCommand(new AlgaePivot(algaeP, operator.getLeftY()*globalSpeedMod)); // pivot
+    coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis())); // outake
+    algaeP.setDefaultCommand(new AlgaePivot(algaeP, operator.getLeftY())); // pivot
     // algaeP.setDefaultCommand(new AlgaePivotFeedforward(algaeP, algaeP.getPivotPos()+operator.getLeftY(), 1*globalSpeedMod)); //idk im quessing for this -madness
-    elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY()*globalSpeedMod)); // elevator
+    elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY())); // elevator
 
     configureBindings();
-    /* 
-    commandList.put("intake algae", new AlgaeIntake(algaeI, 1*globalSpeedMod));
-    commandList.put("outTake algae", new IntakeForTime(algaeI, -1*globalSpeedMod, 0.5));
-    commandList.put("outTake coral", new CoralShoot(coral, 1*globalSpeedMod));
-		commandList.put("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerBottom[0]));
-    commandList.put("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL1[0]));
-    commandList.put("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL2[0]));
-    commandList.put("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL3[0]));
-    commandList.put("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL4[0]));
- */
+
+    NamedCommands.registerCommand("intake algae", new AlgaeIntake(algaeI, 1*globalSpeedMod));
+    NamedCommands.registerCommand("outTake algae", new IntakeForTime(algaeI, -1*globalSpeedMod, 0.5));
+    NamedCommands.registerCommand("outTake coral", new CoralShoot(coral, 1*globalSpeedMod));
+    NamedCommands.registerCommand("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerBottom[0]));
+    NamedCommands.registerCommand("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL1[0]));
+    NamedCommands.registerCommand("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL2[0]));
+    NamedCommands.registerCommand("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL3[0]));
+    NamedCommands.registerCommand("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL4[0])); 
+    //commandList.put("intake algae", new AlgaeIntake(algaeI, 1*globalSpeedMod));
+    //commandList.put("outTake algae", new IntakeForTime(algaeI, -1*globalSpeedMod, 0.5));
+    //commandList.put("outTake coral", new CoralShoot(coral, 1*globalSpeedMod));
+		//commandList.put("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerBottom[0]));
+    //commandList.put("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL1[0]));
+    //commandList.put("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL2[0]));
+    //commandList.put("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL3[0]));
+    //commandList.put("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL4[0]));
+ 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
-    NamedCommands.registerCommands(commandList);
     path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", 
 		stream -> 
 		stream.filter(auto -> !auto.getName().startsWith("."))
 );
     SmartDashboard.putData("auto", path_chooser);
+    NamedCommands.registerCommands(commandList);
   }
-
+  
   private void configureBindings() {
-    operator.x().onTrue(new AlgaeIntake(algaeI, 1*globalSpeedMod)); // intake algae
+    operator.x().whileTrue(new AlgaeIntake(algaeI, 1*globalSpeedMod)); // intake algae
     operator.a().whileTrue(new AlgaeIntake(algaeI, -1*globalSpeedMod)); // shoot algae
     operator.y().onTrue(new ElevatorToggleSlowMode(elevator));
 
