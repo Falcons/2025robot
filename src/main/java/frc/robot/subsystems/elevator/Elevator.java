@@ -26,7 +26,7 @@ public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
     PIDController Pid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for elecvato and FEEDFORWARD
-    private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
+    // private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", AlertType.kInfo);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
@@ -38,7 +38,7 @@ public class Elevator extends SubsystemBase {
     /** Creates a new elevator. */
   public Elevator(Airlock airlock) {
     this.airlock = airlock;
-    TOF.setRangingMode(RangingMode.Medium, 24);
+    // TOF.setRangingMode(RangingMode.Medium, 24);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
     rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
@@ -62,7 +62,7 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Elevator/left current", leftMoter.getOutputCurrent());
     SmartDashboard.putNumber("Elevator/right encoder", rightMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator/right current", rightMoter.getOutputCurrent());
-    SmartDashboard.putNumber("Elevator/TOF range", TOF.getRange());
+    // SmartDashboard.putNumber("Elevator/TOF range", TOF.getRange());
     leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(leftMoter.hasActiveFault());
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
@@ -70,9 +70,9 @@ public class Elevator extends SubsystemBase {
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
-    if (!airlock.checkSafety()) return;
-    if (getTOF() == ElevatorConstants.TOFMin && speed < 0)return; //if the elevator is at the bottom and the speed is negative, stop the elevator
-    if (getTOF() == ElevatorConstants.TOFMax && speed > 0)return; //if the elevator is at the top and the speed is positive, stop the elevator
+    // if (!airlock.checkSafety()) return;
+    // if (getTOF() == ElevatorConstants.TOFMin && speed < 0)return; //if the elevator is at the bottom and the speed is negative, stop the elevator
+    // if (getTOF() == ElevatorConstants.TOFMax && speed > 0)return; //if the elevator is at the top and the speed is positive, stop the elevator
     rightMoter.set(speed * speedMod);
     leftMoter.set(speed * speedMod);
   }
@@ -95,9 +95,9 @@ public class Elevator extends SubsystemBase {
     return Pid.atSetpoint();
   }
   /**@return the range of the TOF sensor in inchs*/
-  public double getTOF(){
-    return TOF.getRange()/25.4;
-  }
+  // public double getTOF(){
+  //   return TOF.getRange()/25.4;
+  // }
   /**@return the encoder position of the left motor*/
   public double getEncoder(){
     return rightMoter.getEncoder().getPosition();
@@ -116,11 +116,11 @@ public class Elevator extends SubsystemBase {
     return speedMod == ElevatorConstants.slowModeSpeed;
   }
   /**@return the level of the elevator*/
-  public int getLevel(){
-    if(getTOF() > ElevatorConstants.TOFTriggerL1[0] && getTOF() < ElevatorConstants.TOFTriggerL1[1])return 1;
-    if(getTOF() > ElevatorConstants.TOFTriggerL2[0] && getTOF() < ElevatorConstants.TOFTriggerL2[1])return 2;
-    if(getTOF() > ElevatorConstants.TOFTriggerL3[0] && getTOF() < ElevatorConstants.TOFTriggerL3[1])return 3;
-    if(getTOF() > ElevatorConstants.TOFTriggerL4[0] && getTOF() < ElevatorConstants.TOFTriggerL4[1])return 4;
-    else return 0;
-  }
+  // public int getLevel(){
+  //   if(getTOF() > ElevatorConstants.TOFTriggerL1[0] && getTOF() < ElevatorConstants.TOFTriggerL1[1])return 1;
+  //   if(getTOF() > ElevatorConstants.TOFTriggerL2[0] && getTOF() < ElevatorConstants.TOFTriggerL2[1])return 2;
+  //   if(getTOF() > ElevatorConstants.TOFTriggerL3[0] && getTOF() < ElevatorConstants.TOFTriggerL3[1])return 3;
+  //   if(getTOF() > ElevatorConstants.TOFTriggerL4[0] && getTOF() < ElevatorConstants.TOFTriggerL4[1])return 4;
+  //   else return 0;
+  // }
 }

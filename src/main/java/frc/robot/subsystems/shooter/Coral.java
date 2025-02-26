@@ -43,7 +43,7 @@ public class Coral extends SubsystemBase {
     rightFaultAlert.setText("coral right:" + rightShooter.getFaults().toString()); rightFaultAlert.set(rightShooter.hasActiveFault());
     leftWarningAlert.setText("coral left:" + leftShooter.getWarnings().toString()); leftWarningAlert.set(leftShooter.hasActiveWarning());
     rightWarningAlert.setText("coral right:" + rightShooter.getWarnings().toString()); rightWarningAlert.set(rightShooter.hasActiveWarning());
-    if (airlock.checkStep()) set(0.1);
+    // if (airlock.checkStep()) set(0.1);
   }
   public void set(double speed) {
     leftShooter.set(speed);

@@ -10,55 +10,55 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.airlockConstants;
+// import frc.robot.Constants.airlockConstants;
 
 public class Airlock extends SubsystemBase {
     private Alert notSafeAlert = new Alert("coral is in airlock", AlertType.kWarning);
-    public TimeOfFlight frontTOF, backTOF;
+    // public TimeOfFlight frontTOF, backTOF;
 
   /** Creates a new airlock. */
   public Airlock() {
-    frontTOF = new TimeOfFlight(airlockConstants.frontTOFCANID);
-    backTOF = new TimeOfFlight(airlockConstants.backTOFCANID);
+    // frontTOF = new TimeOfFlight(airlockConstants.frontTOFCANID);
+    // backTOF = new TimeOfFlight(airlockConstants.backTOFCANID);
   }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("airlock/Front TOF range", frontTOF.getRange());
-    SmartDashboard.putNumber("airlock/Back TOF range", backTOF.getRange());
+    // SmartDashboard.putNumber("airlock/Front TOF range", frontTOF.getRange());
+    // SmartDashboard.putNumber("airlock/Back TOF range", backTOF.getRange());
   }
 
   /**@return front TOF sensors range*/
-  public double getFrontRange(){
-    return frontTOF.getRange();
-  }
+  // public double getFrontRange(){
+  //   return frontTOF.getRange();
+  // }
   /**@return back TOF sensors range*/
-  public double getBackRange(){
-    return backTOF.getRange();
-  }
+  // public double getBackRange(){
+  //   return backTOF.getRange();
+  // }
   /**@return true if the front TOF sensor's range is within defiend triggers*/
-  public boolean isFrontInRange(){
-    double range = getFrontRange();
-    return range >= airlockConstants.backTOFTrigger[0] && range <= airlockConstants.backTOFTrigger[1];
-  }
+  // public boolean isFrontInRange(){
+  //   double range = getFrontRange();
+  //   // return range >= airlockConstants.backTOFTrigger[0] && range <= airlockConstants.backTOFTrigger[1];
+  // }
   /**@return true if the back TOF sensor's range is within defiend triggers*/
-  public boolean isBackInRange(){
-    double range = getBackRange();
-    return range >= airlockConstants.backTOFTrigger[0] && range <= airlockConstants.backTOFTrigger[1];
-  }
+  // public boolean isBackInRange(){
+  //   double range = getBackRange();
+  //   // return range >= airlockConstants.backTOFTrigger[0] && range <= airlockConstants.backTOFTrigger[1];
+  // }
   /**@return true if its safe to move elevator*/
-  public boolean checkSafety(){ 
-    if (isFrontInRange() && !isBackInRange()) {
-      notSafeAlert.set(false);
-      return true;
-    }else {
-      notSafeAlert.set(true);
-      return false;
-    }
-  }
-  /**@return true if a coral should be moved*/
-  public boolean checkStep(){ 
-    return !isFrontInRange() && isBackInRange();
-  }
+  // public boolean checkSafety(){ 
+  //   if (isFrontInRange() && !isBackInRange()) {
+  //     notSafeAlert.set(false);
+  //     return true;
+  //   }else {
+  //     notSafeAlert.set(true);
+  //     return false;
+  //   }
+  // }
+  // /**@return true if a coral should be moved*/
+  // public boolean checkStep(){ 
+  //   return !isFrontInRange() && isBackInRange();
+  // }
 }
