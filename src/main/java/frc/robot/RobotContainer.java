@@ -43,7 +43,6 @@ public class RobotContainer {
   private final Pivot algaeP = new Pivot();
   private final frc.robot.subsystems.algae.Intake algaeI = new frc.robot.subsystems.algae.Intake();
   private final SwerveSubsystem swerve = new SwerveSubsystem();
-  private Map<String, Command> commandList = new HashMap<>();
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(0);
 
@@ -71,22 +70,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL2[0]));
     NamedCommands.registerCommand("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL3[0]));
     NamedCommands.registerCommand("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL4[0])); 
-    //commandList.put("intake algae", new AlgaeIntake(algaeI, 1*globalSpeedMod));
-    //commandList.put("outTake algae", new IntakeForTime(algaeI, -1*globalSpeedMod, 0.5));
-    //commandList.put("outTake coral", new CoralShoot(coral, 1*globalSpeedMod));
-		//commandList.put("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerBottom[0]));
-    //commandList.put("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL1[0]));
-    //commandList.put("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL2[0]));
-    //commandList.put("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL3[0]));
-    //commandList.put("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL4[0]));
- 
+
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
     path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", 
 		stream -> 
 		stream.filter(auto -> !auto.getName().startsWith("."))
 );
     SmartDashboard.putData("auto", path_chooser);
-    NamedCommands.registerCommands(commandList);
   }
   
   private void configureBindings() {
