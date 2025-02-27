@@ -39,6 +39,7 @@ public final class Constants {
         //Front Left
         public static final int frontLeftDriveCANID = 3;
         public static final int frontLeftTurningCANID = 1;
+        public static final int frontLeftTurningEncoderID = 8; //:)
         public static final boolean frontLeftReversed = true;
         public static final double frontLeftAbsoluteOffset = 221.86;
         public static final double frontLeftTurningkP = 0.0035;
@@ -47,6 +48,7 @@ public final class Constants {
         //Front Right
         public static final int frontRightDriveCANID = 9;
         public static final int frontRightTurningCANID = 11;
+        public static final int FrontRightTurningEncoderID = 6;
         public static final boolean frontRightReversed = true;
         public static final double frontRightAbsoluteOffset = 152.70;
         public static final double frontRightTurningkP = 0.004;
@@ -55,6 +57,7 @@ public final class Constants {
         //Back Left
         public static final int backLeftDriveCANID = 4;
         public static final int backLeftTurningCANID = 2;
+        public static final int backLeftTurningEncoderID = 9;
         public static final boolean backLeftReversed = true;
         public static final double backLeftAbsoluteOffset = 72.73;
         public static final double backLeftTurningkP = 0.004;
@@ -63,6 +66,7 @@ public final class Constants {
         //Back Right
         public static final int backRightDriveCANID = 8;
         public static final int backRightTurningCANID = 10;
+        public static final int backRightTurningEncoderID = 7;
         public static final boolean backRightReversed = true;
         public static final double backRightAbsoluteOffset = Units.radiansToDegrees(1.639);//95.95;
         public static final double backRightTurningkP = 0.004;
@@ -112,10 +116,6 @@ public final class Constants {
         public static final double motorRatio = 85.5; //85.5:1 wtf kind of ratio is that
         public static final double slowModeSpeed = 0.2;
         public static final double pivotMotorRotToDegree = motorRatio * 360;
-        public static final double algeaPivotSetpointL1 = 0; 
-        public static final double algeaPivotSetpointL2 = 0; 
-        public static final double algeaPivotSetpointL3 = 0; 
-        public static final double algeaPivotSetpointL4 = 0; 
         public static final double voltageSpikeDifference = 0;
     }
     public static final class ElevatorConstants {
@@ -141,9 +141,9 @@ public final class Constants {
 
     }
     public static final class airlockConstants {
-        public static final int backTOFCANID = 0;
-        public static final int frontTOFCANID = 1;
-        /**array [min, max]*/public static final double[] frontTOFTrigger = {0,0};
-        /**array [min, max]*/public static final double[] backTOFTrigger = {0,0};
+        public static final int backLCCANID = 0;
+        public static final int frontLCCANID = 1;
+        /**array [min, max]*/public static final double[] frontLCTrigger = {0,0};
+        /**array [min, max]*/public static final double[] backLCTrigger = {0,0};
     }
 }

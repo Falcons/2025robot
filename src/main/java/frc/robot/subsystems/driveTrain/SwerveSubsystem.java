@@ -45,7 +45,7 @@ public class SwerveSubsystem extends SubsystemBase {
     "Front Left",
     ModuleConstants.frontLeftDriveCANID, 
     ModuleConstants.frontLeftTurningCANID,
-    ModuleConstants.sparkMaxDataPort, //Use this constant (-1) if connected with Spark Max Breakout Board instead of RIO Analog IN
+    ModuleConstants.frontLeftTurningEncoderID,//Use this constant (-1) if connected with Spark Max Breakout Board instead of RIO Analog IN
     ModuleConstants.frontLeftReversed, 
     ModuleConstants.frontLeftAbsoluteOffset);
 
@@ -53,7 +53,7 @@ public class SwerveSubsystem extends SubsystemBase {
     "Front Right",
     ModuleConstants.frontRightDriveCANID, 
     ModuleConstants.frontRightTurningCANID,
-    ModuleConstants.sparkMaxDataPort, 
+    ModuleConstants.FrontRightTurningEncoderID,
     ModuleConstants.frontRightReversed, 
     ModuleConstants.frontRightAbsoluteOffset);
   
@@ -61,7 +61,7 @@ public class SwerveSubsystem extends SubsystemBase {
     "Back Left",
     ModuleConstants.backLeftDriveCANID, 
     ModuleConstants.backLeftTurningCANID,
-    ModuleConstants.sparkMaxDataPort, 
+    ModuleConstants.backLeftTurningEncoderID,
     ModuleConstants.backLeftReversed, 
     ModuleConstants.backLeftAbsoluteOffset);
 
@@ -69,7 +69,7 @@ public class SwerveSubsystem extends SubsystemBase {
     "Back Right",
     ModuleConstants.backRightDriveCANID, 
     ModuleConstants.backRightTurningCANID,
-    0,
+    ModuleConstants.backRightDriveCANID,
     ModuleConstants.backRightReversed, 
     ModuleConstants.backRightAbsoluteOffset);
 
@@ -316,10 +316,11 @@ public class SwerveSubsystem extends SubsystemBase {
   /** Updates Robot Pose based on Gyro and Module Positions */
   public void updatePoseEstimator() {
     poseEstimator.update(getRotation2d(), getModulePositions());
+    /*
     boolean useMegaTag2 = true; 
     boolean doTRejectUpdate = false;
     boolean doCRejectUpdate = false;
-    /*
+    
     //using megatag 1
     if (!useMegaTag2) { 
       LimelightHelpers.PoseEstimate mt1_T = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-tag");

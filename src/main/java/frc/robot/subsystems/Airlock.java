@@ -4,8 +4,9 @@
 
 package frc.robot.subsystems;
 
-import com.playingwithfusion.TimeOfFlight;
-
+import au.grapplerobotics.ConfigurationFailedException;
+import au.grapplerobotics.LaserCan;
+import au.grapplerobotics.interfaces.LaserCanInterface.RangingMode;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,38 +15,44 @@ import frc.robot.Constants.airlockConstants;
 
 public class Airlock extends SubsystemBase {
     private Alert notSafeAlert = new Alert("coral is in airlock", AlertType.kWarning);
-    public TimeOfFlight frontTOF, backTOF;
+    public LaserCan  frontLC, backLC;
 
   /** Creates a new airlock. */
   public Airlock() {
-    frontTOF = new TimeOfFlight(airlockConstants.frontTOFCANID);
-    backTOF = new TimeOfFlight(airlockConstants.backTOFCANID);
+    frontLC = new LaserCan(airlockConstants.frontLCCANID);
+    backLC = new LaserCan(airlockConstants.backLCCANID);
+    try{
+      frontLC.setRangingMode(RangingMode.SHORT);
+      backLC.setRangingMode(RangingMode.SHORT);
+    }catch(ConfigurationFailedException e){
+      System.err.print(e);
+    }
   }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("airlock/Front TOF range", frontTOF.getRange());
-    SmartDashboard.putNumber("airlock/Back TOF range", backTOF.getRange());
+    SmartDashboard.putNumber("airlock/Front LC range", frontLC.getMeasurement().distance_mm);
+    SmartDashboard.putNumber("airlock/Back LC range", backLC.getMeasurement().distance_mm);
   }
 
   /**@return front TOF sensors range*/
   public double getFrontRange(){
-    return frontTOF.getRange();
+    return frontLC.getMeasurement().distance_mm;
   }
   /**@return back TOF sensors range*/
   public double getBackRange(){
-    return backTOF.getRange();
+    return backLC.getMeasurement().distance_mm;
   }
-  /**@return true if the front TOF sensor's range is within defiend triggers*/
+  /**@return true if the front LC sensor's range is within defiend triggers*/
   public boolean isFrontInRange(){
     double range = getFrontRange();
-    return range >= airlockConstants.backTOFTrigger[0] && range <= airlockConstants.backTOFTrigger[1];
+    return range >= airlockConstants.backLCTrigger[0] && range <= airlockConstants.backLCTrigger[1];
   }
-  /**@return true if the back TOF sensor's range is within defiend triggers*/
+  /**@return true if the back LC sensor's range is within defiend triggers*/
   public boolean isBackInRange(){
     double range = getBackRange();
-    return range >= airlockConstants.backTOFTrigger[0] && range <= airlockConstants.backTOFTrigger[1];
+    return range >= airlockConstants.backLCTrigger[0] && range <= airlockConstants.backLCTrigger[1];
   }
   /**@return true if its safe to move elevator*/
   public boolean checkSafety(){ 
