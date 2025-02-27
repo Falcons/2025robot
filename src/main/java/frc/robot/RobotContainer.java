@@ -45,7 +45,7 @@ public class RobotContainer {
   private final frc.robot.subsystems.algae.Intake algaeI = new frc.robot.subsystems.algae.Intake();
   private final SwerveSubsystem swerve = new SwerveSubsystem();
   private final CommandXboxController driver = new CommandXboxController(0);
-  private final CommandXboxController operator = new CommandXboxController(0);
+  private final CommandXboxController operator = new CommandXboxController(1);
 
   private final double globalSpeedMod = 0.1;
   SendableChooser<Command> path_chooser = new SendableChooser<Command>();
@@ -85,11 +85,12 @@ public class RobotContainer {
     operator.x().whileTrue(new AlgaeIntake(algaeI, 1*globalSpeedMod)); // intake algae
     operator.a().whileTrue(new AlgaeIntake(algaeI, -1*globalSpeedMod)); // shoot algae
     operator.y().onTrue(new ElevatorToggleSlowMode(elevator));
-
+    /* 
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 1));
     operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 2));
     operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 3));
     operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,1, 4));
+    */
     //driver.y().onTrue(new SwerveToggleSlowMode(swerve)); made automatic | only use in dubug -madness
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));
     driver.povUpRight().whileTrue(swerve.modulePIDTuning("Front Right"));
