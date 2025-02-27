@@ -20,7 +20,8 @@ import frc.robot.subsystems.Airlock;
 
 public class Coral extends SubsystemBase {
   private final SparkMax leftShooter, rightShooter;
-  private SparkMaxConfig shooterConfig = new SparkMaxConfig();
+  private SparkMaxConfig rightShooterConfig = new SparkMaxConfig();
+  private SparkMaxConfig leftShooterConfig = new SparkMaxConfig();
   private Airlock airlock;
   private Alert leftFaultAlert = new Alert("Faults", "", AlertType.kError);
   private Alert rightFaultAlert = new Alert("Faults", "", AlertType.kError);
@@ -31,9 +32,11 @@ public class Coral extends SubsystemBase {
     this.airlock = airlock;
     this.leftShooter = new SparkMax(ShooterConstants.leftMotorCANID, MotorType.kBrushless);
     this.rightShooter = new SparkMax(ShooterConstants.rightMotorCANID, MotorType.kBrushless);
-      shooterConfig.idleMode(IdleMode.kBrake);
-    leftShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    rightShooter.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    rightShooterConfig.idleMode(IdleMode.kBrake);
+    leftShooterConfig.idleMode(IdleMode.kBrake);
+    leftShooterConfig.inverted(true);
+    leftShooter.configure(leftShooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    rightShooter.configure(rightShooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
   @Override
   public void periodic() {

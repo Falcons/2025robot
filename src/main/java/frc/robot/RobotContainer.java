@@ -5,11 +5,6 @@
 package frc.robot;
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.jar.Attributes.Name;
-
-import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -21,12 +16,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
-import frc.robot.commands.algae.AlgaePivotFeedforward;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.driveTrain.SwerveJoystick;
-import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorToggleSlowMode;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
