@@ -32,7 +32,7 @@ public class SwerveModule {
     private final PIDController turningPID;
 
     private final SparkAnalogSensor absEncoder;
-    private final DutyCycleEncoder absEncoderRIOAIPin;
+    private final AnalogEncoder absEncoderRIOAIPin;
     private final double absEncoderOffset;
     public Alert driveFaultAlert = new Alert("Faults", "", Alert.AlertType.kError);
     public Alert turningFaultAlert = new Alert( "Faults", "", Alert.AlertType.kError);
@@ -69,7 +69,7 @@ public class SwerveModule {
 
         } else {
             absEncoder = null;
-            absEncoderRIOAIPin = new DutyCycleEncoder(absEncoderPort);
+            absEncoderRIOAIPin = new AnalogEncoder(absEncoderPort);
         }
 
         this.absEncoderOffset = Units.degreesToRadians(offsetDegrees);

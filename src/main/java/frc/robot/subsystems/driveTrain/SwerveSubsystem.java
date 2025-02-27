@@ -69,7 +69,7 @@ public class SwerveSubsystem extends SubsystemBase {
     "Back Right",
     ModuleConstants.backRightDriveCANID, 
     ModuleConstants.backRightTurningCANID,
-    ModuleConstants.backRightDriveCANID,
+    ModuleConstants.backRightTurningEncoderID,
     ModuleConstants.backRightReversed, 
     ModuleConstants.backRightAbsoluteOffset);
 

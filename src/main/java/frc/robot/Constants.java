@@ -39,7 +39,7 @@ public final class Constants {
         //Front Left
         public static final int frontLeftDriveCANID = 3;
         public static final int frontLeftTurningCANID = 1;
-        public static final int frontLeftTurningEncoderID = 8; //:)
+        public static final int frontLeftTurningEncoderID = 2; //:)
         public static final boolean frontLeftReversed = true;
         public static final double frontLeftAbsoluteOffset = 221.86;
         public static final double frontLeftTurningkP = 0.0035;
@@ -48,7 +48,7 @@ public final class Constants {
         //Front Right
         public static final int frontRightDriveCANID = 9;
         public static final int frontRightTurningCANID = 11;
-        public static final int FrontRightTurningEncoderID = 6;
+        public static final int FrontRightTurningEncoderID = 3;
         public static final boolean frontRightReversed = true;
         public static final double frontRightAbsoluteOffset = 152.70;
         public static final double frontRightTurningkP = 0.004;
@@ -57,7 +57,7 @@ public final class Constants {
         //Back Left
         public static final int backLeftDriveCANID = 4;
         public static final int backLeftTurningCANID = 2;
-        public static final int backLeftTurningEncoderID = 9;
+        public static final int backLeftTurningEncoderID = 0;
         public static final boolean backLeftReversed = true;
         public static final double backLeftAbsoluteOffset = 72.73;
         public static final double backLeftTurningkP = 0.004;
@@ -66,7 +66,7 @@ public final class Constants {
         //Back Right
         public static final int backRightDriveCANID = 8;
         public static final int backRightTurningCANID = 10;
-        public static final int backRightTurningEncoderID = 7;
+        public static final int backRightTurningEncoderID = 1;
         public static final boolean backRightReversed = true;
         public static final double backRightAbsoluteOffset = Units.radiansToDegrees(1.639);//95.95;
         public static final double backRightTurningkP = 0.004;
