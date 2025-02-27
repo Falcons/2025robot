@@ -32,8 +32,8 @@ public class Airlock extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("airlock/Front LC range", frontLC.getMeasurement().distance_mm);
-    // SmartDashboard.putNumber("airlock/Back LC range", backLC.getMeasurement().distance_mm);
+    SmartDashboard.putNumber("airlock/Front LC range", frontLC.getMeasurement().distance_mm);
+    SmartDashboard.putNumber("airlock/Back LC range", backLC.getMeasurement().distance_mm);
   }
 
   /**@return front TOF sensors range*/
