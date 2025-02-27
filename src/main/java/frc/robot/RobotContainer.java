@@ -39,7 +39,7 @@ public class RobotContainer {
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(1);
 
-  private final double globalSpeedMod = 0.1;
+  private final double globalSpeedMod = 0.01;
   SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   public RobotContainer() {
     CanBridge.runTCP();
