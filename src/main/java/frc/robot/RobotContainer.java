@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import au.grapplerobotics.CanBridge;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,6 +42,7 @@ public class RobotContainer {
   private final double globalSpeedMod = 0.1;
   SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   public RobotContainer() {
+    CanBridge.runTCP();
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 
       () -> -driver.getLeftY(), 
@@ -49,7 +51,7 @@ public class RobotContainer {
       () -> !driver.getHID().getLeftBumper()));
     coral.setDefaultCommand(new CoralShoot(coral, operator.getRightTriggerAxis()*globalSpeedMod)); // outake
     algaeP.setDefaultCommand(new AlgaePivot(algaeP, operator.getLeftY()*globalSpeedMod)); // pivot
-    // algaeP.setDefaultCommand(new AlgaePivotFeedforward(algaeP, algaeP.getPivotPos()+operator.getLeftY(), 1*globalSpeedMod)); //idk im quessing for this -madness
+    ///algaeP.setDefaultCommand(new AlgaePivotFeedforward(algaeP, algaeP.getPivotPos()+operator.getLeftY(), 1*globalSpeedMod)); //idk im quessing for this -madness
     elevator.setDefaultCommand(new ElevatorManual(elevator, operator.getRightY()*globalSpeedMod)); // elevator
 
     configureBindings();
