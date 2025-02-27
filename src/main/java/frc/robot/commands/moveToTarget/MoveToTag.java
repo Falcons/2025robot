@@ -67,6 +67,7 @@ public class MoveToTag extends Command {
     if (Xspeed < kP && Xspeed > -kP) {
       Xspeed = 0;
     }
+    Xspeed = 0.1;
     return Xspeed;
   }
   double ySpeed(){
@@ -78,6 +79,7 @@ public class MoveToTag extends Command {
     if (Yspeed < kP && Yspeed > -kP) {
       Yspeed = 0;
     }
+    Yspeed = 0.1;
     return Yspeed;
   }
 

@@ -28,11 +28,11 @@ public class CenterToColor extends Command {
   public void execute() {
     ChassisSpeeds chassisSpeeds;
 
-    chassisSpeeds = new ChassisSpeeds(Xspeed(), 0, 0);
+    chassisSpeeds = new ChassisSpeeds(Speed(), Speed(), 0);
 
     swerveSubsystem.driveRobotRelative(chassisSpeeds);
   }
-  double Xspeed(){
+  double Speed(){
     double kP = .035;
     double Xspeed = LimelightHelpers.getTX("limelight-colour");
 
