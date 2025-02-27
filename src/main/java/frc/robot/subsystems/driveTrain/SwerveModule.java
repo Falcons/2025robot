@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.AnalogEncoder;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ModuleConstants;
@@ -31,8 +32,7 @@ public class SwerveModule {
     private final PIDController turningPID;
 
     private final SparkAnalogSensor absEncoder;
-    private final AnalogEncoder analogAbsEncoderRIOAIPin;
-    private final Encoder absEncoderRIOAIPin;
+    private final DutyCycleEncoder absEncoderRIOAIPin;
     private final double absEncoderOffset;
     public Alert driveFaultAlert = new Alert("Faults", "", Alert.AlertType.kError);
     public Alert turningFaultAlert = new Alert( "Faults", "", Alert.AlertType.kError);
@@ -69,7 +69,7 @@ public class SwerveModule {
 
         } else {
             absEncoder = null;
-            absEncoderRIOAIPin = new Encoder(absEncoderPort);
+            absEncoderRIOAIPin = new DutyCycleEncoder(absEncoderPort);
         }
 
         this.absEncoderOffset = Units.degreesToRadians(offsetDegrees);
