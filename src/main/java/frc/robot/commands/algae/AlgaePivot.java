@@ -4,15 +4,17 @@
 
 package frc.robot.commands.algae;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algae.Pivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaePivot extends Command {
-  double speed;
+  Supplier<Double> speed;
   Pivot algae;
   /** Creates a new shoot. */
-  public AlgaePivot(Pivot algae, double speed) {
+  public AlgaePivot(Pivot algae, Supplier<Double> speed) {
     this.algae = algae;
     this.speed = speed;
     addRequirements(algae);
@@ -24,7 +26,7 @@ public class AlgaePivot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    algae.setPivot(speed);
+    algae.setPivot(speed.get());
   }
 
   // Called once the command ends or is interrupted.

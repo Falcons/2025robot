@@ -4,15 +4,17 @@
 
 package frc.robot.commands.coral;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.Coral;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CoralShoot extends Command {
-  double speed;
+  Supplier<Double> speed;
   Coral coral;
   /** Creates a new shoot. */
-  public CoralShoot(Coral coral, double speed) {
+  public CoralShoot(Coral coral, Supplier<Double> speed) {
     this.coral = coral;
     this.speed = speed;
     addRequirements(coral);
@@ -25,7 +27,7 @@ public class CoralShoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    coral.set(speed);
+    coral.set(speed.get());
   }
 
   // Called once the command ends or is interrupted.
