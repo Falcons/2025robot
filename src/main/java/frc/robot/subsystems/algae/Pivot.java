@@ -29,6 +29,7 @@ public class Pivot extends SubsystemBase {
   Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   double previousCurrent = 0;
+  boolean pivotTop = true;
   /** Creates a new algea_pivot. */
   public Pivot() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMotorCANID, MotorType.kBrushless);
@@ -61,8 +62,18 @@ public class Pivot extends SubsystemBase {
       pivot.set(speed);
     // }
   }
-  public void setPivotpid(double angle) {
-    pivot.set(pivotPid.calculate(getPivotPos(), angle) + feedforward.calculate(angle, 0));
+  // public void setPivotpid(double angle) {
+  //   pivot.set(pivotPid.calculate(getPivotPos(), angle) + feedforward.calculate(angle, 0));
+  // }
+  public void togglePivot(){
+    pivotTop = !pivotTop;
+    if (pivotTop) {
+      pivot.set(pivotPid.calculate(getPivotPos(), AlgaeConstants.pivotMotorBottom) + feedforward.calculate(AlgaeConstants.pivotMotorBottom, 0));
+      pivotTop = false;
+    } else {
+      pivot.set(pivotPid.calculate(getPivotPos(), AlgaeConstants.pivotMotorTop) + feedforward.calculate(AlgaeConstants.pivotMotorTop, 0));
+      pivotTop = true;
+    }
   }
   /**
    * @param p position

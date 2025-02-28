@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.algae.Pivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AlgaePivotPID extends Command {
+public class AlgaePivotToggle extends Command {
   Pivot algae;
   double angle;
   /** Creates a new shoot. */
-  public AlgaePivotPID(Pivot algae, double angle) {
+  public AlgaePivotToggle(Pivot algae, double angle) {
     this.algae = algae;
     this.angle = angle;
     addRequirements(algae);
@@ -25,7 +25,7 @@ public class AlgaePivotPID extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    algae.setPivotpid(angle);
+    algae.togglePivot();
   }
 
   // Called once the command ends or is interrupted.
