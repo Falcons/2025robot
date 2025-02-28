@@ -134,7 +134,7 @@ public final class Constants {
         public static final double encoderMax = 5000; 
         public static final double TOFEdgeBuffer = 100;
         /**array [min, max]*/public static final double[] TOFTriggerBottom = {0,0}; 
-        /**array [min, max]*/public static final double[] TOFTriggerL1 = {0,0}; 
+        /**array [min, max]*/public static final double[] TOFTriggerL1 = {100,0}; 
         /**array [min, max]*/public static final double[] TOFTriggerL2 = {0,0};
         /**array [min, max]*/public static final double[] TOFTriggerL3 = {0,0};
         /**array [min, max]*/public static final double[] TOFTriggerL4 = {0,0};

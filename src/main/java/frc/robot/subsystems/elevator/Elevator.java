@@ -33,6 +33,7 @@ public class Elevator extends SubsystemBase {
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
     private double speedMod = 1;
+    public double targetPos;
     private Airlock airlock;
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0, 0, 0);
     /** Creates a new elevator. */
@@ -58,7 +59,7 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // setVoltage(feedforward.calculate(getRightEncoder()));
+    // setPID(targetPos);
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
     SmartDashboard.putNumber("Elevator/left current", getLeftCurent());
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
@@ -77,7 +78,6 @@ public class Elevator extends SubsystemBase {
     if (getTOF() == ElevatorConstants.TOFMin && speed < 0)return; //if the elevator is at the bottom and the speed is negative, stop the elevator
     if (getTOF() == ElevatorConstants.TOFMax && speed > 0)return; //if the elevator is at the top and the speed is positive, stop the elevator
     */
-
     rightMoter.set(speed * speedMod);
     leftMoter.set(speed * speedMod);
   }
