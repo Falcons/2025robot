@@ -19,7 +19,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Airlock;
 
 public class Coral extends SubsystemBase {
-  private final SparkMax leftShooter, rightShooter;
+  private final SparkMax leftMotor, rightMotor;
   private SparkMaxConfig rightShooterConfig = new SparkMaxConfig();
   private SparkMaxConfig leftShooterConfig = new SparkMaxConfig();
   private Airlock airlock;
@@ -30,30 +30,30 @@ public class Coral extends SubsystemBase {
   /** Creates a new coral thing. */
   public Coral(Airlock airlock) {
     this.airlock = airlock;
-    this.leftShooter = new SparkMax(ShooterConstants.leftMotorCANID, MotorType.kBrushless);
-    this.rightShooter = new SparkMax(ShooterConstants.rightMotorCANID, MotorType.kBrushless);
+    this.leftMotor = new SparkMax(ShooterConstants.leftMotorCANID, MotorType.kBrushless);
+    this.rightMotor = new SparkMax(ShooterConstants.rightMotorCANID, MotorType.kBrushless);
     rightShooterConfig.idleMode(IdleMode.kBrake);
     leftShooterConfig.idleMode(IdleMode.kBrake);
     leftShooterConfig.inverted(true);
-    leftShooter.configure(leftShooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    rightShooter.configure(rightShooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    leftMotor.configure(leftShooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    rightMotor.configure(rightShooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Shooter/Left encoder", leftShooter.getEncoder().getPosition());
-    SmartDashboard.putNumber("Shooter/Right encoder", rightShooter.getEncoder().getPosition());
-    leftFaultAlert.setText("coral left:" + leftShooter.getFaults().toString()); leftFaultAlert.set(leftShooter.hasActiveFault());
-    rightFaultAlert.setText("coral right:" + rightShooter.getFaults().toString()); rightFaultAlert.set(rightShooter.hasActiveFault());
-    leftWarningAlert.setText("coral left:" + leftShooter.getWarnings().toString()); leftWarningAlert.set(leftShooter.hasActiveWarning());
-    rightWarningAlert.setText("coral right:" + rightShooter.getWarnings().toString()); rightWarningAlert.set(rightShooter.hasActiveWarning());
+    SmartDashboard.putNumber("Shooter/Left encoder", leftMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("Shooter/Right encoder", rightMotor.getEncoder().getPosition());
+    leftFaultAlert.setText("coral left:" + leftMotor.getFaults().toString()); leftFaultAlert.set(leftMotor.hasActiveFault());
+    rightFaultAlert.setText("coral right:" + rightMotor.getFaults().toString()); rightFaultAlert.set(rightMotor.hasActiveFault());
+    leftWarningAlert.setText("coral left:" + leftMotor.getWarnings().toString()); leftWarningAlert.set(leftMotor.hasActiveWarning());
+    rightWarningAlert.setText("coral right:" + rightMotor.getWarnings().toString()); rightWarningAlert.set(rightMotor.hasActiveWarning());
     if (airlock.checkStep()) set(0.1);
   }
   public void set(double speed) {
-    leftShooter.set(speed);
-    rightShooter.set(speed);
+    leftMotor.set(speed);
+    rightMotor.set(speed);
   }
   public void stop() {
-    leftShooter.stopMotor();
-    rightShooter.stopMotor();
+    leftMotor.stopMotor();
+    rightMotor.stopMotor();
   }
 } 

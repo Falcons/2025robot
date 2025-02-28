@@ -23,14 +23,14 @@ import frc.robot.Constants.AlgaeConstants;
 public class Pivot extends SubsystemBase {
   private final SparkMax pivot;
   private SparkMaxConfig pivotConfig;
-  PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
+  PIDController pivotPID = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
   ArmFeedforward feedforward = new ArmFeedforward(0.05, 0.05, 0.05,0.05); //TODO: change feedforward values for algaes
 
   Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   double previousCurrent = 0;
   boolean pivotTop = true;
-  /** Creates a new algea_pivot. */
+  /** Creates a new algae_pivot. */
   public Pivot() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMotorCANID, MotorType.kBrushless);
     pivotConfig = new SparkMaxConfig();
@@ -39,9 +39,9 @@ public class Pivot extends SubsystemBase {
 
     pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    pivotPid.enableContinuousInput(-180, 180);
-    pivotPid.setTolerance(0.1);
-    pivotPid.setIntegratorRange(-0.01, 0.01);
+    pivotPID.enableContinuousInput(-180, 180);
+    pivotPID.setTolerance(0.1);
+    pivotPID.setIntegratorRange(-0.01, 0.01);
   }
   public void stopPivot() {
     pivot.stopMotor();
@@ -50,12 +50,12 @@ public class Pivot extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Pivot/Encoder", getPivotPos());
-    SmartDashboard.putNumber("pivot/current", getPivotCurrent());
-    pivotFaultAlert.setText("Pivot/algea pivot:" + pivot.getFaults().toString()); pivotFaultAlert.set(pivot.hasActiveFault());
-    pivotWarningAlert.setText("Pivot/algea pivot:" + pivot.getFaults().toString()); pivotWarningAlert.set(pivot.hasActiveWarning());
+    SmartDashboard.putNumber("Pivot/Current", getPivotCurrent());
+    pivotFaultAlert.setText("Pivot/algae pivot:" + pivot.getFaults().toString()); pivotFaultAlert.set(pivot.hasActiveFault());
+    pivotWarningAlert.setText("Pivot/algae pivot:" + pivot.getFaults().toString()); pivotWarningAlert.set(pivot.hasActiveWarning());
   }
   public void pidReset() {
-    pivotPid.reset();
+    pivotPID.reset();
   }
   public void setPivot(double speed) {
     // if (!currentSpike()) {
@@ -63,15 +63,15 @@ public class Pivot extends SubsystemBase {
     // }
   }
   // public void setPivotpid(double angle) {
-  //   pivot.set(pivotPid.calculate(getPivotPos(), angle) + feedforward.calculate(angle, 0));
+  //   pivot.set(pivotPID.calculate(getPivotPos(), angle) + feedforward.calculate(angle, 0));
   // }
   public void togglePivot(){
     pivotTop = !pivotTop;
     if (pivotTop) {
-      pivot.set(pivotPid.calculate(getPivotPos(), AlgaeConstants.pivotMotorBottom) + feedforward.calculate(AlgaeConstants.pivotMotorBottom, 0));
+      pivot.set(pivotPID.calculate(getPivotPos(), AlgaeConstants.pivotMotorBottom) + feedforward.calculate(AlgaeConstants.pivotMotorBottom, 0));
       pivotTop = false;
     } else {
-      pivot.set(pivotPid.calculate(getPivotPos(), AlgaeConstants.pivotMotorTop) + feedforward.calculate(AlgaeConstants.pivotMotorTop, 0));
+      pivot.set(pivotPID.calculate(getPivotPos(), AlgaeConstants.pivotMotorTop) + feedforward.calculate(AlgaeConstants.pivotMotorTop, 0));
       pivotTop = true;
     }
   }
@@ -99,6 +99,6 @@ public class Pivot extends SubsystemBase {
   }
 
   public boolean atSetpoint(){
-    return pivotPid.atSetpoint();
+    return pivotPID.atSetpoint();
   }
 }

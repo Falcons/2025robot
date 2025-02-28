@@ -15,7 +15,7 @@ import frc.robot.Constants.airlockConstants;
 
 public class Airlock extends SubsystemBase {
     private Alert notSafeAlert = new Alert("coral is in airlock", AlertType.kWarning);
-    public LaserCan  frontLC, backLC;
+    public LaserCan frontLC, backLC;
 
   /** Creates a new airlock. */
   public Airlock() {
@@ -33,8 +33,8 @@ public class Airlock extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("airlock/Front LC range", frontLC.getMeasurement().distance_mm);
-    SmartDashboard.putNumber("airlock/Back LC range", backLC.getMeasurement().distance_mm);
+    SmartDashboard.putNumber("Airlock/Front LC range", frontLC.getMeasurement().distance_mm);
+    SmartDashboard.putNumber("Airlock/Back LC range", backLC.getMeasurement().distance_mm);
   }
 
   /**@return front TOF sensors range*/
@@ -49,14 +49,14 @@ public class Airlock extends SubsystemBase {
   public boolean isFrontInRange(){
     double range = getFrontRange();
     boolean test = range >= airlockConstants.backLCTrigger[0] && range <= airlockConstants.backLCTrigger[1];
-    SmartDashboard.putBoolean("airlock/front in range", test);
+    SmartDashboard.putBoolean("Airlock/front in range", test);
     return test;
   }
   /**@return true if the back LC sensor's range is within defiend triggers*/
   public boolean isBackInRange(){
     double range = getBackRange();
     boolean test = range >= airlockConstants.backLCTrigger[0] && range <= airlockConstants.backLCTrigger[1];
-    SmartDashboard.putBoolean("airlock/back in range", test);
+    SmartDashboard.putBoolean("Airlock/back in range", test);
     return test;
   }
   /**@return true if its safe to move elevator*/

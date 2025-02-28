@@ -9,13 +9,13 @@ import frc.robot.subsystems.algae.Pivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class MoveTillSpike extends Command {
-  Pivot algae;
+  Pivot pivot;
   double speed;
   /** Creates a new MoveToStall. */
-  public MoveTillSpike(Pivot algae, double speed) { 
-    this.algae = algae;
+  public MoveTillSpike(Pivot pivot, double speed) { 
+    this.pivot = pivot;
     this.speed = speed;
-    addRequirements(algae);
+    addRequirements(pivot);
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +25,7 @@ public class MoveTillSpike extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    algae.setPivot(speed);
+    pivot.setPivot(speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -35,6 +35,6 @@ public class MoveTillSpike extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return algae.currentSpike();
+    return pivot.currentSpike();
   }
 }

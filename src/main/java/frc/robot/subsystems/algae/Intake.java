@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
 
 public class Intake extends SubsystemBase {
-  private final SparkMax intake;
+  private final SparkMax intakeMotor;
   private SparkMaxConfig intakeConfig;
 
   Alert intakeFaultAlert = new Alert("Faults", "", AlertType.kError);
@@ -26,29 +26,29 @@ public class Intake extends SubsystemBase {
   double previousCurrent = 0;
   /** Creates a new intake. */
   public Intake() {
-    this.intake = new SparkMax(AlgaeConstants.intakeMotorCANID, MotorType.kBrushless);
+    this.intakeMotor = new SparkMax(AlgaeConstants.intakeMotorCANID, MotorType.kBrushless);
     intakeConfig = new SparkMaxConfig();
     intakeConfig.idleMode(IdleMode.kBrake);
 
-    intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
   public void stopIntake() {
-    intake.stopMotor();
+    intakeMotor.stopMotor();
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Intake/Encoder", intake.getEncoder().getPosition());
-    intakeFaultAlert.setText("algea intake:" + intake.getFaults().toString()); intakeFaultAlert.set(intake.hasActiveFault());
-    intakeWarningAlert.setText("algea intake:" + intake.getFaults().toString()); intakeWarningAlert.set(intake.hasActiveWarning());
+    SmartDashboard.putNumber("Intake/Encoder", intakeMotor.getEncoder().getPosition());
+    intakeFaultAlert.setText("algea intake:" + intakeMotor.getFaults().toString()); intakeFaultAlert.set(intakeMotor.hasActiveFault());
+    intakeWarningAlert.setText("algea intake:" + intakeMotor.getFaults().toString()); intakeWarningAlert.set(intakeMotor.hasActiveWarning());
   }
   public void setIntake(double speed) {
-    intake.set(speed);
+    intakeMotor.set(speed);
   }
   public double getIntakeVel() {
-    return intake.getEncoder().getVelocity();
+    return intakeMotor.getEncoder().getVelocity();
   }
   public double getIntakeCurrent() {
-    return intake.getOutputCurrent();
+    return intakeMotor.getOutputCurrent();
   }
   public boolean intakeCurrentSpike(){
     if (previousCurrent - getIntakeCurrent() > AlgaeConstants.voltageSpikeDifference) {

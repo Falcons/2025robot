@@ -9,13 +9,13 @@ import frc.robot.subsystems.algae.Pivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaePivotToggle extends Command {
-  Pivot algae;
+  Pivot pivot;
   double angle;
   /** Creates a new shoot. */
-  public AlgaePivotToggle(Pivot algae, double angle) {
-    this.algae = algae;
+  public AlgaePivotToggle(Pivot pivot, double angle) {
+    this.pivot = pivot;
     this.angle = angle;
-    addRequirements(algae);
+    addRequirements(pivot);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +25,13 @@ public class AlgaePivotToggle extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    algae.togglePivot();
+    pivot.togglePivot();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    algae.stopPivot();
+    pivot.stopPivot();
   }
 
   // Returns true when the command should end.

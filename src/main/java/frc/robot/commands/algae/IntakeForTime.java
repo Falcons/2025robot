@@ -11,17 +11,17 @@ import frc.robot.subsystems.algae.Intake;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeForTime extends Command {
   Timer timer = new Timer();
-  Intake algae;
+  Intake pivot;
   double speed;
   double time;
   /** Creates a new IntakeForTime. 
    * @param time time in seconds
   */
-  public IntakeForTime(Intake algae, double speed, double time) {
-    this.algae = algae;
+  public IntakeForTime(Intake pivot, double speed, double time) {
+    this.pivot = pivot;
     this.speed = speed;
     this.time = time;
-    addRequirements(algae);
+    addRequirements(pivot);
   }
 
   // Called when the command is initially scheduled.
@@ -33,13 +33,13 @@ public class IntakeForTime extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    algae.setIntake(speed);
+    pivot.setIntake(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    algae.stopIntake();
+    pivot.stopIntake();
   }
 
   // Returns true when the command should end.

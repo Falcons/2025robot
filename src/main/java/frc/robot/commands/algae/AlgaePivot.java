@@ -12,30 +12,30 @@ import frc.robot.subsystems.algae.Pivot;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaePivot extends Command {
   Supplier<Double> speed;
-  Pivot algae;
+  Pivot pivot;
   /** Creates a new shoot. */
-  public AlgaePivot(Pivot algae, Supplier<Double> speed) {
-    this.algae = algae;
+  public AlgaePivot(Pivot pivot, Supplier<Double> speed) {
+    this.pivot = pivot;
     this.speed = speed;
-    addRequirements(algae);
+    addRequirements(pivot);
   }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("algae pivot start");
+    System.out.println("alga/e pivot start");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    algae.setPivot(speed.get());
+    pivot.setPivot(speed.get());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("algae pivot end");
-    algae.stopPivot();
+    System.out.println("alga/e pivot end");
+    pivot.stopPivot();
   }
 
   // Returns true when the command should end.

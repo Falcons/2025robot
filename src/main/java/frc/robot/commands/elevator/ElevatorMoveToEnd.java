@@ -37,7 +37,7 @@ public class ElevatorMoveToEnd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(elevator.getLeftCurent() >= 105 || elevator.getRightCurent() >= 105) return true;
+    if(elevator.getLeftCurrent() >= 105 || elevator.getRightCurrent() >= 105) return true;
     return false;
   }
 }
