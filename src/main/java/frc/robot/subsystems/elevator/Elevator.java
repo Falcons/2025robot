@@ -58,10 +58,11 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Elevator/left encoder", leftMoter.getEncoder().getPosition());
-    SmartDashboard.putNumber("Elevator/left current", leftMoter.getOutputCurrent());
-    SmartDashboard.putNumber("Elevator/right encoder", rightMoter.getEncoder().getPosition());
-    SmartDashboard.putNumber("Elevator/right current", rightMoter.getOutputCurrent());
+    // setVoltage(feedforward.calculate(getRightEncoder()));
+    SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
+    SmartDashboard.putNumber("Elevator/left current", getLeftCurent());
+    SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
+    SmartDashboard.putNumber("Elevator/right current", getRightCurent());
     SmartDashboard.putNumber("Elevator/TOF range", TOF.getRange());
     leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(leftMoter.hasActiveFault());
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
@@ -70,15 +71,23 @@ public class Elevator extends SubsystemBase {
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
+    
     if (!airlock.checkSafety()) return;
+    /*
     if (getTOF() == ElevatorConstants.TOFMin && speed < 0)return; //if the elevator is at the bottom and the speed is negative, stop the elevator
     if (getTOF() == ElevatorConstants.TOFMax && speed > 0)return; //if the elevator is at the top and the speed is positive, stop the elevator
+    */
+
     rightMoter.set(speed * speedMod);
     leftMoter.set(speed * speedMod);
   }
+  public void setVoltage(double voltage){
+    rightMoter.setVoltage(voltage);
+    leftMoter.setVoltage(voltage);
+  }
   /**sets the elevator to a specific position*/
   public void setPID(double setpoint){
-    set(Pid.calculate(getEncoder(), setpoint) + feedforward.calculate(setpoint));
+    setVoltage(Pid.calculate(getRightEncoder(), setpoint) + feedforward.calculate(setpoint));
   }
   /**stops the elevator*/
   public void stop(){
@@ -98,9 +107,13 @@ public class Elevator extends SubsystemBase {
   public double getTOF(){
     return TOF.getRange()/25.4;
   }
-  /**@return the encoder position of the left motor*/
-  public double getEncoder(){
+  /**@return the encoder position of the right motor*/
+  public double getRightEncoder(){
     return rightMoter.getEncoder().getPosition();
+  }
+  /**@return the encoder position of the left motor*/
+  public double getLeftEncoder(){
+    return leftMoter.getEncoder().getPosition();
   }
   public double getVelocity(){
     return rightMoter.getEncoder().getVelocity();

@@ -21,7 +21,6 @@ import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.elevator.ElevatorManual;
-import frc.robot.commands.elevator.ElevatorToggleSlowMode;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.algae.Pivot;

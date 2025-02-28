@@ -27,6 +27,7 @@ public class Airlock extends SubsystemBase {
     }catch(ConfigurationFailedException e){
       System.err.print(e);
     }
+    checkSafety();
   }
   
   @Override
@@ -47,12 +48,16 @@ public class Airlock extends SubsystemBase {
   /**@return true if the front LC sensor's range is within defiend triggers*/
   public boolean isFrontInRange(){
     double range = getFrontRange();
-    return range >= airlockConstants.backLCTrigger[0] && range <= airlockConstants.backLCTrigger[1];
+    boolean test = range >= airlockConstants.backLCTrigger[0] && range <= airlockConstants.backLCTrigger[1];
+    SmartDashboard.putBoolean("airlock/front in range", test);
+    return test;
   }
   /**@return true if the back LC sensor's range is within defiend triggers*/
   public boolean isBackInRange(){
     double range = getBackRange();
-    return range >= airlockConstants.backLCTrigger[0] && range <= airlockConstants.backLCTrigger[1];
+    boolean test = range >= airlockConstants.backLCTrigger[0] && range <= airlockConstants.backLCTrigger[1];
+    SmartDashboard.putBoolean("airlock/back in range", test);
+    return test;
   }
   /**@return true if its safe to move elevator*/
   public boolean checkSafety(){ 

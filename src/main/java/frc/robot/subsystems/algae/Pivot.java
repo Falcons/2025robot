@@ -25,7 +25,6 @@ public class Pivot extends SubsystemBase {
   private SparkMaxConfig pivotConfig;
   PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
   ArmFeedforward feedforward = new ArmFeedforward(0.05, 0.05, 0.05,0.05); //TODO: change feedforward values for algaes
-  double pivotAngle = 0;
 
   Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
@@ -49,7 +48,8 @@ public class Pivot extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Pivot/Encoder", pivot.getEncoder().getPosition());
+    SmartDashboard.putNumber("Pivot/Encoder", getPivotPos());
+    SmartDashboard.putNumber("pivot/current", getPivotCurrent());
     pivotFaultAlert.setText("Pivot/algea pivot:" + pivot.getFaults().toString()); pivotFaultAlert.set(pivot.hasActiveFault());
     pivotWarningAlert.setText("Pivot/algea pivot:" + pivot.getFaults().toString()); pivotWarningAlert.set(pivot.hasActiveWarning());
   }
@@ -57,13 +57,12 @@ public class Pivot extends SubsystemBase {
     pivotPid.reset();
   }
   public void setPivot(double speed) {
-    if (!currentSpike()) {
+    // if (!currentSpike()) {
       pivot.set(speed);
-    }
+    // }
   }
   public void setPivotpid(double angle) {
-    pivotAngle = pivot.getEncoder().getPosition();
-    pivot.set(pivotPid.calculate(pivotAngle, angle) + feedforward.calculate(angle, 0));
+    pivot.set(pivotPid.calculate(getPivotPos(), angle) + feedforward.calculate(angle, 0));
   }
   /**
    * @param p position

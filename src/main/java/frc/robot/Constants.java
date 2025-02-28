@@ -116,20 +116,22 @@ public final class Constants {
         public static final double motorRatio = 85.5; //85.5:1 wtf kind of ratio is that
         public static final double slowModeSpeed = 0.2;
         public static final double pivotMotorRotToDegree = motorRatio * 360;
-        public static final double voltageSpikeDifference = 0;
+        public static final double voltageSpikeDifference = 20;
     }
     public static final class ElevatorConstants {
         public static final int motorRatio = 12; //12:1 
         public static final int liftMotor1CANID = 5;
         public static final int liftMotor2CANID = 7;
-        public static final int TOFTopCANID = 2;
+        public static final int TOFTopCANID = 18;
         public static final double maxSpeed = 47.19; //inches per second
         public static final double maxAcceleration = 30; //inches per second squared
         public static final double motorRotToIN = motorRatio * (2 * Math.PI)/0.8755; //ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
         public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness//why is there a comment in a comment -ai chan //why are you guys talking in the comments -madness //rip convo
+        public static final double encoderMin = 10; 
         public static final double TOFSlowModetrigger = 6;
         public static final double TOFMax = 0; 
+        public static final double encoderMax = 5000; 
         public static final double TOFEdgeBuffer = 100;
         /**array [min, max]*/public static final double[] TOFTriggerBottom = {0,0}; 
         /**array [min, max]*/public static final double[] TOFTriggerL1 = {0,0}; 

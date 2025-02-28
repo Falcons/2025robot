@@ -32,7 +32,7 @@ public class ElevatorTrapezoidalMove extends Command {
   @Override
   public void initialize() {
     profile = new TrapezoidProfile(constraints);
-    current = new TrapezoidProfile.State(elevator.getEncoder(), elevator.getVelocity());
+    current = new TrapezoidProfile.State(elevator.getRightEncoder(), elevator.getVelocity());
     end = new TrapezoidProfile.State(endPos, 0);
   }
 
