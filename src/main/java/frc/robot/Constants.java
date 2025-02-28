@@ -145,7 +145,7 @@ public final class Constants {
     public static final class airlockConstants {
         public static final int backLCCANID = 17;
         public static final int frontLCCANID = 16;
-        /**array [min, max]*/public static final double[] frontLCTrigger = {10,20};
-        /**array [min, max]*/public static final double[] backLCTrigger = {10,20};
+        /**array [min, max]*/public static final double[] frontLCTrigger = {5,20};
+        /**array [min, max]*/public static final double[] backLCTrigger = {5,20};
     }
 }

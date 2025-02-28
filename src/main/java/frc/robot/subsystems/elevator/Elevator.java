@@ -72,7 +72,6 @@ public class Elevator extends SubsystemBase {
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
-    
     if (!airlock.checkSafety()) return;
     /*
     if (getTOF() == ElevatorConstants.TOFMin && speed < 0)return; //if the elevator is at the bottom and the speed is negative, stop the elevator
