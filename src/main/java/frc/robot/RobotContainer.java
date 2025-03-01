@@ -79,10 +79,10 @@ public class RobotContainer {
     // operator.y().whileTrue(new CoralShoot(coral, 1*globalSpeedMod));
     // operator.b().whileTrue(new CoralShoot(coral, -1*globalSpeedMod));
     
-    operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 100));
-    operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 200));
-    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 300));
-    operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 400));
+    operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 1000));
+    operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 2000));
+    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 3000));
+    operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 4000));
     
     //driver.y().onTrue(new SwerveToggleSlowMode(swerve)); made automatic | only use in dubug -madness
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));

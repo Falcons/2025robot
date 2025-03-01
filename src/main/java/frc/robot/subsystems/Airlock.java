@@ -39,11 +39,15 @@ public class Airlock extends SubsystemBase {
 
   /**@return front TOF sensors range*/
   public double getFrontRange(){
+    if(frontLC != null){
     return frontLC.getMeasurement().distance_mm;
+    }else return 9999;
   }
   /**@return back TOF sensors range*/
   public double getBackRange(){
-    return backLC.getMeasurement().distance_mm;
+    if(backLC.getMeasurement() != null){
+      return backLC.getMeasurement().distance_mm;
+    }else return 9999;
   }
   /**@return true if the front LC sensor's range is within defiend triggers*/
   public boolean isFrontInRange(){
@@ -72,6 +76,7 @@ public class Airlock extends SubsystemBase {
   }
   /**@return true if a coral should be moved*/
   public boolean checkStep(){ 
+    if(isFrontInRange() && isBackInRange()){return true;};
     return !isFrontInRange() && isBackInRange();
   }
 }

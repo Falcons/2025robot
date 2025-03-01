@@ -40,13 +40,13 @@ public class Coral extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Shooter/Left encoder", leftShooter.getEncoder().getPosition());
-    SmartDashboard.putNumber("Shooter/Right encoder", rightShooter.getEncoder().getPosition());
+    if (airlock.checkStep()) {System.out.println("steping coral");set(-0.3);}
+    SmartDashboard.putNumber("Shooter/Left encoder", leftShooter.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Shooter/Right encoder", rightShooter.getEncoder().getVelocity());
     leftFaultAlert.setText("coral left:" + leftShooter.getFaults().toString()); leftFaultAlert.set(leftShooter.hasActiveFault());
     rightFaultAlert.setText("coral right:" + rightShooter.getFaults().toString()); rightFaultAlert.set(rightShooter.hasActiveFault());
     leftWarningAlert.setText("coral left:" + leftShooter.getWarnings().toString()); leftWarningAlert.set(leftShooter.hasActiveWarning());
     rightWarningAlert.setText("coral right:" + rightShooter.getWarnings().toString()); rightWarningAlert.set(rightShooter.hasActiveWarning());
-    if (airlock.checkStep()) set(0.1);
   }
   public void set(double speed) {
     leftShooter.set(speed);

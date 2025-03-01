@@ -64,7 +64,7 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Elevator/left current", getLeftCurent());
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
     SmartDashboard.putNumber("Elevator/right current", getRightCurent());
-    SmartDashboard.putNumber("Elevator/TOF range", TOF.getRange());
+    SmartDashboard.putNumber("Elevator/TOF range", getTOF());
     leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(leftMoter.hasActiveFault());
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());

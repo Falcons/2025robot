@@ -122,7 +122,7 @@ public final class Constants {
         public static final int motorRatio = 12; //12:1 
         public static final int liftMotor1CANID = 5;
         public static final int liftMotor2CANID = 7;
-        public static final int TOFTopCANID = 18;
+        public static final int TOFTopCANID = 0;
         public static final double maxSpeed = 47.19; //inches per second
         public static final double maxAcceleration = 30; //inches per second squared
         public static final double motorRotToIN = motorRatio * (2 * Math.PI)/0.8755; //ratio * 2pi / gear radius in inchs
