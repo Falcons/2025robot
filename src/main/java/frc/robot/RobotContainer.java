@@ -22,6 +22,8 @@ import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
+import frc.robot.commands.elevator.ResetElevatorEncoders;
+import frc.robot.commands.elevator.SetElevatorPID;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.algae.Pivot;
 import frc.robot.subsystems.shooter.Coral;
@@ -38,9 +40,9 @@ public class RobotContainer {
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(1);
 
-  private final double globalSpeedMod = 0.5;
+  private final double globalSpeedMod = 0.1;
   SendableChooser<Command> path_chooser = new SendableChooser<Command>();
-  public RobotContainer() {
+  public RobotContainer() { 
     CanBridge.runTCP();
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 
@@ -51,14 +53,14 @@ public class RobotContainer {
     coral.setDefaultCommand(new CoralShoot(coral, () -> -operator.getRightTriggerAxis()*globalSpeedMod)); // outake
     algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*globalSpeedMod)); // pivot
     ///algaeP.setDefaultCommand(new AlgaePivotFeedforward(algaeP, algaeP.getPivotPos()+operator.getLeftY(), 1*globalSpeedMod)); //idk im quessing for this -madness
-    elevator.setDefaultCommand(new ElevatorManual(elevator, () -> operator.getRightY()*globalSpeedMod)); // elevator
+    elevator.setDefaultCommand(new ElevatorManual(elevator, () -> -operator.getRightY()*globalSpeedMod)); // elevator
 
     configureBindings();
 
     NamedCommands.registerCommand("intake algae", new AlgaeIntake(algaeI, 1*globalSpeedMod));
     NamedCommands.registerCommand("outTake algae", new IntakeForTime(algaeI, -1*globalSpeedMod, 0.5));
     NamedCommands.registerCommand("outTake coral", new CoralShoot(coral, () -> 1*globalSpeedMod));
-    NamedCommands.registerCommand("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerBottom[0]));
+    NamedCommands.registerCommand("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFMin[0]));
     NamedCommands.registerCommand("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL1[0]));
     NamedCommands.registerCommand("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL2[0]));
     NamedCommands.registerCommand("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL3[0]));
@@ -75,15 +77,15 @@ public class RobotContainer {
   private void configureBindings() {
     operator.x().whileTrue(new AlgaeIntake(algaeI, 1*globalSpeedMod)); // intake algae
     operator.a().whileTrue(new AlgaeIntake(algaeI, -1*globalSpeedMod)); // shoot algae
-    // operator.y().onTrue(new ElevatorToggleSlowMode(elevator));
-    // operator.y().whileTrue(new CoralShoot(coral, 1*globalSpeedMod));
-    // operator.b().whileTrue(new CoralShoot(coral, -1*globalSpeedMod));
+    operator.b().onTrue(new ResetElevatorEncoders(elevator));
     
+    operator.povUp().onTrue(new SetElevatorPID(elevator, 100));
+    /*
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 1000));
     operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 2000));
     operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 3000));
     operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator,10*globalSpeedMod,0.1, 4000));
-    
+    */
     //driver.y().onTrue(new SwerveToggleSlowMode(swerve)); made automatic | only use in dubug -madness
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));
     driver.povUpRight().whileTrue(swerve.modulePIDTuning("Front Right"));

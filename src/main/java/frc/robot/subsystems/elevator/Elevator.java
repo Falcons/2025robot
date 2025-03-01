@@ -25,7 +25,7 @@ import frc.robot.subsystems.Airlock;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for elecvato and FEEDFORWARD
+    PIDController Pid = new PIDController(0, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", AlertType.kInfo);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
@@ -73,20 +73,26 @@ public class Elevator extends SubsystemBase {
   /**sets the speed of the elevator*/
   public void set(double speed){
     if (!airlock.checkSafety()) return;
-    /*
-    if (getTOF() == ElevatorConstants.TOFMin && speed < 0)return; //if the elevator is at the bottom and the speed is negative, stop the elevator
-    if (getTOF() == ElevatorConstants.TOFMax && speed > 0)return; //if the elevator is at the top and the speed is positive, stop the elevator
-    */
+    if (getTOF() >= ElevatorConstants.TOFMin[1] && speed < 0){System.out.println("at min"); return;} //if the elevator is at the bottom and the speed is negative, stop the elevator
+    if (getTOF() <= ElevatorConstants.TOFMax[0] && speed > 0){System.out.println("at max"); return;} //if the elevator is at the top and the speed is positive, stop the elevator
+  
     rightMoter.set(speed * speedMod);
     leftMoter.set(speed * speedMod);
   }
   public void setVoltage(double voltage){
+    if (!airlock.checkSafety()) return;
+    if (getTOF() >= ElevatorConstants.TOFMin[1] && voltage < 0){System.out.println("at min"); return;} //if the elevator is at the bottom and the speed is negative, stop the elevator
+    if (getTOF() <= ElevatorConstants.TOFMax[0] && voltage > 0){System.out.println("at max"); return;} //if the elevator is at the top and the speed is positive, stop the elevator
     rightMoter.setVoltage(voltage);
     leftMoter.setVoltage(voltage);
   }
   /**sets the elevator to a specific position*/
   public void setPID(double setpoint){
     setVoltage(Pid.calculate(getRightEncoder(), setpoint) + feedforward.calculate(setpoint));
+  }
+  public void resetEncoder(){
+    leftMoter.getEncoder().setPosition(0);
+    rightMoter.getEncoder().setPosition(0);
   }
   /**stops the elevator*/
   public void stop(){

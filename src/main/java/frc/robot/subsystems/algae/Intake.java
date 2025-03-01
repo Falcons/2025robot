@@ -38,8 +38,8 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Intake/Encoder", intake.getEncoder().getPosition());
-    intakeFaultAlert.setText("algea intake:" + intake.getFaults().toString()); intakeFaultAlert.set(intake.hasActiveFault());
-    intakeWarningAlert.setText("algea intake:" + intake.getFaults().toString()); intakeWarningAlert.set(intake.hasActiveWarning());
+    intakeFaultAlert.setText("algae intake:" + intake.getFaults().toString()); intakeFaultAlert.set(intake.hasActiveFault());
+    intakeWarningAlert.setText("algae intake:" + intake.getFaults().toString()); intakeWarningAlert.set(intake.hasActiveWarning());
   }
   public void setIntake(double speed) {
     intake.set(speed);

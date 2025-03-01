@@ -49,9 +49,9 @@ public class Pivot extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Pivot/Encoder", getPivotPos());
-    SmartDashboard.putNumber("pivot/current", getPivotCurrent());
-    pivotFaultAlert.setText("Pivot/algea pivot:" + pivot.getFaults().toString()); pivotFaultAlert.set(pivot.hasActiveFault());
-    pivotWarningAlert.setText("Pivot/algea pivot:" + pivot.getFaults().toString()); pivotWarningAlert.set(pivot.hasActiveWarning());
+    SmartDashboard.putNumber("Pivot/current", getPivotCurrent());
+    pivotFaultAlert.setText("algae pivot:" + pivot.getFaults().toString()); pivotFaultAlert.set(pivot.hasActiveFault());
+    pivotWarningAlert.setText("algae pivot:" + pivot.getFaults().toString()); pivotWarningAlert.set(pivot.hasActiveWarning());
   }
   public void pidReset() {
     pivotPid.reset();

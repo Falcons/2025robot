@@ -127,13 +127,12 @@ public final class Constants {
         public static final double maxAcceleration = 30; //inches per second squared
         public static final double motorRotToIN = motorRatio * (2 * Math.PI)/0.8755; //ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
-        public static final double TOFMin = 0; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness//why is there a comment in a comment -ai chan //why are you guys talking in the comments -madness //rip convo
+        /**array [min, max]*/public static final double[] TOFMin = {29, 27}; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness//why is there a comment in a comment -ai chan //why are you guys talking in the comments -madness //rip convo
         public static final double encoderMin = 10; 
-        public static final double TOFSlowModetrigger = 6;
-        public static final double TOFMax = 0; 
+        /**array [min, max]*/public static final double[] TOFSlowModetrigger = {19, 22};
+        /**array [min, max]*/public static final double[] TOFMax = {2, 3}; 
         public static final double encoderMax = 5000; 
         public static final double TOFEdgeBuffer = 100;
-        /**array [min, max]*/public static final double[] TOFTriggerBottom = {0,0}; 
         /**array [min, max]*/public static final double[] TOFTriggerL1 = {100,0}; 
         /**array [min, max]*/public static final double[] TOFTriggerL2 = {0,0};
         /**array [min, max]*/public static final double[] TOFTriggerL3 = {0,0};
