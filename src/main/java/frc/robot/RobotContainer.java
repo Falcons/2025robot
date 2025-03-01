@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.IntakeForTime;
@@ -90,6 +91,18 @@ public class RobotContainer {
     driver.povDownLeft().whileTrue(swerve.modulePIDTuning("Back Left"));
     driver.povDownRight().whileTrue(swerve.modulePIDTuning("Back Right"));
     //swerve.resetPose(null);
+
+    operator.a().and(operator.rightBumper())
+      .onTrue(elevator.sysIdQuasistatic(Direction.kForward));
+
+    operator.b().and(operator.rightBumper())
+      .onTrue(elevator.sysIdQuasistatic(Direction.kReverse));
+
+    operator.x().and(operator.rightBumper())
+      .onTrue(elevator.sysIdDynamic(Direction.kForward));
+
+    operator.y().and(operator.rightBumper())
+      .onTrue(elevator.sysIdDynamic(Direction.kReverse));
   }
 
   public Command getAutonomousCommand() {
