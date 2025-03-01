@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
+import frc.robot.commands.algae.AlgaePivotToggle;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
@@ -77,6 +78,10 @@ public class RobotContainer {
   private void configureBindings() {
     operator.x().whileTrue(new AlgaeIntake(algaeI, 1*globalSpeedMod)); // intake algae
     operator.a().whileTrue(new AlgaeIntake(algaeI, -1*globalSpeedMod)); // shoot algae
+
+    //operator.y().onTrue(new AlgaePivotToggle(algaeP)); //TODO: toggle im guessing plz test pid -madness(ai wrote madness)
+    // change pid values and setpoints
+
     operator.b().onTrue(new ResetElevatorEncoders(elevator));
     
     operator.povUp().onTrue(new SetElevatorPID(elevator, 100));

@@ -61,8 +61,15 @@ public class Pivot extends SubsystemBase {
       pivot.set(speed);
     // }
   }
-  public void setPivotpid(double angle) {
-    pivot.set(pivotPid.calculate(getPivotPos(), angle) + feedforward.calculate(angle, 0));
+  // public void setPivotpid(double angle) {
+  //   pivot.set(pivotPid.calculate(getPivotPos(), angle) + feedforward.calculate(angle, 0));
+  // }
+  public void togglePivot(boolean isPivotUp) {
+    if (isPivotUp) {
+      pivot.set(pivotPid.calculate(getPivotPos(), AlgaeConstants.pivotBottom) + feedforward.calculate(AlgaeConstants.pivotBottom, 0));
+    } else {
+      pivot.set(pivotPid.calculate(getPivotPos(), AlgaeConstants.pivotTop) + feedforward.calculate(AlgaeConstants.pivotTop, 0));
+    }
   }
   /**
    * @param p position

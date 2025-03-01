@@ -117,6 +117,8 @@ public final class Constants {
         public static final double slowModeSpeed = 0.2;
         public static final double pivotMotorRotToDegree = motorRatio * 360;
         public static final double voltageSpikeDifference = 20;
+        public static final double pivotTop = 0;
+        public static final double pivotBottom = 0;
     }
     public static final class ElevatorConstants {
         public static final int motorRatio = 12; //12:1 
