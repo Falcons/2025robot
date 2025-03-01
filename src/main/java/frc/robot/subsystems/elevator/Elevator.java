@@ -5,6 +5,13 @@
 package frc.robot.subsystems.elevator;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Volts;
+
+import org.ejml.dense.row.linsol.chol.LinearSolverCholLDL_DDRM;
+
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.revrobotics.spark.SparkMax;
@@ -15,10 +22,26 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.VoltageUnit;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.LinearAcceleration;
+import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.MutDistance;
+import edu.wpi.first.units.measure.MutLinearAcceleration;
+import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.units.measure.MutVoltage;
+import edu.wpi.first.units.measure.Velocity;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.Airlock;
 
@@ -28,6 +51,14 @@ public class Elevator extends SubsystemBase {
     PIDController pid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for elecvato and FEEDFORWARD
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", AlertType.kInfo);
+
+    private final MutVoltage m_appliedVoltage = Volts.mutable(0);
+    private final MutDistance m_distance = Meters.mutable(0);
+    private final MutLinearVelocity m_velocity = MetersPerSecond.mutable(0);
+
+    private final SysIdRoutine.Mechanism mechanism = new SysIdRoutine.Mechanism(this::voltageDrive, this::log, this);
+    private final SysIdRoutine elevatorCharacterizer = new SysIdRoutine(new SysIdRoutine.Config(), mechanism);
+
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
@@ -52,7 +83,7 @@ public class Elevator extends SubsystemBase {
     leftMotor.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
     pid.setTolerance(0.1);
-    pid.setIntegratorRange(-0.01, 0.01);
+    pid.setIntegratorRange(-0.01, 0.01); 
   }
 
   @Override
@@ -103,6 +134,26 @@ public class Elevator extends SubsystemBase {
   public boolean atSetpoint(){
     return pid.atSetpoint();
   }
+
+  public void voltageDrive (Voltage volts) {
+    leftMotor.setVoltage(volts.in(Units.Volts));
+    rightMotor.setVoltage(volts.in(Units.Volts));
+  }
+
+    public void log(SysIdRoutineLog log) {
+    double avgVoltage = ((leftMotor.getAppliedOutput() * leftMotor.getBusVoltage()) 
+      + (rightMotor.getAppliedOutput() * rightMotor.getBusVoltage())) / 2.0;
+
+    double avgLinearPos = (leftMotor.getEncoder().getPosition() + rightMotor.getEncoder().getPosition()) / 2.0;
+
+    double avgLinearVel = (leftMotor.getEncoder().getVelocity() + rightMotor.getEncoder().getVelocity()) / 2.0;
+
+    log.motor("Elevator")
+    .voltage(m_appliedVoltage.mut_replace(avgVoltage,Volts))
+    .linearPosition(m_distance.mut_replace(avgLinearPos, Meters))
+    .linearVelocity(m_velocity.mut_replace(avgLinearVel, MetersPerSecond));
+  }
+
   /**@return the range of the TOF sensor in inchs*/
   public double getTOF(){
     return TOF.getRange()/25.4;
@@ -136,4 +187,13 @@ public class Elevator extends SubsystemBase {
     if(getTOF() > ElevatorConstants.TOFTriggerL4[0] && getTOF() < ElevatorConstants.TOFTriggerL4[1])return 4;
     else return 0;
   }
+
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+    return elevatorCharacterizer.quasistatic(direction);
+  }
+
+  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+    return elevatorCharacterizer.dynamic(direction);
+  }
+
 }
