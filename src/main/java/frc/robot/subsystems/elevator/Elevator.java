@@ -25,15 +25,13 @@ import frc.robot.subsystems.Airlock;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.7, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
+    PIDController Pid = new PIDController(0.02, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.76, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
-    private Alert slowModeAlert = new Alert("Elevator Slow Mode Active", AlertType.kInfo);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
-    private double speedMod = 1;
     public double targetPos = 15;
     public boolean atMax, atMin;
     private Airlock airlock;
@@ -44,16 +42,18 @@ public class Elevator extends SubsystemBase {
     // TOF.setRangeOfInterest(16, 16, 16, 16);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
-    // rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
-    // rightConfig.encoder.velocityConversionFactor(ElevatorConstants.motorRotToIN);
+    rightConfig.encoder.positionConversionFactor(1.0/ElevatorConstants.motorRotToIN);
+    rightConfig.encoder.velocityConversionFactor(1.0/ElevatorConstants.motorRotToIN);
     rightConfig.idleMode(IdleMode.kBrake);
-    rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    rightConfig.inverted(false);
+    rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMotor2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
-    leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
+    leftConfig.encoder.positionConversionFactor(1.0/ElevatorConstants.motorRotToIN);
+    leftConfig.encoder.velocityConversionFactor(1.0/ElevatorConstants.motorRotToIN);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
-    leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     Pid.setTolerance(0.1);
     Pid.setIntegratorRange(-0.01, 0.01);
@@ -69,6 +69,9 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
     SmartDashboard.putNumber("Elevator/avg encoder", getEncoder());
+    SmartDashboard.putNumber("Elevator/left velocity", getLeftVelocity());
+    SmartDashboard.putNumber("Elevator/right velocity", getRightVelocity());
+    SmartDashboard.putNumber("Elevator/avg velocity", getVelocity());
     SmartDashboard.putNumber("Elevator/left current", getLeftCurent());
     SmartDashboard.putNumber("Elevator/right current", getRightCurent());
     SmartDashboard.putNumber("Elevator/TOF range", getTOF());
@@ -81,11 +84,11 @@ public class Elevator extends SubsystemBase {
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
-    if (!airlock.checkSafety()) return;
-    if (atMin && speed < 0 || atMax && speed > 0)return; //saftey
+    // if (!airlock.checkSafety()) return;
+    // if (atMin && speed < 0 || atMax && speed > 0)return; //saftey
     SmartDashboard.putNumber("Elevator/speed", speed);
-    rightMoter.set(speed * speedMod);
-    leftMoter.set(speed * speedMod);
+    rightMoter.set(speed);
+    leftMoter.set(speed);
   }
   public void setVoltage(double voltage){
     SmartDashboard.putNumber("Elevator/voltage sent", voltage);
@@ -97,10 +100,11 @@ public class Elevator extends SubsystemBase {
   /**sets the elevator to a specific position*/
   public void setPID(double setpoint){
     double FF = feedforward.calculate(setpoint);
-    setVoltage(-Pid.calculate(getTOF(), setpoint)+ FF);
-    SmartDashboard.putNumber("PID/Elevator/FF", FF);
-    SmartDashboard.putNumber("PID/Elevator/setpoint", setpoint);
-    SmartDashboard.putNumber("PID/Elevator/error", Pid.getError());
+    double pid = Pid.calculate(getEncoder(), setpoint)+FF;
+    SmartDashboard.putNumber("Elevator/PID/FF", FF);
+    SmartDashboard.putNumber("Elevator/PID/target", pid);
+    SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
+    SmartDashboard.putNumber("Elevator/PID/error", Pid.getError());
   }
   public void resetEncoder(){
     leftMoter.getEncoder().setPosition(0);
@@ -111,26 +115,20 @@ public class Elevator extends SubsystemBase {
     rightMoter.stopMotor();
     leftMoter.stopMotor();
   }
-  /**toggles slow mode*/
-  public void setSlowMode(boolean toggle){
-    if (toggle) speedMod = ElevatorConstants.slowModeSpeed;
-    else speedMod = 1;
-    slowModeAlert.set(toggle);
-  }
   public boolean atSetpoint(){
     return Pid.atSetpoint();
   }
   /**@return the range of the TOF sensor in inchs*/
   public double getTOF(){
-    return TOF.getRange()/25.4;
+    return TOF.getRange();
   }
   /**@return the encoder position of the right motor*/
   public double getRightEncoder(){
-    return rightMoter.getEncoder().getPosition()/ElevatorConstants.motorRotToIN;
+    return rightMoter.getEncoder().getPosition();
   }
   /**@return the encoder position of the left motor*/
   public double getLeftEncoder(){
-    return leftMoter.getEncoder().getPosition()/ElevatorConstants.motorRotToIN;
+    return leftMoter.getEncoder().getPosition();
   }
   public double getEncoder(){
     double add = getLeftEncoder() + getRightEncoder();
@@ -141,10 +139,10 @@ public class Elevator extends SubsystemBase {
     rightMoter.getEncoder().setPosition(value);
   }
   public double getLeftVelocity(){
-    return leftMoter.getEncoder().getVelocity()/ElevatorConstants.motorRotToIN;
+    return leftMoter.getEncoder().getVelocity();
   }
   public double getRightVelocity(){
-    return rightMoter.getEncoder().getVelocity()/ElevatorConstants.motorRotToIN;
+    return rightMoter.getEncoder().getVelocity();
   }
   public double getVelocity(){
     double add = getLeftVelocity() + getRightVelocity();
@@ -155,9 +153,5 @@ public class Elevator extends SubsystemBase {
   }
   public double getRightCurent(){
     return rightMoter.getOutputCurrent();
-  }
-  /**@return true if slow mode is active*/
-  public boolean getSlowMode(){ 
-    return speedMod == ElevatorConstants.slowModeSpeed;
   }
 }

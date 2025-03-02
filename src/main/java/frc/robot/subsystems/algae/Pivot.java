@@ -23,18 +23,20 @@ import frc.robot.Constants.AlgaeConstants;
 public class Pivot extends SubsystemBase {
   private final SparkMax pivot;
   private SparkMaxConfig pivotConfig;
-  PIDController pivotPid = new PIDController(0.05, 0.05, 0.05); //TODO: change pid values for algae
-  ArmFeedforward feedforward = new ArmFeedforward(0.05, 0.05, 0.05,0.05); //TODO: change feedforward values for algaes
+  PIDController pivotPid = new PIDController(0.5, 0, 0); //TODO: change pid values for algae
 
   Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   double previousCurrent = 0;
+  public boolean atMin, atMax;
   /** Creates a new algea_pivot. */
   public Pivot() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMotorCANID, MotorType.kBrushless);
     pivotConfig = new SparkMaxConfig();
-    pivotConfig.idleMode(IdleMode.kBrake);
-    pivotConfig.encoder.positionConversionFactor(AlgaeConstants.pivotMotorRotToDegree);
+    // pivotConfig.idleMode(IdleMode.kBrake);
+    pivotConfig.idleMode(IdleMode.kCoast);
+    pivotConfig.encoder.positionConversionFactor(AlgaeConstants.pivotMotorRotToRad);
+    pivotConfig.encoder.velocityConversionFactor(AlgaeConstants.pivotMotorRotToRad);
 
     pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
@@ -48,8 +50,16 @@ public class Pivot extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Pivot/Encoder", getPivotPos());
-    SmartDashboard.putNumber("Pivot/current", getPivotCurrent());
+    atMax = getAbsEncoderDeg() >= AlgaeConstants.pivotMax;
+    atMin = getAbsEncoderDeg() <= AlgaeConstants.pivotMin;
+
+    SmartDashboard.putNumber("Pivot/PID/error", pivotPid.getError());
+    SmartDashboard.putNumber("Pivot/PID/setpoint", pivotPid.getSetpoint());
+    SmartDashboard.putNumber("Pivot/Abs Encoder", getAbsolute());
+    SmartDashboard.putNumber("Pivot/Abs Encoder", getAbsEncoderDeg());
+    SmartDashboard.putNumber("Pivot/current", getCurrent());
+    SmartDashboard.putBoolean("Pivot/at max", atMax);
+    SmartDashboard.putBoolean("Pivot/at min", atMin);
     pivotFaultAlert.setText("algae pivot:" + pivot.getFaults().toString()); pivotFaultAlert.set(pivot.hasActiveFault());
     pivotWarningAlert.setText("algae pivot:" + pivot.getFaults().toString()); pivotWarningAlert.set(pivot.hasActiveWarning());
   }
@@ -57,40 +67,45 @@ public class Pivot extends SubsystemBase {
     pivotPid.reset();
   }
   public void setPivot(double speed) {
-    // if (!currentSpike()) {
+      if(atMax && speed > 0) return;
+      if(atMin && speed < 0) return;
+      SmartDashboard.putNumber("Pivot/speed", speed);
       pivot.set(speed);
-    // }
   }
-  // public void setPivotpid(double angle) {
-  //   pivot.set(pivotPid.calculate(getPivotPos(), angle) + feedforward.calculate(angle, 0));
+  public void setPivotpid(double setpoint) {
+    double pid = pivotPid.calculate(getAbsolute(), setpoint);
+    pivot.set(pid);
+  }
+  // public void togglePivot(boolean isPivotUp) {
+  //   if (isPivotUp) {
+  //     setPivotpid(AlgaeConstants.pivotBottom);
+  //   } else {
+  //     setPivotpid(AlgaeConstants.pivotTop);
+  //   }
   // }
-  public void togglePivot(boolean isPivotUp) {
-    if (isPivotUp) {
-      pivot.set(pivotPid.calculate(getPivotPos(), AlgaeConstants.pivotBottom) + feedforward.calculate(AlgaeConstants.pivotBottom, 0));
-    } else {
-      pivot.set(pivotPid.calculate(getPivotPos(), AlgaeConstants.pivotTop) + feedforward.calculate(AlgaeConstants.pivotTop, 0));
-    }
-  }
   /**
    * @param p position
    * @param v volocity
    * @param a acceleration
    */
-  public void setPivotFeedFowerd(double p, double v) {
-    pivot.setVoltage(feedforward.calculate(p, v));
-  }
 
-  public double getPivotPos() {
+  public double getReletive() {
     return pivot.getEncoder().getPosition();
   }
-  public double getPivotCurrent() {
+  public double getAbsolute(){
+    return pivot.getAbsoluteEncoder().getPosition()*2 * Math.PI - 0.2082;
+  }
+  public double getAbsEncoderDeg(){
+    return getAbsolute()*180.0/Math.PI;
+  }
+  public double getCurrent() {
     return pivot.getOutputCurrent();
   }
   public boolean currentSpike(){
-    if (previousCurrent - getPivotCurrent() >= AlgaeConstants.voltageSpikeDifference) {
+    if (previousCurrent - getCurrent() >= AlgaeConstants.voltageSpikeDifference) {
       return true;
     }
-    previousCurrent = getPivotCurrent();
+    previousCurrent = getCurrent();
     return false;
   }
 

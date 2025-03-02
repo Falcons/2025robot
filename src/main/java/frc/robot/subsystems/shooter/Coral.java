@@ -40,9 +40,6 @@ public class Coral extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    if (airlock.checkStep()) {
-      set(-0.3);
-    }
     SmartDashboard.putNumber("Shooter/Left encoder", leftShooter.getEncoder().getVelocity());
     SmartDashboard.putNumber("Shooter/Right encoder", rightShooter.getEncoder().getVelocity());
     leftFaultAlert.setText("coral left:" + leftShooter.getFaults().toString()); leftFaultAlert.set(leftShooter.hasActiveFault());
@@ -57,5 +54,12 @@ public class Coral extends SubsystemBase {
   public void stop() {
     leftShooter.stopMotor();
     rightShooter.stopMotor();
+  }
+
+  public double getLeftVelocity(){
+    return leftShooter.getEncoder().getVelocity()/3.0;
+  }
+  public double getRightVelocity(){
+    return leftShooter.getEncoder().getVelocity()/3.0;
   }
 } 

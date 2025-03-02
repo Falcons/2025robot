@@ -15,6 +15,7 @@ import frc.robot.Constants.airlockConstants;
 
 public class Airlock extends SubsystemBase {
     private Alert notSafeAlert = new Alert("coral is in airlock", AlertType.kWarning);
+    private Alert stepAlert = new Alert("steping coral", AlertType.kInfo);
     public LaserCan  frontLC, backLC;
     public boolean lastStep;
 
@@ -40,15 +41,22 @@ public class Airlock extends SubsystemBase {
 
   /**@return front TOF sensors range*/
   public double getFrontRange(){
-    if(frontLC != null){
-    return frontLC.getMeasurement().distance_mm;
-    }else return 9999;
+    try {
+      return frontLC.getMeasurement().distance_mm;
+    } catch (Exception e) {
+      System.err.println(e);
+      return 9999;
+    }
   }
   /**@return back TOF sensors range*/
   public double getBackRange(){
-    if(backLC.getMeasurement() != null){
+    try {
       return backLC.getMeasurement().distance_mm;
-    }else return 9999;
+    } catch (Exception e) {
+      System.err.println(e);
+      return 9999;
+    }
+    
   }
   /**@return true if the front LC sensor's range is within defiend triggers*/
   public boolean isFrontInRange(){
@@ -77,7 +85,6 @@ public class Airlock extends SubsystemBase {
   }
   /**@return true if a coral should be moved*/
   public boolean checkStep(){ 
-    if(isFrontInRange() && isBackInRange()){return true;};
-    return !isFrontInRange() && isBackInRange();
+    return isBackInRange();
   }
 }

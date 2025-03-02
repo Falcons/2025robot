@@ -34,7 +34,7 @@ public class ElevatorTrapezoidalMove extends Command {
   @Override
   public void initialize() { //TODO fix edge case of moving via manual and triggering this causes it to hit the bottom of the elevator
     profile = new TrapezoidProfile(constraints);
-    current = new TrapezoidProfile.State(elevator.getTOF(), elevator.getVelocity());
+    current = new TrapezoidProfile.State(elevator.getTOF(), elevator.getVelocity()/60);
     end = new TrapezoidProfile.State(endPos, 0);
   }
 
@@ -43,10 +43,13 @@ public class ElevatorTrapezoidalMove extends Command {
   public void execute() {
     SmartDashboard.putNumber("trap/end", endPos);
     current = profile.calculate(0.01, current, end);
-    SmartDashboard.putNumber("trap/pos", current.position);
-    SmartDashboard.putNumber("trap/vol", current.velocity);
-    if(current.position >= ElevatorConstants.TOFMin || current.position <= ElevatorConstants.TOFMax) {System.err.println("position outside range"); return;}
-    elevator.setPID(current.position);
+    double pos = current.position;
+    if(current.position >= ElevatorConstants.TOFMin) {System.err.println("position under range"); pos = ElevatorConstants.TOFMin;}
+    if(current.position <= ElevatorConstants.TOFMax) {System.err.println("position above range"); pos = ElevatorConstants.TOFMax;}
+    elevator.setPID(pos);
+    SmartDashboard.putNumber("trap/target vol", current.velocity);
+    SmartDashboard.putNumber("trap/target pos", current.position);
+    SmartDashboard.putNumber("trap/commanded pos", pos);
   }
 
   // Called once the command ends or is interrupted.

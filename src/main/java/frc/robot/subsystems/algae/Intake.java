@@ -20,7 +20,6 @@ import frc.robot.Constants.AlgaeConstants;
 public class Intake extends SubsystemBase {
   private final SparkMax intake;
   private SparkMaxConfig intakeConfig;
-
   Alert intakeFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert intakeWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   double previousCurrent = 0;
@@ -29,7 +28,8 @@ public class Intake extends SubsystemBase {
     this.intake = new SparkMax(AlgaeConstants.intakeMotorCANID, MotorType.kBrushless);
     intakeConfig = new SparkMaxConfig();
     intakeConfig.idleMode(IdleMode.kBrake);
-
+    intakeConfig.encoder.positionConversionFactor(AlgaeConstants.intakeMotorRotToRad);
+    intakeConfig.encoder.velocityConversionFactor(AlgaeConstants.intakeMotorRotToRad/60);
     intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
   public void stopIntake() {
@@ -37,24 +37,29 @@ public class Intake extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Intake/Encoder", intake.getEncoder().getPosition());
+    SmartDashboard.putNumber("Intake/Velocity", getVelocity());
+    SmartDashboard.putNumber("Intake/Position", getPosition());
+    SmartDashboard.putNumber("Intake/current", getCurrent());
     intakeFaultAlert.setText("algae intake:" + intake.getFaults().toString()); intakeFaultAlert.set(intake.hasActiveFault());
     intakeWarningAlert.setText("algae intake:" + intake.getFaults().toString()); intakeWarningAlert.set(intake.hasActiveWarning());
   }
   public void setIntake(double speed) {
     intake.set(speed);
   }
-  public double getIntakeVel() {
+  public double getPosition(){
+    return intake.getEncoder().getPosition();
+  }
+  public double getVelocity() {
     return intake.getEncoder().getVelocity();
   }
-  public double getIntakeCurrent() {
+  public double getCurrent() {
     return intake.getOutputCurrent();
   }
-  public boolean intakeCurrentSpike(){
-    if (previousCurrent - getIntakeCurrent() > AlgaeConstants.voltageSpikeDifference) {
+  public boolean CurrentSpike(){
+    if (previousCurrent - getCurrent() > AlgaeConstants.voltageSpikeDifference) {
       return true;
     }
-    previousCurrent = getIntakeCurrent();
+    previousCurrent = getCurrent();
     return false;
   }
 }

@@ -218,8 +218,11 @@ public class SwerveModule {
     public void setpoint() {
         double stpt = SmartDashboard.getNumber("swerve/Module Setpoint", 0);
         turningPID.setSetpoint(stpt);
-    }   
+    } 
 
+    public void rawSetPoint(double setpoint){
+        turningPID.setSetpoint(setpoint);
+    }
     /** Resets the previous error and the integral term. */
     public void pidReset() {
         turningPID.reset();

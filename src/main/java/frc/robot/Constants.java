@@ -112,12 +112,14 @@ public final class Constants {
     public static final class AlgaeConstants {
         public static final int pivotMotorCANID = 12;
         public static final int intakeMotorCANID = 15;
-        public static final double motorRatio = 85.5; //85.5:1 wtf kind of ratio is that
+        public static final double PivotRatio = (1.0/36.0) * (16.0/38.0); //85.5:1 wtf kind of ratio is that
+        public static final double intakeRatio = (1.0/4.0) * (18.0/42.0); //85.5:1 wtf kind of ratio is that
         public static final double slowModeSpeed = 0.2;
-        public static final double pivotMotorRotToDegree = motorRatio * 360;
+        public static final double pivotMotorRotToRad = PivotRatio * (2 * Math.PI);
+        public static final double intakeMotorRotToRad = intakeRatio * (2 * Math.PI);
         public static final double voltageSpikeDifference = 20;
-        public static final double pivotTop = 0;
-        public static final double pivotBottom = 0;
+        public static final double pivotMin = 0.0;
+        public static final double pivotMax = 195;
     }
     public static final class ElevatorConstants {
         public static final int motorRatio = 12; //12:1 
@@ -129,6 +131,7 @@ public final class Constants {
         public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755) * 2; //ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
         public static final double TOFMin = 26; //highest point for min
+        public static final double TOFDrop = 24; //highest point for min
         public static final double encoderMin = 0; 
         public static final double[] TOFSlowModetrigger = {19, 22};
         public static final double TOFMax = 1; //lowest point for max
@@ -143,9 +146,9 @@ public final class Constants {
 
     }
     public static final class airlockConstants {
-        public static final int backLCCANID = 17;
-        public static final int frontLCCANID = 16;
-        /**array [min, max]*/public static final double[] frontLCTrigger = {5,20};
-        /**array [min, max]*/public static final double[] backLCTrigger = {5,20};
+        public static final int backLCCANID = 16;
+        public static final int frontLCCANID = 17;
+        /**array [min, max]*/public static final double[] frontLCTrigger = {0,20};
+        /**array [min, max]*/public static final double[] backLCTrigger = {0,20};
     }
 }

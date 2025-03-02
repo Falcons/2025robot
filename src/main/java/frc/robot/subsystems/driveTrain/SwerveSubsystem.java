@@ -385,6 +385,10 @@ public class SwerveSubsystem extends SubsystemBase {
       () -> false);
   }
 
+  public void moduleRawSetpoint(String moduleName, double setpoint){
+    SwerveModule mod = swerveMap.get(moduleName);
+    mod.rawSetPoint(setpoint);
+  }
   /** Sets all 4 Module Setpoint from Smartdashboard value */
   public void allModuleSetpoint() {
     frontLeft.setpoint();
