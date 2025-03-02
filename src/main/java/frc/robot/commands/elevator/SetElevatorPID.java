@@ -10,9 +10,9 @@ import frc.robot.subsystems.elevator.Elevator;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SetElevatorPID extends Command {
   Elevator elevator;
-  int setpoint;
+  Double setpoint;
   /** Creates a new SetElevatorPID. */
-  public SetElevatorPID(Elevator elevator, int setpoint) {
+  public SetElevatorPID(Elevator elevator, Double setpoint) {
     this.elevator = elevator;
     this.setpoint = setpoint;
     addRequirements(elevator);
@@ -37,6 +37,7 @@ public class SetElevatorPID extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return elevator.atSetpoint();
+    // return elevator.atSetpoint();
+    return false;
   }
 }

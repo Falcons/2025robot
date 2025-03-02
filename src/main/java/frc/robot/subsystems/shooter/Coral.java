@@ -40,7 +40,9 @@ public class Coral extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    if (airlock.checkStep()) {System.out.println("steping coral");set(-0.3);}
+    if (airlock.checkStep()) {
+      set(-0.3);
+    }
     SmartDashboard.putNumber("Shooter/Left encoder", leftShooter.getEncoder().getVelocity());
     SmartDashboard.putNumber("Shooter/Right encoder", rightShooter.getEncoder().getVelocity());
     leftFaultAlert.setText("coral left:" + leftShooter.getFaults().toString()); leftFaultAlert.set(leftShooter.hasActiveFault());

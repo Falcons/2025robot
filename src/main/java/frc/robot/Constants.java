@@ -105,7 +105,6 @@ public final class Constants {
         public static final double rotationKD = 0;
 
     }
-    //TODO: make not placeholder
     public static final class ShooterConstants {
         public static final int leftMotorCANID = 14;
         public static final int rightMotorCANID = 13;
@@ -127,18 +126,18 @@ public final class Constants {
         public static final int TOFTopCANID = 0;
         public static final double maxSpeed = 47.19; //inches per second
         public static final double maxAcceleration = 30; //inches per second squared
-        public static final double motorRotToIN = motorRatio * (2 * Math.PI)/0.8755; //ratio * 2pi / gear radius in inchs
+        public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755) * 2; //ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
-        /**array [min, max]*/public static final double[] TOFMin = {29, 27}; //Alexa play despacito - ai chan //wtf is this autofill/bot comment -madness//why is there a comment in a comment -ai chan //why are you guys talking in the comments -madness //rip convo
-        public static final double encoderMin = 10; 
-        /**array [min, max]*/public static final double[] TOFSlowModetrigger = {19, 22};
-        /**array [min, max]*/public static final double[] TOFMax = {2, 3}; 
-        public static final double encoderMax = 5000; 
+        public static final double TOFMin = 26; //highest point for min
+        public static final double encoderMin = 0; 
+        public static final double[] TOFSlowModetrigger = {19, 22};
+        public static final double TOFMax = 1; //lowest point for max
+        public static final double encoderMax = 5283; 
         public static final double TOFEdgeBuffer = 100;
-        /**array [min, max]*/public static final double[] TOFTriggerL1 = {100,0}; 
-        /**array [min, max]*/public static final double[] TOFTriggerL2 = {0,0};
-        /**array [min, max]*/public static final double[] TOFTriggerL3 = {0,0};
-        /**array [min, max]*/public static final double[] TOFTriggerL4 = {0,0};
+        /**array [min, max]*/public static final double TOFTriggerL1 = 26; 
+        /**array [min, max]*/public static final double TOFTriggerL2 = 22.2;
+        /**array [min, max]*/public static final double TOFTriggerL3 = 15;
+        /**array [min, max]*/public static final double TOFTriggerL4 = 1.8;
         public static final double slowModeSpeed = 0.2; 
 
 

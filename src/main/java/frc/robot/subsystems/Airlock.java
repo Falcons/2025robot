@@ -16,6 +16,7 @@ import frc.robot.Constants.airlockConstants;
 public class Airlock extends SubsystemBase {
     private Alert notSafeAlert = new Alert("coral is in airlock", AlertType.kWarning);
     public LaserCan  frontLC, backLC;
+    public boolean lastStep;
 
   /** Creates a new airlock. */
   public Airlock() {
