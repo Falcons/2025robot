@@ -40,7 +40,7 @@ public class Elevator extends SubsystemBase {
     /** Creates a new elevator. */
   public Elevator(Airlock airlock) {
     this.airlock = airlock;
-    TOF.setRangingMode(RangingMode.Medium, 24);
+    TOF.setRangingMode(RangingMode.Short, 24);
     // TOF.setRangeOfInterest(16, 16, 16, 16);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
