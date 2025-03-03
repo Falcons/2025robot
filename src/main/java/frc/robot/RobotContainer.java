@@ -71,11 +71,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("intake algae", new AlgaeIntake(algaeI, 1*globalSpeedMod));
     NamedCommands.registerCommand("outTake algae", new IntakeForTime(algaeI, -1*globalSpeedMod, 0.5));
     NamedCommands.registerCommand("outTake coral", new CoralShoot(coral, () -> 1.0));
-    NamedCommands.registerCommand("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.TOFMin));
-    NamedCommands.registerCommand("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL1));
-    NamedCommands.registerCommand("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL2));
-    NamedCommands.registerCommand("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL3));
-    NamedCommands.registerCommand("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.TOFTriggerL4)); 
+    NamedCommands.registerCommand("set elevator bottom", new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.Min));
+    NamedCommands.registerCommand("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL1));
+    NamedCommands.registerCommand("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL2));
+    NamedCommands.registerCommand("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL3));
+    NamedCommands.registerCommand("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed*globalSpeedMod,ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL4)); 
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
     path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", 
@@ -90,21 +90,21 @@ public class RobotContainer {
     operator.a().whileTrue(new AlgaeIntake(algaeI, -1)); // shoot algae
     //operator.y().onTrue(new AlgaePivotToggle(algaeP)); //TODO: toggle im guessing plz test pid -madness(ai wrote madness)
     operator.y().whileTrue(new CoralShoot(coral, () -> 0.2));
-    // operator.b().whileTrue(new );
+    operator.b().whileTrue(new ResetElevatorEncoders(elevator));
     
-    operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, () -> (-operator.getRightY() + 0.03)));
+    operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, () -> -operator.getRightTriggerAxis()*0.5)); // outake
-     
-    operator.povDown().onTrue(new SetElevatorPID(elevator, ElevatorConstants.TOFMin));
-    operator.povLeft().onTrue(new SetElevatorPID(elevator, ElevatorConstants.TOFTriggerL2));
-    operator.povRight().onTrue(new SetElevatorPID(elevator, ElevatorConstants.TOFTriggerL3));
-    operator.povUp().onTrue(new SetElevatorPID(elevator, ElevatorConstants.TOFTriggerL4));
-     /* 
-    operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, 30, 15, ElevatorConstants.TOFMin));
-    operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, 30, 15, ElevatorConstants.TOFTriggerL2));
-    operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, 30, 15, ElevatorConstants.TOFTriggerL3));
-    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, 30, 15, ElevatorConstants.TOFTriggerL4));
-     *//* 
+    /*
+    operator.povDown().onTrue(new SetElevatorPID(elevator, ElevatorConstants.Min));
+    operator.povLeft().onTrue(new SetElevatorPID(elevator, ElevatorConstants.triggerL2));
+    operator.povRight().onTrue(new SetElevatorPID(elevator, ElevatorConstants.triggerL3));
+    operator.povUp().onTrue(new SetElevatorPID(elevator, ElevatorConstants.triggerL4));
+    */
+    operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, 50, 45, ElevatorConstants.Min));
+    operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, 50, 45, ElevatorConstants.triggerL2));
+    operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, 50, 45, ElevatorConstants.triggerL3));
+    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, 50, 45, ElevatorConstants.triggerL4));
+    /* 
     operator.povUp().whileTrue(new PivotPid(algaeP, 180));
     operator.povDown().whileTrue(new PivotPid(algaeP, 0));
     */

@@ -34,7 +34,7 @@ public class ElevatorTrapezoidalMove extends Command {
   @Override
   public void initialize() { //TODO fix edge case of moving via manual and triggering this causes it to hit the bottom of the elevator
     profile = new TrapezoidProfile(constraints);
-    current = new TrapezoidProfile.State(elevator.getTOF(), elevator.getVelocity()/60);
+    current = new TrapezoidProfile.State(elevator.getEncoder(), elevator.getVelocity()/60);
     end = new TrapezoidProfile.State(endPos, 0);
   }
 
@@ -44,8 +44,8 @@ public class ElevatorTrapezoidalMove extends Command {
     SmartDashboard.putNumber("trap/end", endPos);
     current = profile.calculate(0.01, current, end);
     double pos = current.position;
-    if(current.position >= ElevatorConstants.TOFMin) {System.err.println("position under range"); pos = ElevatorConstants.TOFMin;}
-    if(current.position <= ElevatorConstants.TOFMax) {System.err.println("position above range"); pos = ElevatorConstants.TOFMax;}
+    if(current.position < ElevatorConstants.Min) {System.err.println("position under range"); pos = ElevatorConstants.Min;}
+    if(current.position > ElevatorConstants.Max) {System.err.println("position above range"); pos = ElevatorConstants.Max;}
     elevator.setPID(pos);
     SmartDashboard.putNumber("trap/target vol", current.velocity);
     SmartDashboard.putNumber("trap/target pos", current.position);

@@ -25,7 +25,7 @@ import frc.robot.subsystems.Airlock;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.02, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
+    PIDController Pid = new PIDController(1.1, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.76, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
@@ -33,7 +33,7 @@ public class Elevator extends SubsystemBase {
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
     public double targetPos = 15;
-    public boolean atMax, atMin;
+    public boolean atMax, atMin, atDrop;
     private Airlock airlock;
     /** Creates a new elevator. */
   public Elevator(Airlock airlock) {
@@ -42,15 +42,15 @@ public class Elevator extends SubsystemBase {
     // TOF.setRangeOfInterest(16, 16, 16, 16);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
-    rightConfig.encoder.positionConversionFactor(1.0/ElevatorConstants.motorRotToIN);
-    rightConfig.encoder.velocityConversionFactor(1.0/ElevatorConstants.motorRotToIN);
+    // rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
+    // rightConfig.encoder.velocityConversionFactor(ElevatorConstants.motorRotToIN);
     rightConfig.idleMode(IdleMode.kBrake);
     rightConfig.inverted(false);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMotor2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
-    leftConfig.encoder.positionConversionFactor(1.0/ElevatorConstants.motorRotToIN);
-    leftConfig.encoder.velocityConversionFactor(1.0/ElevatorConstants.motorRotToIN);
+    // leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
+    // leftConfig.encoder.velocityConversionFactor(ElevatorConstants.motorRotToIN);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
@@ -64,8 +64,9 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // updateEncoders(getTofPer()*ElevatorConstants.encoderMax);
-    atMin = getTOF() >= ElevatorConstants.TOFMin;
-    atMax = getTOF() <= ElevatorConstants.TOFMax;
+    atMin = getEncoder() <= ElevatorConstants.Min;
+    atMax = getEncoder() >= ElevatorConstants.Max;
+    atDrop = getEncoder() <= ElevatorConstants.Drop;
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
     SmartDashboard.putNumber("Elevator/avg encoder", getEncoder());
@@ -77,6 +78,7 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Elevator/TOF range", getTOF());
     SmartDashboard.putBoolean("Elevator/at max", atMax);
     SmartDashboard.putBoolean("Elevator/at min", atMin);
+    SmartDashboard.putBoolean("Elevator/at drop", atDrop);
     leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(leftMoter.hasActiveFault());
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
@@ -84,8 +86,8 @@ public class Elevator extends SubsystemBase {
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
-    // if (!airlock.checkSafety()) return;
-    // if (atMin && speed < 0 || atMax && speed > 0)return; //saftey
+    if (!airlock.checkSafety()) return;
+    if (atMin && speed < 0 || atMax && speed > 0)return; //saftey
     SmartDashboard.putNumber("Elevator/speed", speed);
     rightMoter.set(speed);
     leftMoter.set(speed);
@@ -93,18 +95,20 @@ public class Elevator extends SubsystemBase {
   public void setVoltage(double voltage){
     SmartDashboard.putNumber("Elevator/voltage sent", voltage);
     if (!airlock.checkSafety()) return;
-    if (atMin && voltage < 0 || atMax && voltage > 0)return; //saftey
+    if (atMin && voltage < 0 || atMax && voltage > 0){System.err.println("ele out of range");return;} //saftey
     rightMoter.setVoltage(voltage);
     leftMoter.setVoltage(voltage);
   }
   /**sets the elevator to a specific position*/
   public void setPID(double setpoint){
     double FF = feedforward.calculate(setpoint);
-    double pid = Pid.calculate(getEncoder(), setpoint)+FF;
+    double pid = Pid.calculate(getEncoder(), setpoint);
+    if(!atDrop) pid += FF;
     SmartDashboard.putNumber("Elevator/PID/FF", FF);
     SmartDashboard.putNumber("Elevator/PID/target", pid);
     SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
     SmartDashboard.putNumber("Elevator/PID/error", Pid.getError());
+    setVoltage(pid);
   }
   public void resetEncoder(){
     leftMoter.getEncoder().setPosition(0);

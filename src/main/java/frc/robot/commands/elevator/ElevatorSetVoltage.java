@@ -28,8 +28,7 @@ public class ElevatorSetVoltage extends Command {
   @Override
   public void execute() {
     double cVolts = voltage;
-    if (elevator.atMin) cVolts = 0;
-    if (elevator.getEncoder() < 3) cVolts = 0;
+    if (elevator.atDrop) cVolts = 0;
     elevator.setVoltage(cVolts);
   }
 
