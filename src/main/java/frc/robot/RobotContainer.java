@@ -43,7 +43,7 @@ public class RobotContainer {
 
   private final Airlock airlock = new Airlock();
   private final Elevator elevator = new Elevator(airlock);
-  private final Coral coral = new Coral(airlock);
+  private final Coral coral = new Coral();
   private final Pivot algaeP = new Pivot();
   private final frc.robot.subsystems.algae.Intake algaeI = new frc.robot.subsystems.algae.Intake();
   private final SwerveSubsystem swerve = new SwerveSubsystem();
@@ -64,7 +64,7 @@ public class RobotContainer {
       () -> !driver.getHID().getLeftBumper()));
       coral.setDefaultCommand(new CoralStep(coral, airlock, () -> -0.2));
       algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*globalSpeedMod)); // pivot
-      algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
+      // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
     // elevator.setDefaultCommand(new ElevatorManual(elevator, () -> -operator.getRightY()*globalSpeedMod)); // elevator joystick
     elevator.setDefaultCommand(new ElevatorSetVoltage(elevator, 0.76));
 
@@ -102,15 +102,16 @@ public class RobotContainer {
     operator.povRight().onTrue(new SetElevatorPID(elevator, ElevatorConstants.triggerL3));
     operator.povUp().onTrue(new SetElevatorPID(elevator, ElevatorConstants.triggerL4));
     */
-    operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, 40, 20, ElevatorConstants.Min));
-    operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, 40, 20, ElevatorConstants.triggerL2));
-    operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, 40, 20, ElevatorConstants.triggerL3));
-    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, 40, 20, ElevatorConstants.triggerL4));
+    operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.Min));
+    operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL2));
+    operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL3));
+    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed*globalSpeedMod, ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL4));
     /* 
     operator.povUp().whileTrue(new PivotPid(algaeP, 180));
     operator.povDown().whileTrue(new PivotPid(algaeP, 0));
     */
-    driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
+    // driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
+    operator.leftBumper().toggleOnTrue(new intakeVoltage(algaeI, () -> -5.0));
     /*
     driver.povUpLeft().whileTrue(swerve.modulePIDTuning("Front Left"));
     driver.povUpRight().whileTrue(swerve.modulePIDTuning("Front Right"));

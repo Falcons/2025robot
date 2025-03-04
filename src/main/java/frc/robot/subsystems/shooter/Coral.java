@@ -22,14 +22,12 @@ public class Coral extends SubsystemBase {
   private final SparkMax leftShooter, rightShooter;
   private SparkMaxConfig rightShooterConfig = new SparkMaxConfig();
   private SparkMaxConfig leftShooterConfig = new SparkMaxConfig();
-  private Airlock airlock;
   private Alert leftFaultAlert = new Alert("Faults", "", AlertType.kError);
   private Alert rightFaultAlert = new Alert("Faults", "", AlertType.kError);
   private Alert leftWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   private Alert rightWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   /** Creates a new coral thing. */
-  public Coral(Airlock airlock) {
-    this.airlock = airlock;
+  public Coral() {
     this.leftShooter = new SparkMax(ShooterConstants.leftMotorCANID, MotorType.kBrushless);
     this.rightShooter = new SparkMax(ShooterConstants.rightMotorCANID, MotorType.kBrushless);
     rightShooterConfig.idleMode(IdleMode.kBrake);

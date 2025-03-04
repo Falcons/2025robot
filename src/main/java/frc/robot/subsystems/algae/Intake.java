@@ -23,6 +23,7 @@ public class Intake extends SubsystemBase {
   Alert intakeFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert intakeWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   double previousCurrent = 0;
+  public boolean hasAlgae;
   /** Creates a new intake. */
   public Intake() {
     this.intake = new SparkMax(AlgaeConstants.intakeMotorCANID, MotorType.kBrushless);
@@ -64,7 +65,8 @@ public class Intake extends SubsystemBase {
     return intake.getBusVoltage();
   }
   public boolean isUnderMinVolts(){
-    return getBusVolt() < AlgaeConstants.voltageMin;
+    hasAlgae = getBusVolt() < AlgaeConstants.voltageMin;
+    return hasAlgae;
   }
   // public boolean CurrentSpike(){
   //   if (previousCurrent - getCurrent() > AlgaeConstants.voltageSpikeDifference) {

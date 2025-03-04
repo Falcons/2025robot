@@ -126,7 +126,7 @@ public final class Constants {
         public static final int liftMotor1CANID = 5;
         public static final int liftMotor2CANID = 7;
         public static final int TOFTopCANID = 0;
-        public static final double maxSpeed = 47.19; //inches per second
+        public static final double maxSpeed = 40; //inches per second 47.19
         public static final double maxAcceleration = 30; //inches per second squared
         public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755) * 2; //1.751//ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
@@ -150,5 +150,10 @@ public final class Constants {
         public static final int frontLCCANID = 17;
         /**array [min, max]*/public static final double[] frontLCTrigger = {0,20};
         /**array [min, max]*/public static final double[] backLCTrigger = {0,20};
+    }
+    public static final class falconFlare{
+        public static final int dio1 = 0;
+        public static final int dio2 = 1;
+        public static final int dio3 = 2;
     }
 }
