@@ -83,7 +83,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final PIDController rotationPID = new PIDController(DriveConstants.rotationKP, DriveConstants.rotationKI, 0);
   private final SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, getRotation2d(), getModulePositions(), new Pose2d());
   private Alert slowModeAlert = new Alert("drive slow mode active", AlertType.kInfo);
-  private double speedMod = 0;
+  private double speedMod = 1;
 
   // private final Field2d field2024 = new Field2d();
   private final Field2d field2025 = new Field2d();

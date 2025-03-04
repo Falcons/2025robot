@@ -126,21 +126,19 @@ public final class Constants {
         public static final int liftMotor1CANID = 5;
         public static final int liftMotor2CANID = 7;
         public static final int TOFTopCANID = 0;
-        public static final double maxSpeed = 40; //inches per second 47.19
-        public static final double maxAcceleration = 30; //inches per second squared
-        public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755) * 2; //1.751//ratio * 2pi / gear radius in inchs
+        public static final double maxSpeed = 50; //inches per second 47.19
+        public static final double maxAcceleration = 35; //inches per second squared
+        public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755);// * 2; //1.751//ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
         public static final double Min = 1; //highest point for min
-        public static final double Drop = 3; //highest point for min
-        public static final double encoderMin = 0; 
+        public static final double Drop = 6; //highest point for min
         public static final double[] TOFSlowModetrigger = {19, 22};
-        public static final double Max = 60; //lowest point for max
-        public static final double encoderMax = 5283; 
+        public static final double Max = 120; //lowest point for max
         public static final double TOFEdgeBuffer = 100;
-        /**array [min, max]*/public static final double triggerL1 = 3; 
-        /**array [min, max]*/public static final double triggerL2 = 13;
-        /**array [min, max]*/public static final double triggerL3 = 31;
-        /**array [min, max]*/public static final double triggerL4 = 59;
+        /**array [min, max]*/public static final double triggerL1 = 6; 
+        /**array [min, max]*/public static final double triggerL2 = 26;
+        /**array [min, max]*/public static final double triggerL3 = 62;
+        /**array [min, max]*/public static final double triggerL4 = 118;
         public static final double slowModeSpeed = 0.2; 
 
 

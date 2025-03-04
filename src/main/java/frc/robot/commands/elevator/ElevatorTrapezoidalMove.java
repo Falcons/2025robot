@@ -47,6 +47,7 @@ public class ElevatorTrapezoidalMove extends Command {
     if(current.position < ElevatorConstants.Min) {System.err.println("position under range"); pos = ElevatorConstants.Min;}
     if(current.position > ElevatorConstants.Max) {System.err.println("position above range"); pos = ElevatorConstants.Max;}
     elevator.setPID(pos);
+    SmartDashboard.putNumber("trap/pos", pos);
     SmartDashboard.putNumber("trap/target vol", current.velocity);
     SmartDashboard.putNumber("trap/real vol", elevator.getVelocity()/60);
     SmartDashboard.putNumber("trap/target pos", current.position);

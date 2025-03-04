@@ -56,7 +56,7 @@ public class Pivot extends SubsystemBase {
     SmartDashboard.putNumber("Pivot/PID/error", pivotPid.getError());
     SmartDashboard.putNumber("Pivot/PID/setpoint", pivotPid.getSetpoint());
     SmartDashboard.putNumber("Pivot/Abs Encoder", getAbsolute());
-    SmartDashboard.putNumber("Pivot/Abs Encoder", getAbsEncoderDeg());
+    SmartDashboard.putNumber("Pivot/Abs Encoder deg", getAbsEncoderDeg());
     SmartDashboard.putNumber("Pivot/current", getCurrent());
     SmartDashboard.putBoolean("Pivot/at max", atMax);
     SmartDashboard.putBoolean("Pivot/at min", atMin);
@@ -93,7 +93,7 @@ public class Pivot extends SubsystemBase {
     return pivot.getEncoder().getPosition();
   }
   public double getAbsolute(){
-    return pivot.getAbsoluteEncoder().getPosition()*2 * Math.PI - 0.2082;
+    return pivot.getAbsoluteEncoder().getPosition()*2 * Math.PI - 2.431;
   }
   public double getAbsEncoderDeg(){
     return getAbsolute()*180.0/Math.PI;

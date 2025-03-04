@@ -25,7 +25,7 @@ import frc.robot.subsystems.Airlock;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.5, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
+    PIDController Pid = new PIDController(0.7, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.76, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
@@ -42,15 +42,15 @@ public class Elevator extends SubsystemBase {
     // TOF.setRangeOfInterest(16, 16, 16, 16);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
-    rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
-    rightConfig.encoder.velocityConversionFactor(ElevatorConstants.motorRotToIN);
+    // rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
+    // rightConfig.encoder.velocityConversionFactor(ElevatorConstants.motorRotToIN);
     rightConfig.idleMode(IdleMode.kBrake);
     rightConfig.inverted(false);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMotor2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
-    leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
-    leftConfig.encoder.velocityConversionFactor(ElevatorConstants.motorRotToIN);
+    // leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
+    // leftConfig.encoder.velocityConversionFactor(ElevatorConstants.motorRotToIN);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
@@ -128,11 +128,11 @@ public class Elevator extends SubsystemBase {
   }
   /**@return the encoder position of the right motor*/
   public double getRightEncoder(){
-    return rightMoter.getEncoder().getPosition();
+    return rightMoter.getEncoder().getPosition()/ElevatorConstants.motorRotToIN;
   }
   /**@return the encoder position of the left motor*/
   public double getLeftEncoder(){
-    return leftMoter.getEncoder().getPosition();
+    return leftMoter.getEncoder().getPosition()/ElevatorConstants.motorRotToIN;
   }
   public double getEncoder(){
     double add = getLeftEncoder() + getRightEncoder();
@@ -143,10 +143,10 @@ public class Elevator extends SubsystemBase {
     rightMoter.getEncoder().setPosition(value);
   }
   public double getLeftVelocity(){
-    return leftMoter.getEncoder().getVelocity();
+    return leftMoter.getEncoder().getVelocity()/ElevatorConstants.motorRotToIN;
   }
   public double getRightVelocity(){
-    return rightMoter.getEncoder().getVelocity();
+    return rightMoter.getEncoder().getVelocity()/ElevatorConstants.motorRotToIN;
   }
   public double getVelocity(){
     double add = getLeftVelocity() + getRightVelocity();

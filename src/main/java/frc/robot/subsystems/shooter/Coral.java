@@ -52,7 +52,7 @@ public class Coral extends SubsystemBase {
   public void stop() {
     leftShooter.stopMotor();
     rightShooter.stopMotor();
-  }
+  }//328 
 
   public double getLeftVelocity(){
     return leftShooter.getEncoder().getVelocity()/3.0;
