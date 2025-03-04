@@ -37,14 +37,19 @@ public class Intake extends SubsystemBase {
   }
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("Intake/hold", isUnderMinVolts());
     SmartDashboard.putNumber("Intake/Velocity", getVelocity());
     SmartDashboard.putNumber("Intake/Position", getPosition());
     SmartDashboard.putNumber("Intake/current", getCurrent());
+    SmartDashboard.putNumber("Intake/bus", getBusVolt());
     intakeFaultAlert.setText("algae intake:" + intake.getFaults().toString()); intakeFaultAlert.set(intake.hasActiveFault());
     intakeWarningAlert.setText("algae intake:" + intake.getFaults().toString()); intakeWarningAlert.set(intake.hasActiveWarning());
   }
   public void setIntake(double speed) {
     intake.set(speed);
+  }
+  public void setVoltage(double voltage){
+    intake.setVoltage(voltage);
   }
   public double getPosition(){
     return intake.getEncoder().getPosition();
@@ -55,11 +60,17 @@ public class Intake extends SubsystemBase {
   public double getCurrent() {
     return intake.getOutputCurrent();
   }
-  public boolean CurrentSpike(){
-    if (previousCurrent - getCurrent() > AlgaeConstants.voltageSpikeDifference) {
-      return true;
-    }
-    previousCurrent = getCurrent();
-    return false;
+  public double getBusVolt(){
+    return intake.getBusVoltage();
   }
+  public boolean isUnderMinVolts(){
+    return getBusVolt() < AlgaeConstants.voltageMin;
+  }
+  // public boolean CurrentSpike(){
+  //   if (previousCurrent - getCurrent() > AlgaeConstants.voltageSpikeDifference) {
+  //     return true;
+  //   }
+  //   previousCurrent = getCurrent();
+  //   return false;
+  // }
 }

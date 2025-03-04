@@ -16,7 +16,7 @@ public class ElevatorTrapezoidalMove extends Command {
   double endPos;
   TrapezoidProfile.Constraints constraints;
   TrapezoidProfile profile;
-  TrapezoidProfile.State current, end;
+  TrapezoidProfile.State current, end, pos;
   /** Creates a new ElevatorTrapezoidalMove. 
    * @param elevator elevator subsystem
    * @param maxV max velocity
@@ -33,6 +33,7 @@ public class ElevatorTrapezoidalMove extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() { //TODO fix edge case of moving via manual and triggering this causes it to hit the bottom of the elevator
+    SmartDashboard.putNumber("trap/end", endPos);
     profile = new TrapezoidProfile(constraints);
     current = new TrapezoidProfile.State(elevator.getEncoder(), elevator.getVelocity()/60);
     end = new TrapezoidProfile.State(endPos, 0);
@@ -40,16 +41,16 @@ public class ElevatorTrapezoidalMove extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    SmartDashboard.putNumber("trap/end", endPos);
-    current = profile.calculate(0.01, current, end);
+  public void execute() {//TODO: fix real state not matching target
+    current = profile.calculate(0.05, current, end);
     double pos = current.position;
     if(current.position < ElevatorConstants.Min) {System.err.println("position under range"); pos = ElevatorConstants.Min;}
     if(current.position > ElevatorConstants.Max) {System.err.println("position above range"); pos = ElevatorConstants.Max;}
     elevator.setPID(pos);
     SmartDashboard.putNumber("trap/target vol", current.velocity);
+    SmartDashboard.putNumber("trap/real vol", elevator.getVelocity()/60);
     SmartDashboard.putNumber("trap/target pos", current.position);
-    SmartDashboard.putNumber("trap/commanded pos", pos);
+    SmartDashboard.putNumber("trap/real pos", elevator.getEncoder());
   }
 
   // Called once the command ends or is interrupted.

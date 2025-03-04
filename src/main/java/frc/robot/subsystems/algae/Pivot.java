@@ -101,13 +101,6 @@ public class Pivot extends SubsystemBase {
   public double getCurrent() {
     return pivot.getOutputCurrent();
   }
-  public boolean currentSpike(){
-    if (previousCurrent - getCurrent() >= AlgaeConstants.voltageSpikeDifference) {
-      return true;
-    }
-    previousCurrent = getCurrent();
-    return false;
-  }
 
   public boolean atSetpoint(){
     return pivotPid.atSetpoint();

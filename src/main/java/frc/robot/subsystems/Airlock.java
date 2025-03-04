@@ -85,6 +85,9 @@ public class Airlock extends SubsystemBase {
   }
   /**@return true if a coral should be moved*/
   public boolean checkStep(){ 
-    return isBackInRange();
+    if(isBackInRange()){
+      stepAlert.set(true);
+      return true;
+    }else return false;
   }
 }

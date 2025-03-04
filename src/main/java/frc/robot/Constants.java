@@ -117,7 +117,7 @@ public final class Constants {
         public static final double slowModeSpeed = 0.2;
         public static final double pivotMotorRotToRad = PivotRatio * (2 * Math.PI);
         public static final double intakeMotorRotToRad = intakeRatio * (2 * Math.PI);
-        public static final double voltageSpikeDifference = 20;
+        public static final double voltageMin = 9.9;
         public static final double pivotMin = 0.0;
         public static final double pivotMax = 195;
     }

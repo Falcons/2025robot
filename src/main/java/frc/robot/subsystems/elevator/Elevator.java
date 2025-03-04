@@ -25,7 +25,7 @@ import frc.robot.subsystems.Airlock;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(1.1, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
+    PIDController Pid = new PIDController(0.5, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.76, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
