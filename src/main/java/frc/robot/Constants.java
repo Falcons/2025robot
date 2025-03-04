@@ -126,9 +126,9 @@ public final class Constants {
         public static final int liftMotor1CANID = 5;
         public static final int liftMotor2CANID = 7;
         public static final int TOFTopCANID = 0;
-        public static final double maxSpeed = 50; //inches per second 47.19
-        public static final double maxAcceleration = 35; //inches per second squared
-        public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755);// * 2; //1.751//ratio * 2pi / gear radius in inchs
+        public static final double maxSpeed = 70; //inches per second 47.19
+        public static final double maxAcceleration = 65; //inches per second squared
+        public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755);//* 2; //1.751//ratio * 2pi / gear radius in inchs
         //note: elevator moves 2 inchs for every inch the chain moves(this ^ gives chain atm) -madness
         public static final double Min = 1; //highest point for min
         public static final double Drop = 6; //highest point for min
