@@ -24,6 +24,7 @@ import frc.robot.commands.algae.AlgaePivotToggle;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.PivotPid;
 import frc.robot.commands.algae.intakeVoltage;
+import frc.robot.commands.auto.MoveToReef;
 import frc.robot.commands.algae.pivotDefault;
 import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
@@ -92,7 +93,7 @@ public class RobotContainer {
   private void configureBindings() {
     operator.x().whileTrue(new AlgaeIntake(algaeI, 1)); // intake algae
     operator.a().whileTrue(new AlgaeIntake(algaeI, -1)); // shoot algae
-    //operator.y().onTrue(new AlgaePivotToggle(algaeP)); //TODO: toggle im guessing plz test pid -madness(ai wrote madness)
+    //operator.y().onTrue(new AlgaePivotToggle(algaeP));
     operator.y().whileTrue(new CoralShoot(coral, () -> 0.2));
     operator.b().whileTrue(new ResetElevatorEncoders(elevator));
     
@@ -121,6 +122,7 @@ public class RobotContainer {
     driver.povDownRight().whileTrue(swerve.modulePIDTuning("Back Right"));
     //swerve.resetPose(null);
     */
+    //driver.a().whileTrue(new MoveToReef());
   }
 
   public Command getAutonomousCommand() {
