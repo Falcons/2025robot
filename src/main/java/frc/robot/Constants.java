@@ -120,6 +120,7 @@ public final class Constants {
         public static final double voltageMin = 9.9;
         public static final double pivotMin = 0.0;
         public static final double pivotMax = 195;
+        public static final double MaxAlgaeHeight = 20.0;
     }
     public static final class ElevatorConstants {
         public static final int motorRatio = 12; //12:1 

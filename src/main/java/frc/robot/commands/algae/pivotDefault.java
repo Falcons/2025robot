@@ -5,8 +5,10 @@
 package frc.robot.commands.algae;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.AlgaeConstants;
 import frc.robot.subsystems.algae.Pivot;
 import frc.robot.subsystems.elevator.Elevator;
+import pabeles.concurrency.IntOperatorTask.Min;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class pivotDefault extends Command {
@@ -26,9 +28,10 @@ public class pivotDefault extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if(elevator)
+    if (elevator.getEncoder() < AlgaeConstants.MaxAlgaeHeight){
+      //pivot.setPivotpid(AlgaeConstants.pivotMin);
+    }
   }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

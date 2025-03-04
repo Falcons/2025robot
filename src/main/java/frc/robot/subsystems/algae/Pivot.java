@@ -76,13 +76,6 @@ public class Pivot extends SubsystemBase {
     double pid = pivotPid.calculate(getAbsolute(), setpoint);
     pivot.set(pid);
   }
-  // public void togglePivot(boolean isPivotUp) {
-  //   if (isPivotUp) {
-  //     setPivotpid(AlgaeConstants.pivotBottom);
-  //   } else {
-  //     setPivotpid(AlgaeConstants.pivotTop);
-  //   }
-  // }
   /**
    * @param p position
    * @param v volocity
@@ -101,7 +94,6 @@ public class Pivot extends SubsystemBase {
   public double getCurrent() {
     return pivot.getOutputCurrent();
   }
-
   public boolean atSetpoint(){
     return pivotPid.atSetpoint();
   }
