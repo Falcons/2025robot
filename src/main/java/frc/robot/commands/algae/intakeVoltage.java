@@ -31,7 +31,7 @@ public class intakeVoltage extends Command {
   @Override
   public void execute() {
     double cVolt = voltage.get();
-    if(!intake.isUnderMinVolts()) cVolt = 0;
+    // if(!intake.hasAlgae) cVolt = 0;
     SmartDashboard.putNumber("Intake/cvolt", cVolt); 
     intake.setVoltage(cVolt);
   }
