@@ -90,14 +90,14 @@ public class RobotContainer {
   }
   
   private void configureBindings() {
-    operator.x().whileTrue(new AlgaeIntake(algaeI, 1)); // intake algae
-    operator.a().whileTrue(new AlgaeIntake(algaeI, -1)); // shoot algae
+    operator.x().whileTrue(new AlgaeIntake(algaeI, -1)); // intake algae
+    operator.a().whileTrue(new AlgaeIntake(algaeI, 1)); // shoot algae
     //operator.y().onTrue(new AlgaePivotToggle(algaeP));
-    operator.y().whileTrue(new CoralShoot(coral, () -> 0.2));
+    operator.y().whileTrue(new CoralShoot(coral, () -> 0.15));
     operator.b().whileTrue(new ResetElevatorEncoders(elevator));
     
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, () -> (-operator.getRightY() + 0.03)*0.2));
-    operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, () -> -0.15)); // outake
+    operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, () -> -0.20)); // outake
     /*
     operator.povDown().onTrue(new SetElevatorPID(elevator, ElevatorConstants.Min));
     operator.povLeft().onTrue(new SetElevatorPID(elevator, ElevatorConstants.triggerL2));
@@ -108,7 +108,8 @@ public class RobotContainer {
     operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL2));
     operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL3));
     operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.triggerL4));
-    /* 
+    /*
+
     operator.povUp().whileTrue(new PivotPid(algaeP, 180));
     operator.povDown().whileTrue(new PivotPid(algaeP, 0));
     */

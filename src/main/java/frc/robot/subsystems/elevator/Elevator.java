@@ -41,18 +41,18 @@ public class Elevator extends SubsystemBase {
     TOF.setRangingMode(RangingMode.Short, 24);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
-    // rightConfig.encoder.positionConversionFactor(1);
-    // rightConfig.encoder.velocityConversionFactor(1);
+    rightConfig.encoder.positionConversionFactor(2);
+    rightConfig.encoder.velocityConversionFactor(2);
     rightConfig.idleMode(IdleMode.kBrake);
     rightConfig.inverted(false);
-    rightMoter.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMotor2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
-    // leftConfig.encoder.positionConversionFactor(1);
-    // leftConfig.encoder.velocityConversionFactor(1);
+    leftConfig.encoder.positionConversionFactor(2);
+    leftConfig.encoder.velocityConversionFactor(2);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
-    leftMoter.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     Pid.setTolerance(0.1);
     Pid.setIntegratorRange(-0.01, 0.01);
@@ -130,11 +130,11 @@ public class Elevator extends SubsystemBase {
   }
   /**@return the encoder position of the right motor*/
   public double getRightEncoder(){
-    return rightMoter.getEncoder().getPosition();//ElevatorConstants.motorRotToIN;
+    return rightMoter.getEncoder().getPosition();
   }
   /**@return the encoder position of the left motor*/
   public double getLeftEncoder(){
-    return leftMoter.getEncoder().getPosition();//ElevatorConstants.motorRotToIN;
+    return leftMoter.getEncoder().getPosition();
   }
   public double getEncoder(){
     double add = getLeftEncoder() + getRightEncoder();
@@ -145,10 +145,10 @@ public class Elevator extends SubsystemBase {
     rightMoter.getEncoder().setPosition(value);
   }
   public double getLeftVelocity(){
-    return leftMoter.getEncoder().getVelocity();//ElevatorConstants.motorRotToIN;
+    return leftMoter.getEncoder().getVelocity();
   }
   public double getRightVelocity(){
-    return rightMoter.getEncoder().getVelocity();//ElevatorConstants.motorRotToIN;
+    return rightMoter.getEncoder().getVelocity();
   }
   public double getVelocity(){
     double add = getLeftVelocity() + getRightVelocity();

@@ -17,7 +17,7 @@ public class Airlock extends SubsystemBase {
     private Alert notSafeAlert = new Alert("coral is in airlock", AlertType.kWarning);
     private Alert stepAlert = new Alert("steping coral", AlertType.kInfo);
     public LaserCan  frontLC, backLC;
-    public boolean lastStep;
+    public boolean keepStep;
 
   /** Creates a new airlock. */
   public Airlock() {
@@ -73,7 +73,7 @@ public class Airlock extends SubsystemBase {
     return test;
   }
   /**@return true if its safe to move elevator*/
-  public boolean checkSafety(){ 
+  public boolean checkSafety(){ //lights
     if (!isFrontInRange() && !isBackInRange()) {notSafeAlert.set(false); return true;}
     if (isFrontInRange() && !isBackInRange()) {
       notSafeAlert.set(false);
@@ -85,9 +85,24 @@ public class Airlock extends SubsystemBase {
   }
   /**@return true if a coral should be moved*/
   public boolean checkStep(){ 
-    if(isBackInRange()){
+    if(keepStep){ 
+      if (isFrontInRange() && !isBackInRange()) {
+        keepStep = false;
+        stepAlert.set(false);
+        return true;
+      }else{
       stepAlert.set(true);
       return true;
-    }else return false;
+      }
+    }
+    if(isBackInRange()){
+      keepStep = true;
+      stepAlert.set(true);
+      return true;
+    }else {
+      keepStep = false;
+      stepAlert.set(false);
+      return false;
+    }
   }
 }
