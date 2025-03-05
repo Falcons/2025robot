@@ -4,23 +4,18 @@
 
 package frc.robot.commands.coral;
 
-import java.util.function.Supplier;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.shooter.Coral;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CoralShoot extends Command {
-  Supplier<Double> speed;
+public class rawCoralSet extends Command {
   Coral coral;
-  Elevator elevator;
-  /** Creates a new shoot. */
-  public CoralShoot(Coral coral, Elevator elevator, Supplier<Double> speed) {
+  double left, right;
+  /** Creates a new rawCoralSet. */
+  public rawCoralSet(Coral coral, double left, double right) {
     this.coral = coral;
-    this.speed = speed;
+    this.left = left;
+    this.right = right;
     addRequirements(coral);
   }
 
@@ -31,17 +26,12 @@ public class CoralShoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double left = speed.get();
-    double right = speed.get();
-    // if(elevator.getEncoder() >= ElevatorConstants.coralL1-0.5 && elevator.getEncoder() <= ElevatorConstants.coralL1+0.5)left *= 0.5;
     coral.set(left, right);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    coral.stop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

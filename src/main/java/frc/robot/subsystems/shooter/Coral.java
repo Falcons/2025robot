@@ -38,16 +38,18 @@ public class Coral extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Shooter/Left encoder", leftShooter.getEncoder().getVelocity());
-    SmartDashboard.putNumber("Shooter/Right encoder", rightShooter.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Coral/Left encoder", leftShooter.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Coral/Right encoder", rightShooter.getEncoder().getVelocity());
     leftFaultAlert.setText("coral left:" + leftShooter.getFaults().toString()); leftFaultAlert.set(leftShooter.hasActiveFault());
     rightFaultAlert.setText("coral right:" + rightShooter.getFaults().toString()); rightFaultAlert.set(rightShooter.hasActiveFault());
     leftWarningAlert.setText("coral left:" + leftShooter.getWarnings().toString()); leftWarningAlert.set(leftShooter.hasActiveWarning());
     rightWarningAlert.setText("coral right:" + rightShooter.getWarnings().toString()); rightWarningAlert.set(rightShooter.hasActiveWarning());
   }
-  public void set(double speed) {
-    leftShooter.set(speed);
-    rightShooter.set(speed);
+  public void set(double left, double right) {
+    SmartDashboard.putNumber("Coral/right speed", right);
+    SmartDashboard.putNumber("Coral/left speed", left);
+    leftShooter.set(left);
+    rightShooter.set(right);
   }
   public void stop() {
     leftShooter.stopMotor();

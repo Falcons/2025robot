@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -119,6 +121,7 @@ public final class Constants {
         public static final double intakeMotorRotToRad = intakeRatio * (2 * Math.PI);
         public static final double voltageMin = 9.9;
         public static final double pivotMin = 0.0;
+        public static final double pivotOut = 12.7;
         public static final double pivotMax = 195;
         public static final double MaxAlgaeHeight = 20.0;
     }
@@ -135,10 +138,12 @@ public final class Constants {
         public static final double[] TOFSlowModetrigger = {19, 22};
         public static final double Max = 122; //lowest point for max
         public static final double TOFEdgeBuffer = 100;
-        /**array [min, max]*/public static final double triggerL1 = 6; 
-        /**array [min, max]*/public static final double triggerL2 = 26;
-        /**array [min, max]*/public static final double triggerL3 = 62;
-        /**array [min, max]*/public static final double triggerL4 = 119.9;
+        /**array [min, max]*/public static final double coralL1 = 12; 
+        /**array [min, max]*/public static final double coralL2 = 26;
+        /**array [min, max]*/public static final double coralL3 = 62;
+        /**array [min, max]*/public static final double coralL4 = 119.9;
+        /**array [min, max]*/public static final double algaeL2 = 49;
+        /**array [min, max]*/public static final double algaeL3 = 86;
         public static final double slowModeSpeed = 0.2; 
 
 
@@ -154,4 +159,8 @@ public final class Constants {
         public static final int dio2 = 1;
         public static final int dio3 = 2;
     }
+public static final class limelightConstants{
+    public static final int[] redReef = {};
+    public static final int[] blueReef = {};
+}
 }

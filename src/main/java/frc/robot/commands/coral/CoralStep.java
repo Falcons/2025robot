@@ -35,7 +35,7 @@ public class CoralStep extends Command {
   public void execute() {
     double speed = this.speed.get();
     if(!airlock.checkStep()) speed = 0;
-    coral.set(speed);
+    coral.set(speed, speed);
   }
 
   // Called once the command ends or is interrupted.
