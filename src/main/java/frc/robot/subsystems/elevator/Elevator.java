@@ -39,24 +39,24 @@ public class Elevator extends SubsystemBase {
   public Elevator(Airlock airlock) {
     this.airlock = airlock;
     TOF.setRangingMode(RangingMode.Short, 24);
-    // TOF.setRangeOfInterest(16, 16, 16, 16);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
-    // rightConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
-    // rightConfig.encoder.velocityConversionFactor(ElevatorConstants.motorRotToIN);
+    // rightConfig.encoder.positionConversionFactor(1);
+    // rightConfig.encoder.velocityConversionFactor(1);
     rightConfig.idleMode(IdleMode.kBrake);
     rightConfig.inverted(false);
-    rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    rightMoter.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMotor2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
-    // leftConfig.encoder.positionConversionFactor(ElevatorConstants.motorRotToIN);
-    // leftConfig.encoder.velocityConversionFactor(ElevatorConstants.motorRotToIN);
+    // leftConfig.encoder.positionConversionFactor(1);
+    // leftConfig.encoder.velocityConversionFactor(1);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
-    leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    leftMoter.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     Pid.setTolerance(0.1);
     Pid.setIntegratorRange(-0.01, 0.01);
+    SmartDashboard.putNumber("con",ElevatorConstants.motorRotToIN);
     updateEncoders(0);
   }
 
@@ -68,6 +68,8 @@ public class Elevator extends SubsystemBase {
     atMax = getEncoder() >= ElevatorConstants.Max;
     atDrop = getEncoder() <= ElevatorConstants.Drop;
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
+    SmartDashboard.putNumber("Elevator/raw left encoder", leftMoter.getEncoder().getPosition());
+    SmartDashboard.putNumber("Elevator/raw right encoder", rightMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
     SmartDashboard.putNumber("Elevator/avg encoder", getEncoder());
     SmartDashboard.putNumber("Elevator/left velocity", getLeftVelocity());
@@ -128,11 +130,11 @@ public class Elevator extends SubsystemBase {
   }
   /**@return the encoder position of the right motor*/
   public double getRightEncoder(){
-    return rightMoter.getEncoder().getPosition()/ElevatorConstants.motorRotToIN;
+    return rightMoter.getEncoder().getPosition();//ElevatorConstants.motorRotToIN;
   }
   /**@return the encoder position of the left motor*/
   public double getLeftEncoder(){
-    return leftMoter.getEncoder().getPosition()/ElevatorConstants.motorRotToIN;
+    return leftMoter.getEncoder().getPosition();//ElevatorConstants.motorRotToIN;
   }
   public double getEncoder(){
     double add = getLeftEncoder() + getRightEncoder();
@@ -143,10 +145,10 @@ public class Elevator extends SubsystemBase {
     rightMoter.getEncoder().setPosition(value);
   }
   public double getLeftVelocity(){
-    return leftMoter.getEncoder().getVelocity()/ElevatorConstants.motorRotToIN;
+    return leftMoter.getEncoder().getVelocity();//ElevatorConstants.motorRotToIN;
   }
   public double getRightVelocity(){
-    return rightMoter.getEncoder().getVelocity()/ElevatorConstants.motorRotToIN;
+    return rightMoter.getEncoder().getVelocity();//ElevatorConstants.motorRotToIN;
   }
   public double getVelocity(){
     double add = getLeftVelocity() + getRightVelocity();
