@@ -32,10 +32,10 @@ public class ElevatorTrapezoidalMove extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() { //TODO fix edge case of moving via manual and triggering this causes it to hit the bottom of the elevator
+  public void initialize() {
     SmartDashboard.putNumber("trap/end", endPos);
     profile = new TrapezoidProfile(constraints);
-    current = new TrapezoidProfile.State(elevator.getEncoder(), elevator.getVelocity()/60);
+    current = new TrapezoidProfile.State(elevator.getEncoder(), elevator.getVelocity()/60.0);
     end = new TrapezoidProfile.State(endPos, 0);
   }
 
@@ -49,7 +49,7 @@ public class ElevatorTrapezoidalMove extends Command {
     elevator.setPID(pos);
     SmartDashboard.putNumber("trap/pos", pos);
     SmartDashboard.putNumber("trap/target vol", current.velocity);
-    SmartDashboard.putNumber("trap/real vol", elevator.getVelocity()/60);
+    SmartDashboard.putNumber("trap/real vol", elevator.getVelocity()/60.0);
     SmartDashboard.putNumber("trap/target pos", current.position);
     SmartDashboard.putNumber("trap/real pos", elevator.getEncoder());
   }
