@@ -23,6 +23,7 @@ import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.PivotPid;
 import frc.robot.commands.auto.MoveToReef;
+import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.algae.pivotDefault;
 import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
@@ -61,9 +62,9 @@ public class RobotContainer {
     CanBridge.runTCP();
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 
-      () -> -driver.getLeftY()*globalSpeedMod, 
-      () -> -driver.getLeftX()*globalSpeedMod, 
-      () -> -driver.getRightX()*globalSpeedMod, 
+      () -> -driver.getLeftY(), 
+      () -> -driver.getLeftX(), 
+      () -> -driver.getRightX(), 
       () -> !driver.getHID().getRightBumper()));
       coral.setDefaultCommand(new CoralStep(coral, airlock, () -> -0.1));
       // algaeP.setDefaultCommand(new pivotDefault(algaeP, elevator));
@@ -85,6 +86,7 @@ public class RobotContainer {
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
     // path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", stream -> stream.filter(auto -> !auto.getName().startsWith(".")));
     // SmartDashboard.putData("auto", path_chooser);
+    auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     SmartDashboard.putData("auto", auto_chooser);
   }
   
@@ -127,7 +129,7 @@ public class RobotContainer {
     // return path_chooser.getSelected();  
     } catch (Exception e) {
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
-      return Commands.none();
+      return new Taxi(swerve, 2.0);
     }
   }
   public Command getTestCommand() {
