@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.nio.file.Path;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -111,6 +109,7 @@ public class RobotContainer {
     operator.povDown().whileTrue(new PivotPid(algaeP, 0));
     */
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
+    driver.leftBumber().onTrue(new SwerveToggleSlowMode(swerve));
     driver.a().whileTrue(new MoveToReef());
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
   }
