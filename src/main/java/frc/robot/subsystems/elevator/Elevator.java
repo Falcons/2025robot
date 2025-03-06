@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.limelightConstants;
+import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.Airlock;
 
 public class Elevator extends SubsystemBase {
@@ -32,6 +34,7 @@ public class Elevator extends SubsystemBase {
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
+    double[] L1offset = limelightConstants.LLendoffset; 
     public double targetPos = 15;
     public boolean atMax, atMin, atDrop;
     private Airlock airlock;
@@ -63,7 +66,6 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // updateEncoders(getTofPer()*ElevatorConstants.encoderMax);
     atMin = getEncoder() <= ElevatorConstants.Min;
     atMax = getEncoder() >= ElevatorConstants.Max;
     atDrop = getEncoder() <= ElevatorConstants.Drop;
@@ -90,6 +92,7 @@ public class Elevator extends SubsystemBase {
   public void set(double speed){
     if (!airlock.checkSafety()) return;
     if (atMin && speed < 0 || atMax && speed > 0)return; //saftey
+    LimelightHelpers.setCameraPose_RobotSpace("limelight-colour", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/39.37, L1offset[3], L1offset[4], L1offset[5]);
     SmartDashboard.putNumber("Elevator/speed", speed);
     rightMoter.set(speed);
     leftMoter.set(speed);

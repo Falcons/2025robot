@@ -36,7 +36,8 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
-
+import frc.robot.Constants.limelightConstants;
+import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.LimelightHelpers;
 
 public class SwerveSubsystem extends SubsystemBase {
@@ -316,7 +317,7 @@ public class SwerveSubsystem extends SubsystemBase {
   /** Updates Robot Pose based on Gyro and Module Positions */
   public void updatePoseEstimator() {
     poseEstimator.update(getRotation2d(), getModulePositions());
-    /*
+    /* 
     boolean useMegaTag2 = true; 
     boolean doTRejectUpdate = false;
     boolean doCRejectUpdate = false;
@@ -324,14 +325,13 @@ public class SwerveSubsystem extends SubsystemBase {
     //using megatag 1
     if (!useMegaTag2) { 
       LimelightHelpers.PoseEstimate mt1_T = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-tag");
-      // LimelightHelpers.PoseEstimate mt1_C = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-colour");
+      LimelightHelpers.PoseEstimate mt1_C = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-colour");
 
       if (mt1_T.tagCount == 1 && mt1_T.rawFiducials.length == 1) {
         if (mt1_T.rawFiducials[0].ambiguity > 0.7 || mt1_T.rawFiducials[0].distToCamera > 3) {
           doTRejectUpdate = true;
         }
       }
-      /*
       if (mt1_C.tagCount == 1 && mt1_C.rawFiducials.length == 1) {
         if (mt1_C.rawFiducials[0].ambiguity > 0.7 || mt1_C.rawFiducials[0].distToCamera > 3) {
           doCRejectUpdate = true;
@@ -339,33 +339,38 @@ public class SwerveSubsystem extends SubsystemBase {
       } 
 
       if (mt1_T.tagCount == 0) doTRejectUpdate = true;
-      // if (mt1_C.tagCount == 0) doCRejectUpdate = true;
+      if (mt1_C.tagCount == 0) doCRejectUpdate = true;
       
 
-      if(!doTRejectUpdate && !doCRejectUpdate) {
+      if(!doTRejectUpdate || !doCRejectUpdate) {
         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.5, 0.5, 9999999)); //StdDev from Limelight website
       }
       if(!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt1_T.pose, mt1_T.timestampSeconds);
-      // if(!doCRejectUpdate) poseEstimator.addVisionMeasurement(mt1_C.pose, mt1_C.timestampSeconds);
+      if(!doCRejectUpdate) poseEstimator.addVisionMeasurement(mt1_C.pose, mt1_C.timestampSeconds);
       
-    //using megatag 2 (updated)
+    // using megatag 2 (updated)
     } else {
-      LimelightHelpers.SetRobotOrientation("limelight", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
+      LimelightHelpers.SetRobotOrientation("limelight-tag", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
+      LimelightHelpers.SetRobotOrientation("limelight-colour", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
       LimelightHelpers.PoseEstimate mt2_T = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-tag");
-      // LimelightHelpers.PoseEstimate mt2_C = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-colour");
+      LimelightHelpers.PoseEstimate mt2_C = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-colour");
   
       if (Math.abs(-gyro.getAngularVelocityZWorld().getValueAsDouble()) > 720) {
         doTRejectUpdate = true;
         doCRejectUpdate = true;
       }
-      if (mt2_T.tagCount == 0) doTRejectUpdate = true;
-      // if (mt2_C.tagCount == 0) doCRejectUpdate = true;
+      if(mt2_T == null) doTRejectUpdate = true;
+      else if (mt2_T.tagCount == 0) doTRejectUpdate = true;
+      if(mt2_C == null) doCRejectUpdate = true;
+      else if (mt2_C.tagCount == 0) doCRejectUpdate = true;
+      
+      
 
-      if (!doTRejectUpdate && !doCRejectUpdate) {
+      if (!doTRejectUpdate || !doCRejectUpdate) {
         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); //StdDev from Limelight website
       }
       if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_T.pose, mt2_T.timestampSeconds);
-      // if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_C.pose, mt2_C.timestampSeconds);
+      if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_C.pose, mt2_C.timestampSeconds);
     }
     */
   }

@@ -162,5 +162,7 @@ public final class Constants {
 public static final class limelightConstants{
     public static final int[] redReef = {};
     public static final int[] blueReef = {};
+    public static final double[] LLendoffset = {0.3175,0,0.5334,0,0,0};
+    public static final double[] LLfunneloffset = {0,-2.75,0,0,0,0};
 }
 }
