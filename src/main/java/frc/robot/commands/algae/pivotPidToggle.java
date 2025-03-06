@@ -4,36 +4,34 @@
 
 package frc.robot.commands.algae;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.subsystems.algae.Pivot;
-import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class pivotDefault extends Command {
+public class pivotPidToggle extends Command {
   Pivot pivot;
-  Elevator elevator;
-  /** Creates a new pivotDefault. */
-  public pivotDefault(Pivot pivot, Elevator elevator) {
+  boolean out;
+  /** Creates a new pivotPidToggle. */
+  public pivotPidToggle(Pivot pivot) {
     this.pivot = pivot;
-    this.elevator =  elevator;
-    addRequirements(elevator);
+    addRequirements(pivot);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    out = pivot.getAbsEncoderDeg() > AlgaeConstants.pivotMax-0.5;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean atMin = elevator.getEncoder() < AlgaeConstants.MaxAlgaeHeight;
-    SmartDashboard.putBoolean("elevator/at min algae", atMin);
-      if (atMin){
-      //pivot.setPivotpid(AlgaeConstants.pivotMin);
-    }
+    if(out) pivot.setPivotpid(Units.degreesToRadians(AlgaeConstants.pivotMax));
+    else pivot.setPivotpid(Units.degreesToRadians(AlgaeConstants.pivotOut));
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

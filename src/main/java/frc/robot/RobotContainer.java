@@ -53,6 +53,7 @@ public class RobotContainer {
   private final double globalSpeedMod = 1;
   private final double operatorRSDeadZone = 0.1;
   private final double operatorRTDeadZone = 0.01;
+  private final Boolean layout = false;
   // SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   SendableChooser<Command> auto_chooser = new SendableChooser<Command>();
   public RobotContainer() { 
@@ -106,13 +107,16 @@ public class RobotContainer {
     operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
     operator.leftBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL2));
     operator.rightBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL3));
+    
+    operator.start().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotOut));
+    operator.back().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotMax));
     /*
     operator.povUp().whileTrue(new PivotPid(algaeP, 180));
     operator.povDown().whileTrue(new PivotPid(algaeP, 0));
     */
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     driver.leftBumper().onTrue(new SwerveToggleSlowMode(swerve));
-    driver.a().whileTrue(new MoveToReef());
+    // driver.a().whileTrue(new MoveToReef());
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
   }
 
