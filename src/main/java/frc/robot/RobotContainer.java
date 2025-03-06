@@ -19,7 +19,6 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.PivotPid;
-import frc.robot.commands.algae.intakeVoltage;
 import frc.robot.commands.auto.MoveToReef;
 import frc.robot.commands.algae.pivotDefault;
 import frc.robot.commands.algae.AlgaeIntake;
@@ -27,6 +26,7 @@ import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.coral.CoralStep;
 import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
+import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
@@ -109,7 +109,7 @@ public class RobotContainer {
     operator.povDown().whileTrue(new PivotPid(algaeP, 0));
     */
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
-    driver.leftBumber().onTrue(new SwerveToggleSlowMode(swerve));
+    driver.leftBumper().onTrue(new SwerveToggleSlowMode(swerve));
     driver.a().whileTrue(new MoveToReef());
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
   }
