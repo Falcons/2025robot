@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Airlock;
 
 public class Coral extends SubsystemBase {
   private final SparkMax leftShooter, rightShooter;

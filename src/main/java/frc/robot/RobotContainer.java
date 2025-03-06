@@ -4,17 +4,16 @@
 
 package frc.robot;
 
-import java.nio.file.Path;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import au.grapplerobotics.CanBridge;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.AlgaeConstants;
@@ -22,7 +21,6 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.PivotPid;
-import frc.robot.commands.algae.intakeVoltage;
 import frc.robot.commands.auto.MoveToReef;
 import frc.robot.commands.algae.pivotDefault;
 import frc.robot.commands.algae.AlgaeIntake;
@@ -30,6 +28,8 @@ import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.coral.CoralStep;
 import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
+import frc.robot.commands.driveTrain.SwervePositionPIDTuning;
+import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
@@ -50,7 +50,7 @@ public class RobotContainer {
   private final CommandXboxController operator = new CommandXboxController(1);
 
 
-  private final double globalSpeedMod = 0.2;
+  private final double globalSpeedMod = 1;
   private final double operatorRSDeadZone = 0.1;
   private final double operatorRTDeadZone = 0.01;
   // SendableChooser<Command> path_chooser = new SendableChooser<Command>();
@@ -62,10 +62,10 @@ public class RobotContainer {
       () -> -driver.getLeftY()*globalSpeedMod, 
       () -> -driver.getLeftX()*globalSpeedMod, 
       () -> -driver.getRightX()*globalSpeedMod, 
-      () -> !driver.getHID().getLeftBumper()));
+      () -> !driver.getHID().getRightBumper()));
       coral.setDefaultCommand(new CoralStep(coral, airlock, () -> -0.1));
       // algaeP.setDefaultCommand(new pivotDefault(algaeP, elevator));
-      algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*globalSpeedMod)); // pivot
+      algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
     elevator.setDefaultCommand(new ElevatorSetVoltage(elevator, 0.75));
 
@@ -111,13 +111,19 @@ public class RobotContainer {
     operator.povDown().whileTrue(new PivotPid(algaeP, 0));
     */
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
-    driver.a().whileTrue(new MoveToReef(swerve, true));
+    driver.leftBumper().onTrue(new SwerveToggleSlowMode(swerve));
+    driver.a().whileTrue(new MoveToReef());
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
   }
 
   public Command getAutonomousCommand() {
-    return auto_chooser.getSelected();
-    // return path_chooser.getSelected();
+    try {
+      return auto_chooser.getSelected();
+    // return path_chooser.getSelected();  
+    } catch (Exception e) {
+      DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+      return Commands.none();
+    }
   }
   public Command getTestCommand() {
     return null;

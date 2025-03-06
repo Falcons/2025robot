@@ -11,9 +11,12 @@ import java.util.Map;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.controllers.PPLTVController;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
@@ -32,8 +35,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.limelightConstants;
@@ -77,6 +83,9 @@ public class SwerveSubsystem extends SubsystemBase {
   private final Pigeon2 gyro = new Pigeon2(DriveConstants.pigeonCANID);
   // private double maxSpeed = ModuleConstants.driveMaxSpeedMPS;
 
+  PPHolonomicDriveController holoController = new PPHolonomicDriveController(
+        new PIDConstants(DriveConstants.translationKP, DriveConstants.translationKI, DriveConstants.translationKD),
+        new PIDConstants(DriveConstants.rotationKP, DriveConstants.rotationKI, DriveConstants.rotationKD));
   //PhotonCamera photonCam;
 
   private final PIDController xPID = new PIDController(DriveConstants.translationKP, 0, 0);
@@ -151,9 +160,7 @@ public class SwerveSubsystem extends SubsystemBase {
       this::resetPose, 
       this::getChassisSpeeds, 
       (speeds, feedforwards) -> driveRobotRelative(speeds),
-      new PPHolonomicDriveController(
-        new PIDConstants(DriveConstants.translationKP, DriveConstants.translationKI, DriveConstants.translationKD),
-        new PIDConstants(DriveConstants.rotationKP, DriveConstants.rotationKI, DriveConstants.rotationKD)),
+      holoController,
       config,
       () -> {
         var alliance = DriverStation.getAlliance();
@@ -218,6 +225,34 @@ public class SwerveSubsystem extends SubsystemBase {
     frontRight.stop();
     backLeft.stop();
     backRight.stop();
+}
+
+public Command followPathCommand(PathPlannerPath path) {
+  try{
+      return new FollowPathCommand(
+              path,
+              this::getPose, // Robot pose supplier
+              this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+              (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds, AND feedforwards
+              holoController, // The controller that will generate feedforwards
+              config, // The robot configuration
+              () -> {
+                // Boolean supplier that controls when the path will be mirrored for the red alliance
+                // This will flip the path being followed to the red side of the field.
+                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                  return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+              },
+              this // Reference to this subsystem to set requirements
+      );
+  } catch (Exception e) {
+      DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+      return Commands.none();
+  }
 }
 
 // Gyro
@@ -327,9 +362,11 @@ public class SwerveSubsystem extends SubsystemBase {
       LimelightHelpers.PoseEstimate mt1_T = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-tag");
       LimelightHelpers.PoseEstimate mt1_C = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-colour");
 
-      if (mt1_T.tagCount == 1 && mt1_T.rawFiducials.length == 1) {
-        if (mt1_T.rawFiducials[0].ambiguity > 0.7 || mt1_T.rawFiducials[0].distToCamera > 3) {
-          doTRejectUpdate = true;
+      if (mt1_T.tagCount == 1) {
+        if (mt1_T.rawFiducials.length == 1){
+          if (mt1_T.rawFiducials[0].ambiguity > 0.7 || mt1_T.rawFiducials[0].distToCamera > 3) {
+            doTRejectUpdate = true;
+          }
         }
       }
       if (mt1_C.tagCount == 1 && mt1_C.rawFiducials.length == 1) {
