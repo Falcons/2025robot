@@ -7,7 +7,6 @@ package frc.robot.subsystems.algae;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -27,13 +26,13 @@ public class Pivot extends SubsystemBase {
   Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   double previousCurrent = 0;
-  public boolean atMin, atMax;
+  public boolean atMin, atMax, isOut;
   /** Creates a new algea_pivot. */
   public Pivot() {
     this.pivot = new SparkMax(AlgaeConstants.pivotMotorCANID, MotorType.kBrushless);
     pivotConfig = new SparkMaxConfig();
     // pivotConfig.idleMode(IdleMode.kBrake);
-    pivotConfig.idleMode(IdleMode.kCoast);
+    pivotConfig.idleMode(IdleMode.kBrake);
     pivotConfig.encoder.positionConversionFactor(AlgaeConstants.pivotMotorRotToRad);
     pivotConfig.encoder.velocityConversionFactor(AlgaeConstants.pivotMotorRotToRad);
 
@@ -51,6 +50,7 @@ public class Pivot extends SubsystemBase {
   public void periodic() {
     atMax = getAbsEncoderDeg() >= AlgaeConstants.pivotMax;
     atMin = getAbsEncoderDeg() <= AlgaeConstants.pivotMin;
+    isOut = getAbsEncoderDeg() >= AlgaeConstants.pivotOut-1 && getAbsEncoderDeg() <= AlgaeConstants.pivotOut+1;
 
     SmartDashboard.putNumber("Pivot/PID/error", pivotPid.getError());
     SmartDashboard.putNumber("Pivot/PID/setpoint", pivotPid.getSetpoint());
@@ -66,12 +66,10 @@ public class Pivot extends SubsystemBase {
     pivotPid.reset();
   }
   public void setPivot(double speed) {
-    double cSpeed = speed;
-    if(atMax && speed > 0) speed = 0;
-    if(atMin && speed < 0) speed = 0;
-    SmartDashboard.putNumber("Pivot/speed", speed);
-    SmartDashboard.putNumber("Pivot/cspeed", cSpeed);
-    pivot.set(speed);
+      if(atMax && speed > 0) return;
+      if(atMin && speed < 0) return;
+      SmartDashboard.putNumber("Pivot/speed", speed);
+      pivot.set(speed);
   }
   public void setPivotpid(double setpoint) {
     double pid = pivotPid.calculate(getAbsolute(), setpoint);
