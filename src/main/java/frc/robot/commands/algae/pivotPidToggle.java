@@ -22,12 +22,12 @@ public class pivotPidToggle extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    out = pivot.getAbsEncoderDeg() > AlgaeConstants.pivotMax-0.5;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    out = pivot.getAbsEncoderDeg() < AlgaeConstants.pivotMax-1;
     if(out) pivot.setPivotpid(Units.degreesToRadians(AlgaeConstants.pivotMax));
     else pivot.setPivotpid(Units.degreesToRadians(AlgaeConstants.pivotOut));
   }

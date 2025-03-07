@@ -51,8 +51,12 @@ public class SwerveJoystick extends Command {
   public void execute() {
     double xSpeed = xSpeedFunc.get();
     double ySpeed = ySpeedFunc.get();
-    double turningSpeed = turningSpeedFunc.get();
-
+    double turningSpeed;
+    if(!swerveSubsystem.invert){
+    turningSpeed = turningSpeedFunc.get();
+    }else{
+    turningSpeed = -turningSpeedFunc.get();
+    }
     SmartDashboard.putNumber("joystick/X Speed", xSpeed);
     SmartDashboard.putNumber("joystick/Y Speed", ySpeed);
     SmartDashboard.putNumber("joystick/Turning Speed", turningSpeed);

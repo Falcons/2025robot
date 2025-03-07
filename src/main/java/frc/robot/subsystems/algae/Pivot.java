@@ -66,14 +66,21 @@ public class Pivot extends SubsystemBase {
     pivotPid.reset();
   }
   public void setPivot(double speed) {
-      if(atMax && speed > 0) speed = 0;
-      if(atMin && speed < 0)speed = 0;
-      SmartDashboard.putNumber("Pivot/speed", speed);
-      pivot.set(speed);
+    double cSpeed = speed;
+    if(atMax && speed > 0) speed = 0;
+    if(atMin && speed < 0) speed = 0;
+    SmartDashboard.putNumber("Pivot/speed", speed);
+    SmartDashboard.putNumber("Pivot/cspeed", cSpeed);
+    pivot.set(speed);
   }
   public void setPivotpid(double setpoint) {
     double pid = pivotPid.calculate(getAbsolute(), setpoint);
-    pivot.set(pid);
+    SmartDashboard.putNumber("Pivot/PID/error", pivotPid.getError());
+    SmartDashboard.putNumber("Pivot/PID/setpoint", pid);
+    SmartDashboard.putNumber("Pivot/PID/calc", pid);
+    // if(pid > AlgaeConstants.pivotMax) pid = 0;
+    // if(pid < AlgaeConstants.pivotMin) pid = 0;
+    setPivot(pid);
   }
   /**
    * @param p position

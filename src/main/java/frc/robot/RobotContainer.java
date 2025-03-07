@@ -28,6 +28,7 @@ import frc.robot.commands.auto.MoveToReef;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.pathToTag;
 import frc.robot.commands.algae.pivotDefault;
+import frc.robot.commands.algae.pivotPidToggle;
 import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.coral.CoralStep;
@@ -36,6 +37,7 @@ import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwervePositionPIDTuning;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
 import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
+import frc.robot.commands.driveTrain.invertdrive;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
@@ -61,6 +63,7 @@ public class RobotContainer {
   private final double operatorLSDeadZone = 0.1;
   private final double operatorRTDeadZone = 0.01;
   private final double operatorLTDeadZone = 0.01;
+  private final Boolean invert = false;
   private final Boolean layout = false;
   // SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   SendableChooser<Command> auto_chooser = new SendableChooser<Command>();
@@ -122,10 +125,11 @@ public class RobotContainer {
     operator.povDown().whileTrue(new PivotPid(algaeP, 0));
     */
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
-    // driver.leftBumper().onTrue(new SwerveToggleSlowMode(swerve));
+    driver.a().onTrue(new SwerveToggleSlowMode(swerve));
     driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve));
-    // driver.a().whileTrue(new MoveToReef());
-    driver.y().whileTrue(new pathToTag(swerve, 6));
+    // driver.a().whileTrue(new pivotPidToggle(algaeP));
+    // driver.y().whileTrue(new pathToTag(swerve, 6));
+    driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
   }
 
