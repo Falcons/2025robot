@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.airlockConstants;
 
 public class Airlock extends SubsystemBase {
-    private Alert notSafeAlert = new Alert("coral is in airlock", AlertType.kWarning);
-    private Alert stepAlert = new Alert("steping coral", AlertType.kInfo);
+    public Alert notSafeAlert = new Alert("coral is in airlock", AlertType.kWarning);
+    public Alert stepAlert = new Alert("steping coral", AlertType.kInfo);
     public LaserCan  frontLC, backLC;
     public boolean keepStep;
 
