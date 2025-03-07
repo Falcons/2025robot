@@ -7,11 +7,8 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import au.grapplerobotics.CanBridge;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,7 +21,6 @@ import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.PivotPid;
 import frc.robot.commands.auto.MoveToReef;
 import frc.robot.commands.auto.Taxi;
-import frc.robot.commands.auto.pathToTag;
 import frc.robot.commands.algae.pivotDefault;
 import frc.robot.commands.algae.pivotPidToggle;
 import frc.robot.commands.algae.AlgaeIntake;
@@ -32,11 +28,7 @@ import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.coral.CoralStep;
 import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
-import frc.robot.commands.driveTrain.SwervePositionPIDTuning;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
-import frc.robot.commands.driveTrain.SwerveSlowModeHold;
-import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
-import frc.robot.commands.driveTrain.invertdrive;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
@@ -80,6 +72,7 @@ public class RobotContainer {
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
     elevator.setDefaultCommand(new ElevatorSetVoltage(elevator, 0.75));
+    
 
     configureBindings();
 
