@@ -34,6 +34,7 @@ import frc.robot.commands.coral.CoralStep;
 import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwervePositionPIDTuning;
+import frc.robot.commands.driveTrain.SwerveSlowModeHold;
 import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
@@ -70,7 +71,7 @@ public class RobotContainer {
       () -> -driver.getLeftY(), 
       () -> -driver.getLeftX(), 
       () -> -driver.getRightX(), 
-      () -> !driver.getHID().getRightBumper()));
+      () -> !driver.getHID().getLeftBumper()));
       coral.setDefaultCommand(new CoralStep(coral, airlock, () -> -0.1));
       // algaeP.setDefaultCommand(new pivotDefault(algaeP, elevator));
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
@@ -122,7 +123,7 @@ public class RobotContainer {
     */
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     // driver.leftBumper().onTrue(new SwerveToggleSlowMode(swerve));
-    driver.rightBumper().whileTrue(getAutonomousCommand());
+    driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve));
     // driver.a().whileTrue(new MoveToReef());
     driver.y().whileTrue(new pathToTag(swerve, 6));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
