@@ -121,7 +121,8 @@ public class RobotContainer {
     operator.povDown().whileTrue(new PivotPid(algaeP, 0));
     */
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
-    driver.leftBumper().onTrue(new SwerveToggleSlowMode(swerve));
+    // driver.leftBumper().onTrue(new SwerveToggleSlowMode(swerve));
+    driver.rightBumper().whileTrue(getAutonomousCommand());
     // driver.a().whileTrue(new MoveToReef());
     driver.y().whileTrue(new pathToTag(swerve, 6));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
