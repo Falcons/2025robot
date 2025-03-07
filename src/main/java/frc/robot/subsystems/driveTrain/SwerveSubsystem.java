@@ -360,7 +360,7 @@ public Command followPathCommand(PathPlannerPath path) {
     //using megatag 1
     if (!useMegaTag2) { 
       LimelightHelpers.PoseEstimate mt1_T = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-tag");
-      LimelightHelpers.PoseEstimate mt1_C = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-colour");
+      LimelightHelpers.PoseEstimate mt1_C = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-end");
 
       if (mt1_T.tagCount == 1) {
         if (mt1_T.rawFiducials.length == 1){
@@ -390,7 +390,7 @@ public Command followPathCommand(PathPlannerPath path) {
       LimelightHelpers.SetRobotOrientation("limelight-tag", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
       LimelightHelpers.SetRobotOrientation("limelight-colour", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
       LimelightHelpers.PoseEstimate mt2_T = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-tag");
-      LimelightHelpers.PoseEstimate mt2_C = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-colour");
+      LimelightHelpers.PoseEstimate mt2_C = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-end");
   
       if (Math.abs(-gyro.getAngularVelocityZWorld().getValueAsDouble()) > 720) {
         doTRejectUpdate = true;

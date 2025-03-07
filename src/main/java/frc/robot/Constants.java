@@ -120,7 +120,7 @@ public final class Constants {
         public static final double intakeMotorRotToRad = intakeRatio * (2 * Math.PI);
         public static final double voltageMin = 9.9;
         public static final double pivotMin = 0.0;
-        public static final double pivotOut = 12.7;
+        public static final double pivotOut = 13;
         public static final double pivotMax = 195;
         public static final double MaxAlgaeHeight = 20.0;
     }
