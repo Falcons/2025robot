@@ -30,6 +30,7 @@ import frc.robot.commands.coral.CoralStep;
 import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
+import frc.robot.commands.driveTrain.invertdrive;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
@@ -129,12 +130,8 @@ public class RobotContainer {
     
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     driver.leftBumper().whileTrue(new SwerveSlowModeHold(swerve));
-    driver.leftBumper().whileTrue(new SwerveSlowModeHold(swerve));
-    driver.leftBumper().whileTrue(new SwerveSlowModeHold(swerve));
     // driver.a().whileTrue(new MoveToReef());
-    // driver.y().whileTrue(new pathToTag(swerve, 6));
-    // driver.y().whileTrue(new pathToTag(swerve, 6));
-    // driver.y().whileTrue(new pathToTag(swerve, 6));
+    driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
   }
 
