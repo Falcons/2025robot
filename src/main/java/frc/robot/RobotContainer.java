@@ -118,12 +118,9 @@ public class RobotContainer {
     operator.leftBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL2));
     operator.rightBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL3));
     
-    operator.start().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotMax));
-    operator.back().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotOut));
-    /*
-    operator.povUp().whileTrue(new PivotPid(algaeP, 180));
-    operator.povDown().whileTrue(new PivotPid(algaeP, 0));
-    */
+    // operator.start().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotMax));
+    // operator.back().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotOut));
+    
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     driver.a().onTrue(new SwerveToggleSlowMode(swerve));
     driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve));
