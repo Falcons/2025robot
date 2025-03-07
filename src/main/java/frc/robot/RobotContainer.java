@@ -34,6 +34,7 @@ import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwervePositionPIDTuning;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
+import frc.robot.commands.driveTrain.SwerveSlowModeHold;
 import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
 import frc.robot.commands.driveTrain.invertdrive;
 import frc.robot.commands.elevator.ElevatorManual;
@@ -126,11 +127,9 @@ public class RobotContainer {
     operator.back().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotOut));
     
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
-    driver.a().onTrue(new SwerveToggleSlowMode(swerve));
-    driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve));
-    // driver.a().whileTrue(new pivotPidToggle(algaeP));
+    driver.leftBumper().whileTrue(new SwerveSlowModeHold(swerve));
+    // driver.a().whileTrue(new MoveToReef());
     // driver.y().whileTrue(new pathToTag(swerve, 6));
-    driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
   }
 
