@@ -66,8 +66,8 @@ public class Pivot extends SubsystemBase {
     pivotPid.reset();
   }
   public void setPivot(double speed) {
-      // if(atMax && speed > 0) return;
-      // if(atMin && speed < 0) return;
+      if(atMax && speed > 0) speed = 0;
+      if(atMin && speed < 0)speed = 0;
       SmartDashboard.putNumber("Pivot/speed", speed);
       pivot.set(speed);
   }
