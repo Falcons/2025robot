@@ -4,7 +4,6 @@
 
 package frc.robot.commands.moveToTarget;
 
-import java.util.function.Supplier;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -14,13 +13,10 @@ import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 public class MoveToTag extends Command {
-
   SwerveSubsystem swerveSubsystem;
-  private final Supplier<Boolean> fieldOriented;
   /** Creates a new MoveToTag. */
-  public MoveToTag(SwerveSubsystem swerve, Supplier<Boolean> field) {
+  public MoveToTag(SwerveSubsystem swerve) {
     this.swerveSubsystem = swerve;
-    this.fieldOriented = field;
   }
 
   // Called when the command is initially scheduled.
@@ -31,11 +27,7 @@ public class MoveToTag extends Command {
   @Override
   public void execute() {
     ChassisSpeeds chassisSpeeds;
-    if (fieldOriented.get()) {
-      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed(), ySpeed(), turningSpeed(), swerveSubsystem.getRotation2d());
-    } else {
       chassisSpeeds = new ChassisSpeeds(xSpeed(), ySpeed(), turningSpeed());
-    }
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     
     swerveSubsystem.setModuleStates(moduleStates);
