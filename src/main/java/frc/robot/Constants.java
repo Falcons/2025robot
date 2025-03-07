@@ -23,7 +23,7 @@ public final class Constants {
 
         //4.60 m/s
         public static final double driveMaxSpeedMPS = neoFreeSpeedRPM * driveMotorRPMToMetresPerSecond;
-        public static final double slowModeSpeed = driveMaxSpeedMPS * 0.2;
+        public static final double slowModeSpeed = 0.15;
 
         //Turning Motor
 
