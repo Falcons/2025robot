@@ -5,6 +5,7 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ElevatorConstants;
@@ -17,6 +18,7 @@ public class ElevatorTrapezoidalMove extends Command {
   TrapezoidProfile.Constraints constraints;
   TrapezoidProfile profile;
   TrapezoidProfile.State current, end, pos;
+  Timer timer = new Timer();
   /** Creates a new ElevatorTrapezoidalMove. 
    * @param elevator elevator subsystem
    * @param maxV max velocity
@@ -33,10 +35,12 @@ public class ElevatorTrapezoidalMove extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println(this.getName() + " start");
     SmartDashboard.putNumber("trap/end", endPos);
     profile = new TrapezoidProfile(constraints);
     current = new TrapezoidProfile.State(elevator.getEncoder(), elevator.getVelocity()/60.0);
     end = new TrapezoidProfile.State(endPos, 0);
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -56,11 +60,13 @@ public class ElevatorTrapezoidalMove extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println(this.getName() + " end");
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return profile.isFinished(timer.get());
   }
 }

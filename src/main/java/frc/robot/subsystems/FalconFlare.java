@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,10 +15,10 @@ public class FalconFlare extends SubsystemBase {
   DigitalOutput D1 = new DigitalOutput(falconFlareConstants.dio1);
   DigitalOutput D2 = new DigitalOutput(falconFlareConstants.dio2);
   DigitalOutput D3 = new DigitalOutput(falconFlareConstants.dio3);
-
+  Optional<DriverStation.Alliance> Alliance = DriverStation.getAlliance();
   /** Creates a new FalconFlare. */
   public FalconFlare() {
-
+    reset();
   }
 
   @Override
@@ -30,6 +32,7 @@ public class FalconFlare extends SubsystemBase {
     D3.set(in3);
   }
   public void reset() {
-    // setLights(false, false, DriverStation.getAlliance() == DriverStation.Alliance.Red);
+    boolean isRed = Alliance.get() == DriverStation.Alliance.Red;
+    setLights(false, false, isRed);
   }
 }

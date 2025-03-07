@@ -33,7 +33,9 @@ public class ElevatorManual extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // swerve.setSlowMode(elevator.getEncoder() >= ElevatorConstants.slowModetrigger);
+    // boolean SM = false;
+    // if(elevator.getEncoder() >= ElevatorConstants.slowModetrigger){SM = true;}
+    // swerve.setSlowMode(SM);
     elevator.set(speed.get());
   }
 
