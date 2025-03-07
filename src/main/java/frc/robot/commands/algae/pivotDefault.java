@@ -18,26 +18,30 @@ public class pivotDefault extends Command {
   public pivotDefault(Pivot pivot, Elevator elevator) {
     this.pivot = pivot;
     this.elevator =  elevator;
-    addRequirements(elevator);
+    addRequirements(pivot);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println(this.getName() + " start");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     boolean atMin = elevator.getEncoder() < AlgaeConstants.MaxAlgaeHeight;
     SmartDashboard.putBoolean("elevator/at min algae", atMin);
-      if (atMin && pivot.getAbsEncoderDeg() > 90){
+      if (atMin && pivot.getAbsEncoderDeg() < 90){
         elevator.pause = true;
       //pivot.setPivotpid(AlgaeConstants.pivotMin);
     }else elevator.pause = false;
   }
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println(this.getName() + " end");
+  }
 
   // Returns true when the command should end.
   @Override

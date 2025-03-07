@@ -258,7 +258,10 @@ public Command followPathCommand(PathPlannerPath path) {
   public void zeroHeading() {
     gyro.reset();
   }
-
+  /** sets Gyro Heading */
+  public void setHeading(double angle) {
+    gyro.setYaw(angle);
+  }
   /** @return Gyro Rotation2d, continuous */
   public Rotation2d getRotation2d() {
     return gyro.getRotation2d();

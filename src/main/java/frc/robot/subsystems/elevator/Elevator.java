@@ -28,7 +28,7 @@ public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
     PIDController Pid = new PIDController(0.7, 0, 0); 
-    PIDController PidSmall = new PIDController(0.3, 0, 0.05); 
+    PIDController PidSmall = new PIDController(0.1, 0, 0.05); 
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.76, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
@@ -37,7 +37,7 @@ public class Elevator extends SubsystemBase {
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
     double[] L1offset = limelightConstants.LLendoffset; 
     public double targetPos = 15;
-    public boolean atMax, atMin, atDrop, pause;
+    public boolean atMax, atMin, atDrop, pause, coral;
     private Airlock airlock;
     /** Creates a new elevator. */
   public Elevator(Airlock airlock) {
@@ -59,8 +59,8 @@ public class Elevator extends SubsystemBase {
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     Pid.setTolerance(0.1);
+    PidSmall.setTolerance(0.1);
     Pid.setIntegratorRange(-0.01, 0.01);
-    SmartDashboard.putNumber("con",ElevatorConstants.motorRotToIN);
     updateEncoders(0);
   }
 
@@ -70,6 +70,7 @@ public class Elevator extends SubsystemBase {
     atMin = getEncoder() <= ElevatorConstants.Min;
     atMax = getEncoder() >= ElevatorConstants.Max;
     atDrop = getEncoder() <= ElevatorConstants.Drop;
+    coral = atMin && getTOF() <= 50;
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
     SmartDashboard.putNumber("Elevator/raw left encoder", leftMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator/raw right encoder", rightMoter.getEncoder().getPosition());
@@ -85,6 +86,7 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putBoolean("Elevator/at min", atMin);
     SmartDashboard.putBoolean("Elevator/at drop", atDrop);
     SmartDashboard.putBoolean("Elevator/paused", pause);
+    SmartDashboard.putBoolean("Elevator/coral", coral);
     SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-0.5 && getEncoder() <= ElevatorConstants.coralL1+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L2", getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L3", getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5);

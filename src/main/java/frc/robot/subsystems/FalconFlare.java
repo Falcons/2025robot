@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
@@ -15,9 +17,16 @@ public class FalconFlare extends SubsystemBase {
   DigitalOutput D1 = new DigitalOutput(falconFlareConstants.dio1);
   DigitalOutput D2 = new DigitalOutput(falconFlareConstants.dio2);
   DigitalOutput D3 = new DigitalOutput(falconFlareConstants.dio3);
+  Map<String,Boolean[]> colours = new HashMap<String,Boolean[]>();
   Optional<DriverStation.Alliance> Alliance = DriverStation.getAlliance();
   /** Creates a new FalconFlare. */
   public FalconFlare() {
+    colours.put("white", new Boolean[]{false,true,false});
+    colours.put("green", new Boolean[]{false,true,true});
+    colours.put("purple", new Boolean[]{true,false,false});
+    colours.put("yellow", new Boolean[]{true,false,true});
+    colours.put("blue", new Boolean[]{true,true,false});
+    colours.put("red", new Boolean[]{true,true,true});
     reset();
   }
 
