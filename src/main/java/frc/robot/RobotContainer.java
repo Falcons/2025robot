@@ -23,6 +23,7 @@ import frc.robot.commands.auto.MoveToReef;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.TaxiAndInvertDrive;
 import frc.robot.commands.auto.TaxiAndInvertDrive;
+import frc.robot.commands.auto.TaxiAndInvertDrive;
 import frc.robot.commands.algae.pivotDefault;
 import frc.robot.commands.algae.pivotPidToggle;
 import frc.robot.commands.algae.AlgaeIntake;
@@ -32,9 +33,11 @@ import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
+import frc.robot.commands.driveTrain.SwerveSlowModeHold;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
+import frc.robot.commands.elevator.TrapAndSmallPID;
 import frc.robot.commands.elevator.TrapAndSmallPID;
 import frc.robot.commands.elevator.TrapAndSmallPID;
 import frc.robot.subsystems.Airlock;
@@ -74,8 +77,10 @@ public class RobotContainer {
       // algaeP.setDefaultCommand(new pivotDefault(algaeP, elevator));
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
+      // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
     elevator.setDefaultCommand(new ElevatorSetVoltage(elevator, 0.75));
+    
     
     
 
@@ -96,12 +101,15 @@ public class RobotContainer {
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     auto_chooser.addOption("taxi + invert", new TaxiAndInvertDrive(swerve));
     auto_chooser.addOption("taxi + invert", new TaxiAndInvertDrive(swerve));
+    auto_chooser.addOption("taxi + invert", new TaxiAndInvertDrive(swerve));
     SmartDashboard.putData("auto", auto_chooser);
   }
   
   private void configureBindings() {
     operator.x().whileTrue(new AlgaeIntake(algaeI, -1)); // intake algae
     operator.a().whileTrue(new AlgaeIntake(algaeI, 1)); // shoot algae
+    // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
+    operator.y().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.Min));
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.Min));
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
@@ -113,7 +121,12 @@ public class RobotContainer {
     operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.0, -0.20));
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.2));
+    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.0, -0.20));
+    operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
+    operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.2));
     operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.20)); // outake
+    
+    operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     
@@ -121,6 +134,12 @@ public class RobotContainer {
     operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
     operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
     operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
+    /*
+    operator.povDown().onTrue(new TrapAndSmallPID(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
+    operator.povLeft().onTrue(new TrapAndSmallPID(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
+    operator.povRight().onTrue(new TrapAndSmallPID(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
+    operator.povUp().onTrue(new TrapAndSmallPID(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
+    */
     /*
     operator.povDown().onTrue(new TrapAndSmallPID(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     operator.povLeft().onTrue(new TrapAndSmallPID(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
@@ -142,7 +161,9 @@ public class RobotContainer {
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     driver.leftBumper().whileTrue(new SwerveSlowModeHold(swerve));
     driver.leftBumper().whileTrue(new SwerveSlowModeHold(swerve));
+    driver.leftBumper().whileTrue(new SwerveSlowModeHold(swerve));
     // driver.a().whileTrue(new MoveToReef());
+    // driver.y().whileTrue(new pathToTag(swerve, 6));
     // driver.y().whileTrue(new pathToTag(swerve, 6));
     // driver.y().whileTrue(new pathToTag(swerve, 6));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
