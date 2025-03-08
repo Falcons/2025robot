@@ -140,7 +140,7 @@ public final class Constants {
         /**array [min, max]*/public static final double coralL1 = 12; 
         /**array [min, max]*/public static final double coralL2 = 26;
         /**array [min, max]*/public static final double coralL3 = 62;
-        /**array [min, max]*/public static final double coralL4 = 118;
+        /**array [min, max]*/public static final double coralL4 = 118.2;
         /**array [min, max]*/public static final double algaeL2 = 49;
         /**array [min, max]*/public static final double algaeL3 = 86;
         public static final double slowModeSpeed = 0.2; 

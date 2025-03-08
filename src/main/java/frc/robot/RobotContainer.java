@@ -43,6 +43,7 @@ import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.commands.elevator.SetElevatorSmallPID;
+import frc.robot.commands.elevator.SetElevatorSmallPIDMan;
 import frc.robot.commands.elevator.trapAndSmallPid;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.FalconFlare;
@@ -140,8 +141,12 @@ public class RobotContainer {
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
 
-    // driver.povUp().onTrue(new SetElevatorSmallPID(elevator, elevator.getEncoder()+0.5));
-    // driver.povDown().onTrue(new SetElevatorSmallPID(elevator, elevator.getEncoder()-0.5));
+    driver.povUp().onTrue(new SetElevatorSmallPIDMan(elevator, +0.5));
+    driver.povDown().onTrue(new SetElevatorSmallPIDMan(elevator, -0.5));
+    /* 
+    driver.povUp().onTrue(new SetElevatorSmallPID(elevator, () -> elevator.getEncoder()+0.5));
+    driver.povDown().onTrue(new SetElevatorSmallPID(elevator, () -> elevator.getEncoder()-0.5));
+    */
   }
 
   public Command getAutonomousCommand() {

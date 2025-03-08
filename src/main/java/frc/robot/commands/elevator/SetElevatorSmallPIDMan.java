@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetElevatorSmallPID extends Command {
+public class SetElevatorSmallPIDMan extends Command {
   Elevator elevator;
-  Supplier<Double> setpoint;
+  Double offset;
   double target;
   /** Creates a new SetElevatorPID. */
-  public SetElevatorSmallPID(Elevator elevator, Supplier<Double> setpoint) {
+  public SetElevatorSmallPIDMan(Elevator elevator, Double offset) {
     this.elevator = elevator;
-    this.setpoint = setpoint;
+    this.offset = offset;
     addRequirements(elevator);
   }
 
@@ -26,9 +26,9 @@ public class SetElevatorSmallPID extends Command {
   @Override
   public void initialize() {
     System.out.println(this.getName() + " start");
-    target = setpoint.get();
-    SmartDashboard.putNumber("Elevator/small pid target", target);
-    SmartDashboard.putNumber("Elevator/small pid setpoit", setpoint.get());
+    target = elevator.getEncoder()+offset;
+    SmartDashboard.putNumber("Elevator/PID/Small/target", target);    
+    SmartDashboard.putNumber("Elevator/PID/Small/offset", offset);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

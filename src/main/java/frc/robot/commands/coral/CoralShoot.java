@@ -19,6 +19,7 @@ public class CoralShoot extends Command {
   /** Creates a new shoot. */
   public CoralShoot(Coral coral, Elevator elevator, Supplier<Double> speed) {
     this.coral = coral;
+    this.elevator = elevator;
     this.speed = speed;
     addRequirements(coral);
   }
@@ -32,7 +33,7 @@ public class CoralShoot extends Command {
   public void execute() {
     double left = speed.get();
     double right = speed.get();
-    // if(elevator.getEncoder() >= ElevatorConstants.coralL1-0.5 && elevator.getEncoder() <= ElevatorConstants.coralL1+0.5)left *= 0.5;
+    if(elevator.getEncoder() >= ElevatorConstants.coralL1-1 && elevator.getEncoder() <= ElevatorConstants.coralL1+0.5)left = 0;
     coral.set(left, right);
   }
 

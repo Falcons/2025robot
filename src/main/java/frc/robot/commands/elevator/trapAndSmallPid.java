@@ -17,7 +17,7 @@ public class trapAndSmallPid extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ElevatorTrapezoidalMove(elevator, maxV, maxA, endPos),
-      new SetElevatorSmallPID(elevator, endPos)
+      new SetElevatorSmallPID(elevator, () -> endPos)
     );
   }
 }

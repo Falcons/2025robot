@@ -28,8 +28,8 @@ public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
     PIDController Pid = new PIDController(0.7, 0, 0); 
-    PIDController PidSmall = new PIDController(0.1, 0, 0); 
-    ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.76, 0);
+    PIDController PidSmall = new PIDController(0.3, 0, 0); 
+    ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.75, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
@@ -61,8 +61,9 @@ public class Elevator extends SubsystemBase {
     leftConfig.smartCurrentLimit(40);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    Pid.setTolerance(0.1);
+    Pid.setTolerance(0.05);
     Pid.setIntegratorRange(-0.01, 0.01);
+    PidSmall.setTolerance(0.05);
     SmartDashboard.putNumber("con",ElevatorConstants.motorRotToIN);
     updateEncoders(0);
   }
@@ -87,7 +88,7 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putBoolean("Elevator/at max", atMax);
     SmartDashboard.putBoolean("Elevator/at min", atMin);
     SmartDashboard.putBoolean("Elevator/at drop", atDrop);
-    SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-0.5 && getEncoder() <= ElevatorConstants.coralL1+0.5);
+    SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1);
     SmartDashboard.putBoolean("Elevator/Level/L2", getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L3", getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L4", getEncoder() >= ElevatorConstants.coralL4-0.02 && getEncoder() <= ElevatorConstants.coralL4+0.02);
@@ -116,7 +117,8 @@ public class Elevator extends SubsystemBase {
   public void setPID(double setpoint){
     double FF = feedforward.calculate(setpoint);
     double pid = Pid.calculate(getEncoder(), setpoint);
-    if(!atDrop) pid += FF;
+    if(!atDrop && pid > 0) pid += FF;
+    if(!atDrop && pid < 0) pid += FF;//-0.4;
     SmartDashboard.putNumber("Elevator/PID/FF", FF);
     SmartDashboard.putNumber("Elevator/PID/target", pid);
     SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
@@ -128,10 +130,11 @@ public class Elevator extends SubsystemBase {
     double FF = feedforward.calculate(setpoint);
     double pid = PidSmall.calculate(getEncoder(), setpoint);
     if(!atDrop) pid += FF;
-    SmartDashboard.putNumber("Elevator/PID/FF", FF);
-    SmartDashboard.putNumber("Elevator/PID/target", pid);
-    SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
-    SmartDashboard.putNumber("Elevator/PID/error", PidSmall.getError());
+    // if(!atDrop && pid < 0) pid += 0.1;
+    SmartDashboard.putNumber("Elevator/PID/Small/FF", FF);
+    SmartDashboard.putNumber("Elevator/PID/Small/target", pid);
+    SmartDashboard.putNumber("Elevator/PID/Small/setpoint", setpoint);
+    SmartDashboard.putNumber("Elevator/PID/Small/error", PidSmall.getError());
     setVoltage(pid);
   }
   public void resetEncoder(){
