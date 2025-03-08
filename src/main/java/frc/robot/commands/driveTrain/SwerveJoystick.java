@@ -67,9 +67,9 @@ public class SwerveJoystick extends Command {
     turningSpeed = Math.abs(turningSpeed) > 0.1 ? turningSpeed : 0.0;
 
     // 15% of max speed
-    xSpeed = xLimiter.calculate(xSpeed) * ModuleConstants.driveMaxSpeedMPS;
-    ySpeed = yLimiter.calculate(ySpeed) * ModuleConstants.driveMaxSpeedMPS;
-    turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.maxAngularSpeedRadiansPerSecond;
+    xSpeed = xLimiter.calculate(xSpeed*swerveSubsystem.speedMod) * ModuleConstants.driveMaxSpeedMPS;
+    ySpeed = yLimiter.calculate(ySpeed*swerveSubsystem.speedMod) * ModuleConstants.driveMaxSpeedMPS;
+    turningSpeed = turningLimiter.calculate(turningSpeed*swerveSubsystem.speedMod) * DriveConstants.maxAngularSpeedRadiansPerSecond;
 
     ChassisSpeeds chassisSpeeds;
     if (fieldOriented.get()) {

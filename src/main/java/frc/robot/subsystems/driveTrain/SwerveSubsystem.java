@@ -92,7 +92,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final PIDController rotationPID = new PIDController(DriveConstants.rotationKP, DriveConstants.rotationKI, 0);
   private final SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, getRotation2d(), getModulePositions(), new Pose2d());
   private Alert slowModeAlert = new Alert("drive slow mode active", AlertType.kInfo);
-  private double speedMod = 1;
+  public double speedMod = 1;
   public Boolean invert = false;
 
   // private final Field2d field2024 = new Field2d();
@@ -285,7 +285,7 @@ public Command followPathCommand(PathPlannerPath path) {
   /** Sets all 4 Modules to specified Speed and Angle */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     commandedStatePublisher.set(desiredStates);
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, ModuleConstants.driveMaxSpeedMPS * speedMod);
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, ModuleConstants.driveMaxSpeedMPS);
     frontLeft.setDesiredState(desiredStates[0]);
     frontRight.setDesiredState(desiredStates[1]);
     backLeft.setDesiredState(desiredStates[2]);
