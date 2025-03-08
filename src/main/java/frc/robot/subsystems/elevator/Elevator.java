@@ -50,6 +50,7 @@ public class Elevator extends SubsystemBase {
     rightConfig.encoder.velocityConversionFactor(2);
     rightConfig.idleMode(IdleMode.kBrake);
     rightConfig.inverted(false);
+    rightConfig.smartCurrentLimit(40);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMotor2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
@@ -57,6 +58,7 @@ public class Elevator extends SubsystemBase {
     leftConfig.encoder.velocityConversionFactor(2);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
+    leftConfig.smartCurrentLimit(40);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     Pid.setTolerance(0.1);

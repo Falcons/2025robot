@@ -31,6 +31,7 @@ public class Intake extends SubsystemBase {
     intakeConfig.idleMode(IdleMode.kBrake);
     intakeConfig.encoder.positionConversionFactor(AlgaeConstants.intakeMotorRotToRad);
     intakeConfig.encoder.velocityConversionFactor(AlgaeConstants.intakeMotorRotToRad/60);
+    intakeConfig.smartCurrentLimit(30);
     intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
   public void stopIntake() {
