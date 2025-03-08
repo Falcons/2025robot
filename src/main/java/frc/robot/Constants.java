@@ -155,8 +155,8 @@ public final class Constants {
     }
     public static final class falconFlareConstants{
         public static final int dio1 = 5;
-        public static final int dio2 = 6;
-        public static final int dio3 = 7;
+        public static final int dio2 = 4;
+        public static final int dio3 = 3;
     }
 public static final class limelightConstants{
     public static final int[] redReef = {};

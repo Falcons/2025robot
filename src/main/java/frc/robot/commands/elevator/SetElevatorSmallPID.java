@@ -4,6 +4,7 @@
 
 package frc.robot.commands.elevator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
 
@@ -22,6 +23,7 @@ public class SetElevatorSmallPID extends Command {
   @Override
   public void initialize() {
     System.out.println(this.getName() + " start");
+    SmartDashboard.putNumber("Elevator/small pid setpoit", setpoint);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,6 +42,6 @@ public class SetElevatorSmallPID extends Command {
   @Override
   public boolean isFinished() {
     // return elevator.atSetpoint();
-    return false;
+    return false; //set to true if hold bad
   }
 }

@@ -45,6 +45,7 @@ import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.commands.elevator.SetElevatorSmallPID;
 import frc.robot.commands.elevator.trapAndSmallPid;
 import frc.robot.subsystems.Airlock;
+import frc.robot.subsystems.FalconFlare;
 import frc.robot.subsystems.algae.Pivot;
 import frc.robot.subsystems.shooter.Coral;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
@@ -52,6 +53,7 @@ import frc.robot.subsystems.elevator.Elevator;
 public class RobotContainer {
 
   private final Airlock airlock = new Airlock();
+  private final FalconFlare flare = new FalconFlare();
   private final Elevator elevator = new Elevator(airlock);
   private final Coral coral = new Coral();
   private final Pivot algaeP = new Pivot();
@@ -62,7 +64,7 @@ public class RobotContainer {
 
 
   private final double globalSpeedMod = 1;
-  private final double operatorRSDeadZone = 0.1;
+  private final double operatorRSDeadZone = 0.2;
   private final double operatorLSDeadZone = 0.1;
   private final double operatorRTDeadZone = 0.01;
   private final double operatorLTDeadZone = 0.01;
@@ -81,7 +83,7 @@ public class RobotContainer {
       // algaeP.setDefaultCommand(new pivotDefault(algaeP, elevator));
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
-    elevator.setDefaultCommand(new ElevatorSetVoltage(elevator, 0.75));
+    elevator.setDefaultCommand(new ElevatorSetVoltage(elevator, 0.78));
 
     configureBindings();
 
@@ -138,8 +140,8 @@ public class RobotContainer {
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
 
-    driver.povUp().onTrue(new SetElevatorSmallPID(elevator, elevator.getEncoder()+0.5));
-    driver.povDown().onTrue(new SetElevatorSmallPID(elevator, elevator.getEncoder()-0.5));
+    // driver.povUp().onTrue(new SetElevatorSmallPID(elevator, elevator.getEncoder()+0.5));
+    // driver.povDown().onTrue(new SetElevatorSmallPID(elevator, elevator.getEncoder()-0.5));
   }
 
   public Command getAutonomousCommand() {
