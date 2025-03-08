@@ -27,7 +27,8 @@ import frc.robot.subsystems.Airlock;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.7, 0, 0); //TODO: change pid values for elecvato and FEEDFORWARD
+    PIDController Pid = new PIDController(0.7, 0, 0); 
+    PIDController PidSmall = new PIDController(0.1, 0, 0); 
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.76, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
@@ -36,6 +37,7 @@ public class Elevator extends SubsystemBase {
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
     double[] L1offset = limelightConstants.LLendoffset; 
     public double targetPos = 15;
+    public Double speedMod = 1.0;
     public boolean atMax, atMin, atDrop;
     private Airlock airlock;
     /** Creates a new elevator. */
@@ -97,9 +99,9 @@ public class Elevator extends SubsystemBase {
     if (!airlock.checkSafety()) return;
     if (atMin && speed < 0 || atMax && speed > 0)return; //saftey
     LimelightHelpers.setCameraPose_RobotSpace("limelight-colour", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/39.37, L1offset[3], L1offset[4], L1offset[5]);
-    SmartDashboard.putNumber("Elevator/speed", speed);
-    rightMoter.set(speed);
-    leftMoter.set(speed);
+    SmartDashboard.putNumber("Elevator/speed", speed*speedMod);
+    rightMoter.set(speed*speedMod);
+    leftMoter.set(speed*speedMod);
   }
   public void setVoltage(double voltage){
     SmartDashboard.putNumber("Elevator/voltage sent", voltage);
@@ -117,6 +119,17 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Elevator/PID/target", pid);
     SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
     SmartDashboard.putNumber("Elevator/PID/error", Pid.getError());
+    setVoltage(pid);
+  }
+  /**sets the elevator to a specific position*/
+  public void setSmallPID(double setpoint){
+    double FF = feedforward.calculate(setpoint);
+    double pid = PidSmall.calculate(getEncoder(), setpoint);
+    if(!atDrop) pid += FF;
+    SmartDashboard.putNumber("Elevator/PID/FF", FF);
+    SmartDashboard.putNumber("Elevator/PID/target", pid);
+    SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
+    SmartDashboard.putNumber("Elevator/PID/error", PidSmall.getError());
     setVoltage(pid);
   }
   public void resetEncoder(){

@@ -6,13 +6,16 @@ package frc.robot.commands.driveTrain;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
+import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SwerveSlowModeHold extends Command {
   SwerveSubsystem swerve;
+  Elevator elevator;
   /** Creates a new SwerveSlowModeHold. */
-  public SwerveSlowModeHold(SwerveSubsystem swerve) {
+  public SwerveSlowModeHold(SwerveSubsystem swerve, Elevator elevator) {
     this.swerve = swerve;
+    this.elevator = elevator;
   }
 
   // Called when the command is initially scheduled.
@@ -23,12 +26,14 @@ public class SwerveSlowModeHold extends Command {
   @Override
   public void execute() {
     swerve.setSlowMode(true);
+    elevator.speedMod = 0.4;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     swerve.setSlowMode(false);
+    elevator.speedMod = 1.0;
   }
 
   // Returns true when the command should end.

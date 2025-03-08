@@ -24,6 +24,7 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.PivotPid;
+import frc.robot.commands.auto.DRL1;
 import frc.robot.commands.auto.MoveToReef;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.pathToTag;
@@ -41,6 +42,7 @@ import frc.robot.commands.driveTrain.invertdrive;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
+import frc.robot.commands.elevator.trapAndSmallPid;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.algae.Pivot;
 import frc.robot.subsystems.shooter.Coral;
@@ -96,6 +98,7 @@ public class RobotContainer {
     // path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", stream -> stream.filter(auto -> !auto.getName().startsWith(".")));
     // SmartDashboard.putData("auto", path_chooser);
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
+    auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral));
     SmartDashboard.putData("auto", auto_chooser);
   }
   
@@ -105,15 +108,21 @@ public class RobotContainer {
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.Min));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.05));
-    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.0, -0.20));
+    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.0, -0.40));
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.2));
     operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.20)); // outake
     
+    /* 
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
     operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
     operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
+    */
+    operator.povDown().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
+    operator.povLeft().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
+    operator.povRight().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
+    operator.povUp().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
     
     operator.leftBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL2));
     operator.rightBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL3));
@@ -123,7 +132,7 @@ public class RobotContainer {
     
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     driver.a().onTrue(new SwerveToggleSlowMode(swerve));
-    driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve));
+    driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
     // driver.a().whileTrue(new pivotPidToggle(algaeP));
     // driver.y().whileTrue(new pathToTag(swerve, 6));
     driver.y().onTrue(new invertdrive(swerve));
