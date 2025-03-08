@@ -36,7 +36,7 @@ public class Pivot extends SubsystemBase {
     pivotConfig.idleMode(IdleMode.kCoast);
     pivotConfig.encoder.positionConversionFactor(AlgaeConstants.pivotMotorRotToRad);
     pivotConfig.encoder.velocityConversionFactor(AlgaeConstants.pivotMotorRotToRad);
-
+    pivotConfig.smartCurrentLimit(30);
     pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     pivotPid.enableContinuousInput(-180, 180);
