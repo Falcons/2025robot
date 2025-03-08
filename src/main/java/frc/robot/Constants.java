@@ -154,9 +154,9 @@ public final class Constants {
         /**array [min, max]*/public static final double[] backLCTrigger = {0,20};
     }
     public static final class falconFlareConstants{
-        public static final int dio1 = 0;
-        public static final int dio2 = 1;
-        public static final int dio3 = 2;
+        public static final int dio1 = 5;
+        public static final int dio2 = 6;
+        public static final int dio3 = 7;
     }
 public static final class limelightConstants{
     public static final int[] redReef = {};
@@ -164,4 +164,4 @@ public static final class limelightConstants{
     public static final double[] LLendoffset = {0.3175,0,0.5334,0,0,0};
     public static final double[] LLfunneloffset = {0,-2.75,0,0,0,0};
 }
-}
+}   
