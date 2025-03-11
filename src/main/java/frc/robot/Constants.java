@@ -119,10 +119,11 @@ public final class Constants {
         public static final double pivotMotorRotToRad = PivotRatio * (2 * Math.PI);
         public static final double intakeMotorRotToRad = intakeRatio * (2 * Math.PI);
         public static final double voltageMin = 9.9;
-        public static final double pivotMin = 1.5;
-        public static final double pivotOut = 17.0;
+        public static final double pivotMin = 0;
+        public static final double pivotOut = 20.0;
+        public static final double pivotDanger = 90.0;
         public static final double pivotMax = 185;
-        public static final double MaxAlgaeHeight = 20.0;
+        public static final double MaxAlgaeHeight = 7.0;
     }
     public static final class ElevatorConstants {
         public static final int motorRatio = 12; //12:1 
@@ -140,7 +141,7 @@ public final class Constants {
         /**array [min, max]*/public static final double coralL1 = 12; 
         /**array [min, max]*/public static final double coralL2 = 26;
         /**array [min, max]*/public static final double coralL3 = 62;
-        /**array [min, max]*/public static final double coralL4 = 118.2;
+        /**array [min, max]*/public static final double coralL4 = 119.95;
         /**array [min, max]*/public static final double algaeL2 = 49;
         /**array [min, max]*/public static final double algaeL3 = 86;
         public static final double slowModeSpeed = 0.2; 
@@ -161,7 +162,7 @@ public final class Constants {
 public static final class limelightConstants{
     public static final int[] redReef = {};
     public static final int[] blueReef = {};
-    public static final double[] LLendoffset = {0.3175,0,0.5334,0,0,0};
+    public static final double[] LLendoffset = {0.3175,0,0.5334,0,20,0};
     public static final double[] LLfunneloffset = {0,-2.75,0,0,0,0};
 }
 }   

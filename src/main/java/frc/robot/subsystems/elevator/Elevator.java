@@ -38,7 +38,7 @@ public class Elevator extends SubsystemBase {
     double[] L1offset = limelightConstants.LLendoffset; 
     public double targetPos = 15;
     public Double speedMod = 1.0;
-    public boolean atMax, atMin, atDrop;
+    public boolean atMax, atMin, atDrop, danger;
     private Airlock airlock;
     /** Creates a new elevator. */
   public Elevator(Airlock airlock) {
@@ -88,6 +88,7 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putBoolean("Elevator/at max", atMax);
     SmartDashboard.putBoolean("Elevator/at min", atMin);
     SmartDashboard.putBoolean("Elevator/at drop", atDrop);
+    SmartDashboard.putBoolean("Elevator/in danger", danger);
     SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1);
     SmartDashboard.putBoolean("Elevator/Level/L2", getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L3", getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5);
@@ -99,9 +100,10 @@ public class Elevator extends SubsystemBase {
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
-    if (!airlock.checkSafety()) return;
-    if (atMin && speed < 0 || atMax && speed > 0)return; //saftey
-    LimelightHelpers.setCameraPose_RobotSpace("limelight-colour", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/39.37, L1offset[3], L1offset[4], L1offset[5]);
+    if (!airlock.checkSafety()) speed = 0;
+    if (danger && speed < 0)speed = 0;
+    if (atMin && speed < 0 || atMax && speed > 0)speed = 0; //saftey
+    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/39.37, L1offset[3], L1offset[4], L1offset[5]);
     SmartDashboard.putNumber("Elevator/speed", speed*speedMod);
     rightMoter.set(speed*speedMod);
     leftMoter.set(speed*speedMod);

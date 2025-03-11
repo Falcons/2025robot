@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -57,7 +58,7 @@ public class RobotContainer {
   private final FalconFlare flare = new FalconFlare();
   private final Elevator elevator = new Elevator(airlock);
   private final Coral coral = new Coral();
-  private final Pivot algaeP = new Pivot();
+  private final Pivot algaeP = new Pivot(elevator);
   private final frc.robot.subsystems.algae.Intake algaeI = new frc.robot.subsystems.algae.Intake();
   private final SwerveSubsystem swerve = new SwerveSubsystem();
   private final CommandXboxController driver = new CommandXboxController(0);
@@ -130,13 +131,15 @@ public class RobotContainer {
     operator.leftBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL2));
     operator.rightBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL3));
     
+    /* 
     operator.start().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotMax));
-    // operator.back().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotOut));
+    operator.back().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotOut));
+    */
+    operator.start().onTrue(new pivotPidToggle(algaeP));
     
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     // driver.a().onTrue(new SwerveToggleSlowMode(swerve));
     driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
-    // driver.a().whileTrue(new pivotPidToggle(algaeP));
     // driver.y().whileTrue(new pathToTag(swerve, 6));
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));

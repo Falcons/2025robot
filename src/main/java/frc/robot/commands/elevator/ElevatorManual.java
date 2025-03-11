@@ -34,6 +34,7 @@ public class ElevatorManual extends Command {
   @Override
   public void execute() {
     // swerve.setSlowMode(elevator.getEncoder() >= ElevatorConstants.slowModetrigger);
+    if(elevator.danger) elevator.setVoltage(0.76);
     elevator.set(speed.get());
   }
 
