@@ -140,7 +140,7 @@ public class RobotContainer {
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     // driver.a().onTrue(new SwerveToggleSlowMode(swerve));
     driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
-    // driver.y().whileTrue(new pathToTag(swerve, 6));
+    driver.x().whileTrue(new pathToTag(swerve, 6));
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
 

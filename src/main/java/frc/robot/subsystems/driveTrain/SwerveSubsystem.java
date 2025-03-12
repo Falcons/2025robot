@@ -355,7 +355,7 @@ public Command followPathCommand(PathPlannerPath path) {
   /** Updates Robot Pose based on Gyro and Module Positions */
   public void updatePoseEstimator() {
     poseEstimator.update(getRotation2d(), getModulePositions());
-    /* 
+    
     boolean useMegaTag2 = true; 
     boolean doTRejectUpdate = false;
     boolean doCRejectUpdate = false;
@@ -391,7 +391,7 @@ public Command followPathCommand(PathPlannerPath path) {
     // using megatag 2 (updated)
     } else {
       LimelightHelpers.SetRobotOrientation("limelight-tag", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
-      LimelightHelpers.SetRobotOrientation("limelight-colour", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
+      LimelightHelpers.SetRobotOrientation("limelight-end", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
       LimelightHelpers.PoseEstimate mt2_T = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-tag");
       LimelightHelpers.PoseEstimate mt2_C = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-end");
   
@@ -412,7 +412,7 @@ public Command followPathCommand(PathPlannerPath path) {
       if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_T.pose, mt2_T.timestampSeconds);
       if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_C.pose, mt2_C.timestampSeconds);
     }
-    */
+    
   }
 
 // PID
