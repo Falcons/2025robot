@@ -85,7 +85,7 @@ public class RobotContainer {
       // algaeP.setDefaultCommand(new pivotDefault(algaeP, elevator));
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
-    elevator.setDefaultCommand(new ElevatorSetVoltage(elevator, 0.78));
+    elevator.setDefaultCommand(new ElevatorSetVoltage(elevator, 0.76));
 
     configureBindings();
 
@@ -112,7 +112,7 @@ public class RobotContainer {
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.Min));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.05));
-    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.0, -0.20));
+    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.00, -0.20)); //-0.10 , -0.40
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.30));
     operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.20)); // outake
@@ -140,7 +140,7 @@ public class RobotContainer {
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     // driver.a().onTrue(new SwerveToggleSlowMode(swerve));
     driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
-    driver.x().whileTrue(new pathToTag(swerve, 6));
+    // driver.x().whileTrue(new pathToTag(swerve, 6));
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
 
