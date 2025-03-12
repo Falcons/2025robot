@@ -138,12 +138,12 @@ public final class Constants {
         public static final double slowModetrigger = 20;
         public static final double Max = 122; //lowest point for max
         public static final double TOFEdgeBuffer = 100;
-        /**array [min, max]*/public static final double coralL1 = 12; 
-        /**array [min, max]*/public static final double coralL2 = 26;
-        /**array [min, max]*/public static final double coralL3 = 62;
-        /**array [min, max]*/public static final double coralL4 = 119.95;
-        /**array [min, max]*/public static final double algaeL2 = 49;
-        /**array [min, max]*/public static final double algaeL3 = 86;
+        public static final double coralL1 = 12; 
+        public static final double coralL2 = 26;
+        public static final double coralL3 = 62;
+        public static final double coralL4 = 119.95;
+        public static final double algaeL2 = 49;
+        public static final double algaeL3 = 86;
         public static final double slowModeSpeed = 0.2; 
 
 
@@ -151,8 +151,8 @@ public final class Constants {
     public static final class airlockConstants {
         public static final int backLCCANID = 16;
         public static final int frontLCCANID = 17;
-        /**array [min, max]*/public static final double[] frontLCTrigger = {0,20};
-        /**array [min, max]*/public static final double[] backLCTrigger = {0,20};
+        /**array [min, max]*/public static final double[] frontLCTrigger = {0,40};
+        /**array [min, max]*/public static final double[] backLCTrigger = {0,40};
     }
     public static final class falconFlareConstants{
         public static final int dio1 = 5;
@@ -162,7 +162,7 @@ public final class Constants {
 public static final class limelightConstants{
     public static final int[] redReef = {};
     public static final int[] blueReef = {};
-    public static final double[] LLendoffset = {0.3175,0,0.5334,0,20,0};
+    public static final double[] LLendoffset = {0.3175,0,0.5334,0,-20,0};
     public static final double[] LLfunneloffset = {0,-2.75,0,0,0,0};
 }
 }   

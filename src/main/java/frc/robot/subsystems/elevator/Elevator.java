@@ -64,8 +64,8 @@ public class Elevator extends SubsystemBase {
     Pid.setTolerance(0.05);
     Pid.setIntegratorRange(-0.01, 0.01);
     PidSmall.setTolerance(0.05);
-    SmartDashboard.putNumber("con",ElevatorConstants.motorRotToIN);
     updateEncoders(0);
+    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/78.74, L1offset[3], L1offset[4], L1offset[5]);
   }
 
   @Override
@@ -103,7 +103,7 @@ public class Elevator extends SubsystemBase {
     if (!airlock.checkSafety()) speed = 0;
     if (danger && speed < 0)speed = 0;
     if (atMin && speed < 0 || atMax && speed > 0)speed = 0; //saftey
-    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/39.37, L1offset[3], L1offset[4], L1offset[5]);
+    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/78.74, L1offset[3], L1offset[4], L1offset[5]);
     SmartDashboard.putNumber("Elevator/speed", speed*speedMod);
     rightMoter.set(speed*speedMod);
     leftMoter.set(speed*speedMod);
@@ -111,6 +111,7 @@ public class Elevator extends SubsystemBase {
   public void setVoltage(double voltage){
     SmartDashboard.putNumber("Elevator/voltage sent", voltage);
     if (!airlock.checkSafety()) return;
+    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/78.74, L1offset[3], L1offset[4], L1offset[5]);
     if (atMin && voltage < 0 || atMax && voltage > 0){System.err.println("ele out of range");return;} //saftey
     rightMoter.setVoltage(voltage);
     leftMoter.setVoltage(voltage);
@@ -119,9 +120,8 @@ public class Elevator extends SubsystemBase {
   public void setPID(double setpoint){
     double FF = feedforward.calculate(setpoint);
     double pid = Pid.calculate(getEncoder(), setpoint);
-    if(!atDrop && pid > 0) pid += FF;
-    if(!atDrop && pid < 0) pid += FF;//-0.4;
-    SmartDashboard.putNumber("Elevator/PID/FF", FF);
+    if(!atDrop) pid += FF;
+    SmartDashboard.putNumber("Elevator/PID/FF1", FF);
     SmartDashboard.putNumber("Elevator/PID/target", pid);
     SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
     SmartDashboard.putNumber("Elevator/PID/error", Pid.getError());
@@ -131,9 +131,10 @@ public class Elevator extends SubsystemBase {
   public void setSmallPID(double setpoint){
     double FF = feedforward.calculate(setpoint);
     double pid = PidSmall.calculate(getEncoder(), setpoint);
-    if(!atDrop) pid += FF;
-    // if(!atDrop && pid < 0) pid += 0.1;
-    SmartDashboard.putNumber("Elevator/PID/Small/FF", FF);
+    if(!atDrop && pid > 0) pid += FF;
+    if(!atDrop && pid < 0) pid += FF-0.4;
+    
+    SmartDashboard.putNumber("Elevator/PID/Small/FF1", FF);
     SmartDashboard.putNumber("Elevator/PID/Small/target", pid);
     SmartDashboard.putNumber("Elevator/PID/Small/setpoint", setpoint);
     SmartDashboard.putNumber("Elevator/PID/Small/error", PidSmall.getError());
