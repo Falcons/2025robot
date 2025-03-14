@@ -27,9 +27,6 @@ public class FalconFlare extends SubsystemBase {
     colours.put("yellow", new Boolean[]{true,false,true});
     colours.put("blue", new Boolean[]{true,true,false});
     colours.put("red", new Boolean[]{true,true,true});
-    D1.enablePWM(0);
-    D2.enablePWM(0);
-    D3.enablePWM(0);
     reset();
   }
 

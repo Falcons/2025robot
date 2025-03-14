@@ -26,9 +26,13 @@ import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.PivotPid;
 import frc.robot.commands.auto.DRL1;
+import frc.robot.commands.auto.FollowTag;
+import frc.robot.commands.auto.FollowTagG;
+import frc.robot.commands.auto.L1ToSoruce;
 import frc.robot.commands.auto.MoveToReef;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.pathToTag;
+import frc.robot.commands.auto.relLimeL1;
 import frc.robot.commands.algae.pivotDefault;
 import frc.robot.commands.algae.pivotPidToggle;
 import frc.robot.commands.algae.AlgaeIntake;
@@ -103,6 +107,7 @@ public class RobotContainer {
     // SmartDashboard.putData("auto", path_chooser);
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral));
+    auto_chooser.addOption("limelight L!", new relLimeL1(swerve, elevator, coral, 11));
     SmartDashboard.putData("auto", auto_chooser);
   }
   
@@ -141,6 +146,9 @@ public class RobotContainer {
     // driver.a().onTrue(new SwerveToggleSlowMode(swerve));
     driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
     // driver.x().whileTrue(new pathToTag(swerve, 6));
+    driver.x().whileTrue(new L1ToSoruce(swerve, elevator, coral, 11));
+    driver.start().whileTrue(new FollowTagG(swerve, 11));
+    driver.back().whileTrue(new relLimeL1(swerve, elevator, coral, 11));
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
 

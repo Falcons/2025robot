@@ -134,7 +134,7 @@ public final class Constants {
         public static final double maxAcceleration = 40; //inches per second squared
         public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755);//* 2; //1.751//ratio * 2pi / gear radius in inchs
         public static final double Min = 1; //highest point for min
-        public static final double Drop = 6; //highest point for min
+        public static final double Drop = 4; //highest point for min
         public static final double slowModetrigger = 20;
         public static final double Max = 122; //lowest point for max
         public static final double TOFEdgeBuffer = 100;
@@ -155,9 +155,9 @@ public final class Constants {
         /**array [min, max]*/public static final double[] backLCTrigger = {0,40};
     }
     public static final class falconFlareConstants{
-        public static final int dio1 = 5;
-        public static final int dio2 = 4;
-        public static final int dio3 = 3;
+        public static final int dio1 = 7;
+        public static final int dio2 = 8;
+        public static final int dio3 = 9;
     }
 public static final class limelightConstants{
     public static final int[] redReef = {};

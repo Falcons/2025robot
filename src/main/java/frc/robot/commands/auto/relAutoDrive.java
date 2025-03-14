@@ -4,52 +4,47 @@
 
 package frc.robot.commands.auto;
 
-import java.util.List;
-
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.Waypoint;
-
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class FollowTag extends Command {
+public class relAutoDrive extends Command {
+  
   SwerveSubsystem swerve;
-  double tagID;
-  List<Waypoint> waypoints;
-  PathPlannerPath path;
-  double[] targetPose;
-  /** Creates a new FollowTag. */
-  public FollowTag(SwerveSubsystem swerve, double tagID) { 
+  Double time;
+  ChassisSpeeds speeds;
+  Timer timer = new Timer();
+  /** Creates a new relAutoDrive. */
+  public relAutoDrive(SwerveSubsystem swerve, ChassisSpeeds speeds, double time) {
     this.swerve = swerve;
-    this.tagID = tagID;
+    this.time = time;
+    this.speeds = speeds;
     addRequirements(swerve);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.start();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ChassisSpeeds chassisSpeeds;
-    if (LimelightHelpers.getFiducialID("limelight-end") != tagID) return;
-    targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
-    chassisSpeeds = new ChassisSpeeds(0, -targetPose[0], Units.degreesToRadians(-targetPose[4]));
-    swerve.driveRobotRelative(chassisSpeeds);
+    swerve.driveRobotRelative(speeds);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    swerve.stopModules();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return targetPose[0]  <= 0.1 && targetPose[4] <= 5;
+    return timer.get() >= time;
   }
 }

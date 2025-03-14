@@ -355,7 +355,7 @@ public Command followPathCommand(PathPlannerPath path) {
   /** Updates Robot Pose based on Gyro and Module Positions */
   public void updatePoseEstimator() {
     poseEstimator.update(getRotation2d(), getModulePositions());
-    
+    /*
     boolean useMegaTag2 = true; 
     boolean doTRejectUpdate = false;
     boolean doERejectUpdate = false;
@@ -386,9 +386,7 @@ public Command followPathCommand(PathPlannerPath path) {
         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.5, 0.5, 9999999)); //StdDev from Limelight website
       }
       if(!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt1_T.pose, mt1_T.timestampSeconds);
-      else System.out.println("limelight-tag update rejected");
       if(!doERejectUpdate) poseEstimator.addVisionMeasurement(mt1_E.pose, mt1_E.timestampSeconds);
-      else System.out.println("limelight-end update rejected");
       
     // using megatag 2 (updated)
     } else {
@@ -402,9 +400,9 @@ public Command followPathCommand(PathPlannerPath path) {
         doERejectUpdate = true;
       }
       if(mt2_T == null) {doTRejectUpdate = true; System.out.println("MT2_T is null");} 
-      else if (mt2_T.tagCount == 0) {doTRejectUpdate = true; System.out.println("MT2_T tag count = 0");}
+      else if (mt2_T.tagCount == 0) doTRejectUpdate = true;
       if(mt2_E == null) {doERejectUpdate = true; System.out.println("MT2_E is null");}
-      else if (mt2_E.tagCount == 0) {doERejectUpdate = true; System.out.println("MT2_E tag count = 0");}
+      else if (mt2_E.tagCount == 0) doERejectUpdate = true;
       
       
 
@@ -412,10 +410,8 @@ public Command followPathCommand(PathPlannerPath path) {
         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); //StdDev from Limelight website
       }
       if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_T.pose, mt2_T.timestampSeconds);
-      else System.out.println("limelight-tag update rejected");
       if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_E.pose, mt2_E.timestampSeconds);
-      else System.out.println("limelight-end update rejected");
-    }
+    }*/
     
   }
 

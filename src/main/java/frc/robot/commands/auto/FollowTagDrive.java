@@ -16,14 +16,14 @@ import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class FollowTag extends Command {
+public class FollowTagDrive extends Command {
   SwerveSubsystem swerve;
   double tagID;
   List<Waypoint> waypoints;
   PathPlannerPath path;
   double[] targetPose;
   /** Creates a new FollowTag. */
-  public FollowTag(SwerveSubsystem swerve, double tagID) { 
+  public FollowTagDrive(SwerveSubsystem swerve, double tagID) { 
     this.swerve = swerve;
     this.tagID = tagID;
     addRequirements(swerve);
@@ -39,7 +39,7 @@ public class FollowTag extends Command {
     ChassisSpeeds chassisSpeeds;
     if (LimelightHelpers.getFiducialID("limelight-end") != tagID) return;
     targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
-    chassisSpeeds = new ChassisSpeeds(0, -targetPose[0], Units.degreesToRadians(-targetPose[4]));
+    chassisSpeeds = new ChassisSpeeds(targetPose[2], -targetPose[0], Units.degreesToRadians(-targetPose[4]));
     swerve.driveRobotRelative(chassisSpeeds);
   }
 
@@ -50,6 +50,6 @@ public class FollowTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return targetPose[0]  <= 0.1 && targetPose[4] <= 5;
+    return !LimelightHelpers.getTV("limelight-end");
   }
 }
