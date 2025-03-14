@@ -23,6 +23,7 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.limelightConstants;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.Airlock;
+import frc.robot.subsystems.FalconFlare;
 
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
@@ -35,6 +36,7 @@ public class Elevator extends SubsystemBase {
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
+    FalconFlare falconFlare = new FalconFlare();
     double[] L1offset = limelightConstants.LLendoffset; 
     public double targetPos = 15;
     public Double speedMod = 1.0;
@@ -97,6 +99,10 @@ public class Elevator extends SubsystemBase {
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
     rightWarningAlert.setText("elevator right:" + rightMoter.getWarnings().toString()); rightWarningAlert.set(rightMoter.hasActiveWarning());
+    if (getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1){falconFlare.setLights(false, true, true);}
+    if (getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5){falconFlare.setLights(true, true, false);}
+    if (getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5){falconFlare.setLights(true, false, false);}
+    if (getEncoder() >= ElevatorConstants.coralL4-0.02 && getEncoder() <= ElevatorConstants.coralL4+0.02){falconFlare.setLights(true, true, true);}
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
