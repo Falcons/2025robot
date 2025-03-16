@@ -20,7 +20,7 @@ public class DRL1 extends SequentialCommandGroup {
   public DRL1(SwerveSubsystem swerve, Elevator elevator, Coral coral) {
     addCommands(
       new Taxi(swerve, 2.5),
-      new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1+0.5),
+      new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1+0.5).asProxy(),
       new RawShootForTime(coral, 0, -20, 2)
     );
   }

@@ -37,8 +37,15 @@ public class FollowTagDrive extends Command {
   @Override
   public void execute() {
     ChassisSpeeds chassisSpeeds;
-    if (LimelightHelpers.getFiducialID("limelight-end") != tagID) return;
-    targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
+    try {
+      if (LimelightHelpers.getFiducialID("limelight-tag") == tagID) {
+        targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-tag");
+      }else if (LimelightHelpers.getFiducialID("limelight-end") == tagID) {
+        targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
+      }else targetPose = new double[]{0,0,0,0,0,0};
+    } catch (Exception e) {
+      System.err.println(e);
+    }
     chassisSpeeds = new ChassisSpeeds(targetPose[2], -targetPose[0], Units.degreesToRadians(-targetPose[4]));
     swerve.driveRobotRelative(chassisSpeeds);
   }

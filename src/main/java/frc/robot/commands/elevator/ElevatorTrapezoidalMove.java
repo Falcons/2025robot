@@ -39,14 +39,14 @@ public class ElevatorTrapezoidalMove extends Command {
     profile = new TrapezoidProfile(constraints);
     current = new TrapezoidProfile.State(elevator.getEncoder(), elevator.getVelocity()/60.0);
     end = new TrapezoidProfile.State(endPos, 0);
-    // timer.reset();
-    // timer.start();
+    timer.reset();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {//TODO: fix real state not matching target
-    current = profile.calculate(0.05, current, end);
+    current = profile.calculate(0.02, current, end);
     double pos = current.position;
     if(current.position < ElevatorConstants.Min) {System.err.println("position under range"); pos = ElevatorConstants.Min;}
     if(current.position > ElevatorConstants.Max) {System.err.println("position above range"); pos = ElevatorConstants.Max;}
@@ -68,6 +68,7 @@ public class ElevatorTrapezoidalMove extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return elevator.getEncoder() >= endPos-0.5 && elevator.getLeftEncoder() <= endPos+0.5;
+    // return elevator.getEncoder() >= endPos-0.5 && elevator.getLeftEncoder() <= endPos+0.5;
+    return profile.isFinished(timer.get()-0.5);
   }
 }

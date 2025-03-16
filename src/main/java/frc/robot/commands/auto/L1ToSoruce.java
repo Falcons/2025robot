@@ -6,7 +6,6 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 import frc.robot.subsystems.elevator.Elevator;

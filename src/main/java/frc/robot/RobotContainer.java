@@ -4,50 +4,35 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import au.grapplerobotics.CanBridge;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.IntakeForTime;
-import frc.robot.commands.algae.PivotPid;
 import frc.robot.commands.auto.DRL1;
-import frc.robot.commands.auto.FollowTag;
 import frc.robot.commands.auto.FollowTagG;
 import frc.robot.commands.auto.L1ToSoruce;
-import frc.robot.commands.auto.MoveToReef;
 import frc.robot.commands.auto.Taxi;
-import frc.robot.commands.auto.pathToTag;
 import frc.robot.commands.auto.relLimeL1;
-import frc.robot.commands.algae.pivotDefault;
 import frc.robot.commands.algae.pivotPidToggle;
 import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.coral.CoralStep;
 import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
-import frc.robot.commands.driveTrain.SwervePositionPIDTuning;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
-import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
 import frc.robot.commands.driveTrain.invertdrive;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
-import frc.robot.commands.elevator.SetElevatorSmallPID;
 import frc.robot.commands.elevator.SetElevatorSmallPIDMan;
 import frc.robot.commands.elevator.trapAndSmallPid;
 import frc.robot.subsystems.Airlock;
@@ -74,7 +59,7 @@ public class RobotContainer {
   private final double operatorLSDeadZone = 0.1;
   private final double operatorRTDeadZone = 0.01;
   private final double operatorLTDeadZone = 0.01;
-  private final Boolean layout = false;
+  // private final Boolean layout = false;
   // SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   SendableChooser<Command> auto_chooser = new SendableChooser<Command>();
   public RobotContainer() { 

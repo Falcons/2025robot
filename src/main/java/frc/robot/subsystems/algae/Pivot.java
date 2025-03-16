@@ -23,7 +23,7 @@ import frc.robot.subsystems.elevator.Elevator;
 public class Pivot extends SubsystemBase {
   private final SparkMax pivot;
   private SparkMaxConfig pivotConfig;
-  PIDController pivotPid = new PIDController(0.15, 0, 0); //TODO: change pid values for algae //0.5 0 0
+  PIDController pivotPid = new PIDController(0.3, 0, 0); //TODO: change pid values for algae //0.5 0 0
 
   Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);

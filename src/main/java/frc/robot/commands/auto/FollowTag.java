@@ -37,8 +37,15 @@ public class FollowTag extends Command {
   @Override
   public void execute() {
     ChassisSpeeds chassisSpeeds;
-    if (LimelightHelpers.getFiducialID("limelight-end") != tagID) return;
-    targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
+    try {
+      if (LimelightHelpers.getFiducialID("limelight-tag") == tagID) {
+        targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-tag");
+      }else if (LimelightHelpers.getFiducialID("limelight-end") == tagID) {
+        targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
+      }else targetPose = new double[]{0,0,0,0,0,0};
+    } catch (Exception e) {
+      System.err.println(e);
+    }
     chassisSpeeds = new ChassisSpeeds(0, -targetPose[0], Units.degreesToRadians(-targetPose[4]));
     swerve.driveRobotRelative(chassisSpeeds);
   }
@@ -50,6 +57,6 @@ public class FollowTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return targetPose[0]  <= 0.1 && targetPose[4] <= 5;
+    return Math.abs(targetPose[0])  <= 0.1 && Math.abs(targetPose[4]) <= 5;
   }
 }
