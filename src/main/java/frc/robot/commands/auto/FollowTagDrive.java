@@ -38,8 +38,8 @@ public class FollowTagDrive extends Command {
   public void execute() {
     ChassisSpeeds chassisSpeeds;
     try {
-      if (LimelightHelpers.getFiducialID("limelight-tag") == tagID) {
-        targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-tag");
+      if (LimelightHelpers.getFiducialID("limelight") == tagID) {
+        targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight");
       }else if (LimelightHelpers.getFiducialID("limelight-end") == tagID) {
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
       }else targetPose = new double[]{0,0,0,0,0,0};

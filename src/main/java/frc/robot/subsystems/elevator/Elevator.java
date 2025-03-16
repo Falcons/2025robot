@@ -28,7 +28,7 @@ import frc.robot.subsystems.FalconFlare;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.7, 0, 0); 
+    PIDController Pid = new PIDController(0.7, 0.2, 0); 
     PIDController PidSmall = new PIDController(0.3, 0, 0); 
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.75, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
@@ -45,6 +45,7 @@ public class Elevator extends SubsystemBase {
     /** Creates a new elevator. */
   public Elevator(Airlock airlock, FalconFlare falconFlare) {
     this.airlock = airlock;
+    this.falconFlare = falconFlare;
     TOF.setRangingMode(RangingMode.Short, 24);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
@@ -94,7 +95,7 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1);
     SmartDashboard.putBoolean("Elevator/Level/L2", getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L3", getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5);
-    SmartDashboard.putBoolean("Elevator/Level/L4", getEncoder() >= ElevatorConstants.coralL4-0.02 && getEncoder() <= ElevatorConstants.coralL4+0.02);
+    SmartDashboard.putBoolean("Elevator/Level/L4", getEncoder() >= ElevatorConstants.coralL4M-0.02 && getEncoder() <= ElevatorConstants.coralL4M+0.02);
     leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(leftMoter.hasActiveFault());
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
@@ -102,7 +103,7 @@ public class Elevator extends SubsystemBase {
     if (getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1){falconFlare.setLights(false, true, true);}
     if (getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5){falconFlare.setLights(true, true, false);}
     if (getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5){falconFlare.setLights(true, false, false);}
-    if (getEncoder() >= ElevatorConstants.coralL4-0.02 && getEncoder() <= ElevatorConstants.coralL4+0.02){falconFlare.setLights(true, true, true);}
+    if (getEncoder() >= ElevatorConstants.coralL4M-0.02 && getEncoder() <= ElevatorConstants.coralL4M+0.02){falconFlare.setLights(true, true, true);}
   }
   /**sets the speed of the elevator*/
   public void set(double speed){

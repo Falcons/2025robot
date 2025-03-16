@@ -32,7 +32,7 @@ public class Coral extends SubsystemBase {
     rightShooterConfig.idleMode(IdleMode.kBrake);
     leftShooterConfig.idleMode(IdleMode.kBrake);
     leftShooterConfig.inverted(true);
-    leftShooterConfig.smartCurrentLimit(30);
+    leftShooterConfig.smartCurrentLimit(20);
     leftShooter.configure(leftShooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     rightShooter.configure(rightShooterConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }

@@ -39,6 +39,7 @@ public class pivotPidToggle extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println(this.getName() + " end");
+    pivot.stopPivot();
   }
 
   // Returns true when the command should end.

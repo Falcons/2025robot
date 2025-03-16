@@ -85,7 +85,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     NamedCommands.registerCommand("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
     NamedCommands.registerCommand("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
-    NamedCommands.registerCommand("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4)); 
+    NamedCommands.registerCommand("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4M)); 
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
     // path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", stream -> stream.filter(auto -> !auto.getName().startsWith(".")));
@@ -105,19 +105,19 @@ public class RobotContainer {
     operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.00, -0.20)); //-0.10 , -0.40
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.30));
-    operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.20)); // outake
+    operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.30)); // outake
     
-    /* 
+    
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
     operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
-    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
-    */
+    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4M));
+    /* 
     operator.povDown().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     operator.povLeft().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
     operator.povRight().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
     operator.povUp().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
-    
+    */
     operator.leftBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL2));
     operator.rightBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL3));
     
@@ -129,20 +129,20 @@ public class RobotContainer {
     
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     // driver.a().onTrue(new SwerveToggleSlowMode(swerve));
-    driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
     // driver.x().whileTrue(new pathToTag(swerve, 6));
-    driver.x().whileTrue(new L1ToSoruce(swerve, elevator, coral, 11));
-    driver.start().whileTrue(new FollowTagG(swerve, 11));
-    driver.back().whileTrue(new relLimeL1(swerve, elevator, coral, 11));
+    // driver.x().whileTrue(new L1ToSoruce(swerve, elevator, coral, 11));
+    // driver.start().whileTrue(new FollowTagG(swerve, 11));
+    // driver.back().whileTrue(new relLimeL1(swerve, elevator, coral, 11));
+    driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
-
+    /*
     driver.povUp().onTrue(new SetElevatorSmallPIDMan(elevator, +0.5));
     driver.povDown().onTrue(new SetElevatorSmallPIDMan(elevator, -0.5));
-    /* 
-    driver.povUp().onTrue(new SetElevatorSmallPID(elevator, () -> elevator.getEncoder()+0.5));
-    driver.povDown().onTrue(new SetElevatorSmallPID(elevator, () -> elevator.getEncoder()-0.5));
     */
+    driver.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4H));
+    driver.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4M));
+    driver.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4L));
   }
 
   public Command getAutonomousCommand() {
