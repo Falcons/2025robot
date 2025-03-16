@@ -19,6 +19,7 @@ public class FalconFlare extends SubsystemBase {
   DigitalOutput D3 = new DigitalOutput(falconFlareConstants.dio3);
   Map<String,Boolean[]> colours = new HashMap<String,Boolean[]>();
   Optional<DriverStation.Alliance> Alliance = DriverStation.getAlliance();
+  int priority = 0;
   /** Creates a new FalconFlare. */
   public FalconFlare() {
     colours.put("white", new Boolean[]{false,true,false});
@@ -40,6 +41,14 @@ public class FalconFlare extends SubsystemBase {
     D2.set(in2);
     D3.set(in3);
   }
+
+  public void setPriority(int priority){
+    this.priority = priority;
+  }
+  public int getPriority(){
+    return priority;
+  }
+
   public void reset() {
     boolean isRed = Alliance.get() == DriverStation.Alliance.Red;
     setLights(false, false, isRed);
