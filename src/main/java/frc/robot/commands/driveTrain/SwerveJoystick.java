@@ -36,7 +36,7 @@ public class SwerveJoystick extends Command {
     //rate limit value from 0ToAuto
     this.xLimiter = new SlewRateLimiter(3);
     this.yLimiter = new SlewRateLimiter(3);
-    this.turningLimiter = new SlewRateLimiter(3);
+    this.turningLimiter = new SlewRateLimiter(1.5);
     addRequirements(swerveSubsystem);
   }
 

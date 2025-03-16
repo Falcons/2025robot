@@ -41,6 +41,6 @@ public class PivotPid extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return pivot.atSetpoint();
   }
 }

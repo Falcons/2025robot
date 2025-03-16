@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
+import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
 import frc.robot.commands.auto.FollowTagG;
@@ -33,6 +34,7 @@ import frc.robot.commands.driveTrain.invertdrive;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
+import frc.robot.commands.elevator.PivotAndElevatorHome;
 import frc.robot.commands.elevator.SetElevatorSmallPIDMan;
 import frc.robot.commands.elevator.trapAndSmallPid;
 import frc.robot.subsystems.Airlock;
@@ -100,7 +102,7 @@ public class RobotContainer {
     operator.x().whileTrue(new AlgaeIntake(algaeI, -1)); // intake algae
     operator.a().whileTrue(new AlgaeIntake(algaeI, 1)); // shoot algae
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
-    operator.y().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.Min));
+    operator.y().onTrue(new PivotAndElevatorHome(algaeP, elevator));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.05));
     operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.00, -0.20)); //-0.10 , -0.40
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
@@ -118,8 +120,8 @@ public class RobotContainer {
     operator.povRight().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
     operator.povUp().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
     */
-    operator.leftBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL2));
-    operator.rightBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL3));
+    operator.leftBumper().onTrue(new ElevatorAndPivotOut(algaeP, elevator, ElevatorConstants.algaeL2));
+    operator.rightBumper().onTrue(new ElevatorAndPivotOut(algaeP, elevator, ElevatorConstants.algaeL3));
     
     /* 
     operator.start().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotMax));

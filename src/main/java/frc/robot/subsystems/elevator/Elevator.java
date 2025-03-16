@@ -28,7 +28,7 @@ import frc.robot.subsystems.FalconFlare;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.7, 0.2, 0); 
+    PIDController Pid = new PIDController(0.7, 0.25, 0); 
     PIDController PidSmall = new PIDController(0.3, 0, 0); 
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.75, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
