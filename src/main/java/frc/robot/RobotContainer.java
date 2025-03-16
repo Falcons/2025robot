@@ -72,7 +72,7 @@ public class RobotContainer {
       () -> -driver.getLeftX(), 
       () -> -driver.getRightX(), 
       () -> !driver.getHID().getLeftBumper()));
-      coral.setDefaultCommand(new CoralStep(coral, airlock, () -> -0.1));
+      coral.setDefaultCommand(new CoralStep(coral, airlock, () -> -0.1, flare));
       // algaeP.setDefaultCommand(new pivotDefault(algaeP, elevator));
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));

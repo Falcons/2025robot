@@ -100,10 +100,14 @@ public class Elevator extends SubsystemBase {
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
     rightWarningAlert.setText("elevator right:" + rightMoter.getWarnings().toString()); rightWarningAlert.set(rightMoter.hasActiveWarning());
-    if (getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1){falconFlare.setLights(false, true, true);}
-    if (getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5){falconFlare.setLights(true, true, false);}
-    if (getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5){falconFlare.setLights(true, false, false);}
-    if (getEncoder() >= ElevatorConstants.coralL4M-0.02 && getEncoder() <= ElevatorConstants.coralL4M+0.02){falconFlare.setLights(true, true, true);}
+    if (ElevatorConstants.elevatorPriority >= falconFlare.getPriority()){
+      falconFlare.setPriority(ElevatorConstants.elevatorPriority);
+      if (getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1){falconFlare.setLights(false, true, true);}
+      if (getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5){falconFlare.setLights(true, true, false);}
+      if (getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5){falconFlare.setLights(true, false, false);}
+      if (getEncoder() >= ElevatorConstants.coralL4M-0.02 && getEncoder() <= ElevatorConstants.coralL4M+0.02){falconFlare.setLights(true, true, true);}
+      else {falconFlare.setLights(false, true, false);}
+    }
   }
   /**sets the speed of the elevator*/
   public void set(double speed){

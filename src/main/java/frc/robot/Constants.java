@@ -109,6 +109,7 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final int leftMotorCANID = 14;
         public static final int rightMotorCANID = 13;
+        public static final int shooterPriority = 2;
     }
     public static final class AlgaeConstants {
         public static final int pivotMotorCANID = 12;
@@ -147,8 +148,7 @@ public final class Constants {
         public static final double algaeL2 = 49;
         public static final double algaeL3 = 86;
         public static final double slowModeSpeed = 0.2; 
-
-
+        public static final int elevatorPriority = 1;
     }
     public static final class airlockConstants {
         public static final int backLCCANID = 16;
