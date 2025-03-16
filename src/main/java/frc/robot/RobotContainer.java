@@ -45,7 +45,7 @@ public class RobotContainer {
 
   private final Airlock airlock = new Airlock();
   private final FalconFlare flare = new FalconFlare();
-  private final Elevator elevator = new Elevator(airlock);
+  private final Elevator elevator = new Elevator(airlock, flare);
   private final Coral coral = new Coral();
   private final Pivot algaeP = new Pivot(elevator);
   private final frc.robot.subsystems.algae.Intake algaeI = new frc.robot.subsystems.algae.Intake();
