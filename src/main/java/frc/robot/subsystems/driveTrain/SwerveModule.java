@@ -44,6 +44,7 @@ public class SwerveModule {
         driveConfig.idleMode(IdleMode.kBrake);
         driveConfig.encoder.positionConversionFactor(ModuleConstants.driveMotorRotToMetre);
         driveConfig.encoder.velocityConversionFactor(ModuleConstants.driveMotorRPMToMetresPerSecond);
+        driveConfig.smartCurrentLimit(40);
         driveMotor.configure(driveConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
         
 
@@ -54,6 +55,7 @@ public class SwerveModule {
         turningConfig.analogSensor.positionConversionFactor(ModuleConstants.voltToRad);
         turningConfig.encoder.positionConversionFactor(ModuleConstants.turningRotToWheelDegree);
         turningConfig.encoder.velocityConversionFactor(ModuleConstants.turningRPMToDegreePerSecond);
+        turningConfig.smartCurrentLimit(40);
         turningMotor.configure(turningConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
         

@@ -5,20 +5,17 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.driveTrain.SetHeading;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TaxiAndInvertDrive extends SequentialCommandGroup {
-  /** Creates a new TaxiAndInvertDrive. */
-  public TaxiAndInvertDrive(SwerveSubsystem swerve) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+public class FollowTagG extends SequentialCommandGroup {
+  /** Creates a new FollowTagG. */
+  public FollowTagG(SwerveSubsystem swerve, double tagID) {
     addCommands(
-      new Taxi(swerve, 2.0),
-      new SetHeading(swerve, 180)
+      new FollowTag(swerve, tagID),
+      new FollowTagDrive(swerve, tagID)
     );
   }
 }

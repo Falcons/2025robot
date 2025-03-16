@@ -23,21 +23,24 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.limelightConstants;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.Airlock;
+import frc.robot.subsystems.FalconFlare;
 
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
     PIDController Pid = new PIDController(0.7, 0, 0); 
-    PIDController PidSmall = new PIDController(0.1, 0, 0.05); 
-    ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.76, 0);
+    PIDController PidSmall = new PIDController(0.3, 0, 0); 
+    ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.75, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
+    FalconFlare falconFlare = new FalconFlare();
     double[] L1offset = limelightConstants.LLendoffset; 
     public double targetPos = 15;
-    public boolean atMax, atMin, atDrop, pause, coral;
+    public Double speedMod = 1.0;
+    public boolean atMax, atMin, atDrop, danger;
     private Airlock airlock;
     /** Creates a new elevator. */
   public Elevator(Airlock airlock) {
@@ -49,6 +52,7 @@ public class Elevator extends SubsystemBase {
     rightConfig.encoder.velocityConversionFactor(2);
     rightConfig.idleMode(IdleMode.kBrake);
     rightConfig.inverted(false);
+    rightConfig.smartCurrentLimit(40);
     rightMoter.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     this.leftMoter = new SparkMax(ElevatorConstants.liftMotor2CANID, MotorType.kBrushless);
     leftConfig = new SparkMaxConfig();
@@ -56,12 +60,14 @@ public class Elevator extends SubsystemBase {
     leftConfig.encoder.velocityConversionFactor(2);
     leftConfig.idleMode(IdleMode.kBrake);
     leftConfig.inverted(true);
+    leftConfig.smartCurrentLimit(40);
     leftMoter.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    Pid.setTolerance(0.1);
-    PidSmall.setTolerance(0.1);
+    Pid.setTolerance(0.05);
     Pid.setIntegratorRange(-0.01, 0.01);
+    PidSmall.setTolerance(0.05);
     updateEncoders(0);
+    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/78.74, L1offset[3], L1offset[4], L1offset[5]);
   }
 
   @Override
@@ -70,7 +76,6 @@ public class Elevator extends SubsystemBase {
     atMin = getEncoder() <= ElevatorConstants.Min;
     atMax = getEncoder() >= ElevatorConstants.Max;
     atDrop = getEncoder() <= ElevatorConstants.Drop;
-    coral = atMin && getTOF() <= 50;
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
     SmartDashboard.putNumber("Elevator/raw left encoder", leftMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator/raw right encoder", rightMoter.getEncoder().getPosition());
@@ -85,9 +90,8 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putBoolean("Elevator/at max", atMax);
     SmartDashboard.putBoolean("Elevator/at min", atMin);
     SmartDashboard.putBoolean("Elevator/at drop", atDrop);
-    SmartDashboard.putBoolean("Elevator/paused", pause);
-    SmartDashboard.putBoolean("Elevator/coral", coral);
-    SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-0.5 && getEncoder() <= ElevatorConstants.coralL1+0.5);
+    SmartDashboard.putBoolean("Elevator/in danger", danger);
+    SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1);
     SmartDashboard.putBoolean("Elevator/Level/L2", getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L3", getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L4", getEncoder() >= ElevatorConstants.coralL4-0.1 && getEncoder() <= ElevatorConstants.coralL4+0.1);
@@ -95,21 +99,25 @@ public class Elevator extends SubsystemBase {
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
     rightWarningAlert.setText("elevator right:" + rightMoter.getWarnings().toString()); rightWarningAlert.set(rightMoter.hasActiveWarning());
+    if (getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1){falconFlare.setLights(false, true, true);}
+    if (getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5){falconFlare.setLights(true, true, false);}
+    if (getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5){falconFlare.setLights(true, false, false);}
+    if (getEncoder() >= ElevatorConstants.coralL4-0.02 && getEncoder() <= ElevatorConstants.coralL4+0.02){falconFlare.setLights(true, true, true);}
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
-    if (!airlock.checkSafety()) return;
-    if (pause) return;
-    if (atMin && speed < 0 || atMax && speed > 0)return; //saftey
-    LimelightHelpers.setCameraPose_RobotSpace("limelight-colour", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/39.37, L1offset[3], L1offset[4], L1offset[5]);
-    SmartDashboard.putNumber("Elevator/speed", speed);
-    rightMoter.set(speed);
-    leftMoter.set(speed);
+    if (!airlock.checkSafety()) speed = 0;
+    if (danger && speed < 0)speed = 0;
+    if (atMin && speed < 0 || atMax && speed > 0)speed = 0; //saftey
+    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/78.74, L1offset[3], L1offset[4], L1offset[5]);
+    SmartDashboard.putNumber("Elevator/speed", speed*speedMod);
+    rightMoter.set(speed*speedMod);
+    leftMoter.set(speed*speedMod);
   }
   public void setVoltage(double voltage){
     SmartDashboard.putNumber("Elevator/voltage sent", voltage);
     if (!airlock.checkSafety()) return;
-    if (pause) return;
+    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/78.74, L1offset[3], L1offset[4], L1offset[5]);
     if (atMin && voltage < 0 || atMax && voltage > 0){System.err.println("ele out of range");return;} //saftey
     rightMoter.setVoltage(voltage);
     leftMoter.setVoltage(voltage);
@@ -119,20 +127,23 @@ public class Elevator extends SubsystemBase {
     double FF = feedforward.calculate(setpoint);
     double pid = Pid.calculate(getEncoder(), setpoint);
     if(!atDrop) pid += FF;
-    SmartDashboard.putNumber("Elevator/PID/FF", FF);
+    SmartDashboard.putNumber("Elevator/PID/FF1", FF);
     SmartDashboard.putNumber("Elevator/PID/target", pid);
     SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
     SmartDashboard.putNumber("Elevator/PID/error", Pid.getError());
     setVoltage(pid);
   }
+  /**sets the elevator to a specific position*/
   public void setSmallPID(double setpoint){
     double FF = feedforward.calculate(setpoint);
     double pid = PidSmall.calculate(getEncoder(), setpoint);
-    if(!atDrop) pid += FF;
-    SmartDashboard.putNumber("Elevator/PID/FF", FF);
-    SmartDashboard.putNumber("Elevator/PID/target", pid);
-    SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
-    SmartDashboard.putNumber("Elevator/PID/error", PidSmall.getError());
+    if(!atDrop && pid > 0) pid += FF;
+    if(!atDrop && pid < 0) pid += FF-0.4;
+    
+    SmartDashboard.putNumber("Elevator/PID/Small/FF1", FF);
+    SmartDashboard.putNumber("Elevator/PID/Small/target", pid);
+    SmartDashboard.putNumber("Elevator/PID/Small/setpoint", setpoint);
+    SmartDashboard.putNumber("Elevator/PID/Small/error", PidSmall.getError());
     setVoltage(pid);
   }
   public void resetEncoder(){

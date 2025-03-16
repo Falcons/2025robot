@@ -2,37 +2,39 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.algae;
+package frc.robot.commands.elevator;
 
-import edu.wpi.first.math.util.Units;
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.AlgaeConstants;
-import frc.robot.subsystems.algae.Pivot;
+import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class pivotPidToggle extends Command {
-  Pivot pivot;
-  boolean home;
-  /** Creates a new pivotPidToggle. */
-  public pivotPidToggle(Pivot pivot) {
-    this.pivot = pivot;
-    addRequirements(pivot);
+public class SetElevatorSmallPID extends Command {
+  Elevator elevator;
+  Supplier<Double> setpoint;
+  double target;
+  /** Creates a new SetElevatorPID. */
+  public SetElevatorSmallPID(Elevator elevator, Supplier<Double> setpoint) {
+    this.elevator = elevator;
+    this.setpoint = setpoint;
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     System.out.println(this.getName() + " start");
-    home = pivot.getAbsEncoderDeg() >= AlgaeConstants.pivotMax-10;
+    target = setpoint.get();
+    SmartDashboard.putNumber("Elevator/small pid target", target);
+    SmartDashboard.putNumber("Elevator/small pid setpoit", setpoint.get());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putBoolean("Pivot/home", home);
-    if(home) pivot.setPivotpid(Units.degreesToRadians(AlgaeConstants.pivotOut));
-    else pivot.setPivotpid(Units.degreesToRadians(AlgaeConstants.pivotMax));
+    elevator.setSmallPID(target);
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +46,7 @@ public class pivotPidToggle extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return pivot.atSetpoint();
+    // return elevator.atSetpoint();
+    return false; //set to true if hold bad
   }
 }

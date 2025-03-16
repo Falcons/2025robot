@@ -4,46 +4,52 @@
 
 package frc.robot.commands.auto;
 
+import java.util.List;
+
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Taxi extends Command {
+public class FollowTagDrive extends Command {
   SwerveSubsystem swerve;
-  Double time;
-  ChassisSpeeds speeds;
-  Timer timer = new Timer();
-  /** Creates a new Taxi. */
-  public Taxi(SwerveSubsystem swerve, Double time) {
+  double tagID;
+  List<Waypoint> waypoints;
+  PathPlannerPath path;
+  double[] targetPose;
+  /** Creates a new FollowTag. */
+  public FollowTagDrive(SwerveSubsystem swerve, double tagID) { 
     this.swerve = swerve;
-    this.time = time;
+    this.tagID = tagID;
     addRequirements(swerve);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    timer.start();
-    speeds = new ChassisSpeeds(1, 0, 0);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerve.driveRobotRelative(speeds);
+    ChassisSpeeds chassisSpeeds;
+    if (LimelightHelpers.getFiducialID("limelight-end") != tagID) return;
+    targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
+    chassisSpeeds = new ChassisSpeeds(targetPose[2], -targetPose[0], Units.degreesToRadians(-targetPose[4]));
+    swerve.driveRobotRelative(chassisSpeeds);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    swerve.stopModules();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() >= time;
+    return !LimelightHelpers.getTV("limelight-end");
   }
 }

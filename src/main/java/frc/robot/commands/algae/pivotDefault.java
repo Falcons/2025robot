@@ -4,7 +4,6 @@
 
 package frc.robot.commands.algae;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.subsystems.algae.Pivot;
@@ -30,12 +29,8 @@ public class pivotDefault extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean atMin = elevator.getEncoder() < AlgaeConstants.MaxAlgaeHeight;
-    SmartDashboard.putBoolean("elevator/at min algae", atMin);
-      if (atMin && pivot.getAbsEncoderDeg() < 90){
-        elevator.pause = true;
-      //pivot.setPivotpid(AlgaeConstants.pivotMin);
-    }else elevator.pause = false;
+    elevator.danger = elevator.getEncoder() <= AlgaeConstants.MaxAlgaeHeight;
+    
   }
   // Called once the command ends or is interrupted.
   @Override

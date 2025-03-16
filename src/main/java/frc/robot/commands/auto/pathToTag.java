@@ -6,7 +6,6 @@ package frc.robot.commands.auto;
 
 import java.util.List;
 
-import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -75,7 +74,7 @@ public class pathToTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // swerve.followPathCommand(path);
+    swerve.followPathCommand(path);
   }
 
   // Called once the command ends or is interrupted.

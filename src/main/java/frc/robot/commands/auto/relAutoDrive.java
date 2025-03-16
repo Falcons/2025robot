@@ -10,15 +10,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Taxi extends Command {
+public class relAutoDrive extends Command {
+  
   SwerveSubsystem swerve;
   Double time;
   ChassisSpeeds speeds;
   Timer timer = new Timer();
-  /** Creates a new Taxi. */
-  public Taxi(SwerveSubsystem swerve, Double time) {
+  /** Creates a new relAutoDrive. */
+  public relAutoDrive(SwerveSubsystem swerve, ChassisSpeeds speeds, double time) {
     this.swerve = swerve;
     this.time = time;
+    this.speeds = speeds;
     addRequirements(swerve);
   }
 
@@ -26,7 +28,6 @@ public class Taxi extends Command {
   @Override
   public void initialize() {
     timer.start();
-    speeds = new ChassisSpeeds(1, 0, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

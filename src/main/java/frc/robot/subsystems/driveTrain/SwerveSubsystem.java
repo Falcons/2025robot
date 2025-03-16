@@ -90,7 +90,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final PIDController rotationPID = new PIDController(DriveConstants.rotationKP, DriveConstants.rotationKI, 0);
   private final SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, getRotation2d(), getModulePositions(), new Pose2d());
   private Alert slowModeAlert = new Alert("drive slow mode active", AlertType.kInfo);
-  private double speedMod = 1;
+  public double speedMod = 1;
   public Boolean invert = false;
 
   // private final Field2d field2024 = new Field2d();
@@ -283,7 +283,7 @@ public Command followPathCommand(PathPlannerPath path) {
   /** Sets all 4 Modules to specified Speed and Angle */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     commandedStatePublisher.set(desiredStates);
-    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, ModuleConstants.driveMaxSpeedMPS * speedMod);
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, ModuleConstants.driveMaxSpeedMPS);
     frontLeft.setDesiredState(desiredStates[0]);
     frontRight.setDesiredState(desiredStates[1]);
     backLeft.setDesiredState(desiredStates[2]);
@@ -353,15 +353,15 @@ public Command followPathCommand(PathPlannerPath path) {
   /** Updates Robot Pose based on Gyro and Module Positions */
   public void updatePoseEstimator() {
     poseEstimator.update(getRotation2d(), getModulePositions());
-    /* 
+    /*
     boolean useMegaTag2 = true; 
     boolean doTRejectUpdate = false;
-    boolean doCRejectUpdate = false;
+    boolean doERejectUpdate = false;
     
     //using megatag 1
     if (!useMegaTag2) { 
       LimelightHelpers.PoseEstimate mt1_T = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-tag");
-      LimelightHelpers.PoseEstimate mt1_C = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-end");
+      LimelightHelpers.PoseEstimate mt1_E = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-end");
 
       if (mt1_T.tagCount == 1) {
         if (mt1_T.rawFiducials.length == 1){
@@ -370,47 +370,47 @@ public Command followPathCommand(PathPlannerPath path) {
           }
         }
       }
-      if (mt1_C.tagCount == 1 && mt1_C.rawFiducials.length == 1) {
-        if (mt1_C.rawFiducials[0].ambiguity > 0.7 || mt1_C.rawFiducials[0].distToCamera > 3) {
-          doCRejectUpdate = true;
+      if (mt1_E.tagCount == 1 && mt1_E.rawFiducials.length == 1) {
+        if (mt1_E.rawFiducials[0].ambiguity > 0.7 || mt1_E.rawFiducials[0].distToCamera > 3) {
+          doERejectUpdate = true;
         }
       } 
 
       if (mt1_T.tagCount == 0) doTRejectUpdate = true;
-      if (mt1_C.tagCount == 0) doCRejectUpdate = true;
+      if (mt1_E.tagCount == 0) doERejectUpdate = true;
       
 
-      if(!doTRejectUpdate || !doCRejectUpdate) {
+      if(!doTRejectUpdate || !doERejectUpdate) {
         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.5, 0.5, 9999999)); //StdDev from Limelight website
       }
       if(!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt1_T.pose, mt1_T.timestampSeconds);
-      if(!doCRejectUpdate) poseEstimator.addVisionMeasurement(mt1_C.pose, mt1_C.timestampSeconds);
+      if(!doERejectUpdate) poseEstimator.addVisionMeasurement(mt1_E.pose, mt1_E.timestampSeconds);
       
     // using megatag 2 (updated)
     } else {
       LimelightHelpers.SetRobotOrientation("limelight-tag", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
-      LimelightHelpers.SetRobotOrientation("limelight-colour", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
+      LimelightHelpers.SetRobotOrientation("limelight-end", poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
       LimelightHelpers.PoseEstimate mt2_T = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-tag");
-      LimelightHelpers.PoseEstimate mt2_C = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-end");
+      LimelightHelpers.PoseEstimate mt2_E = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-end");
   
       if (Math.abs(-gyro.getAngularVelocityZWorld().getValueAsDouble()) > 720) {
         doTRejectUpdate = true;
-        doCRejectUpdate = true;
+        doERejectUpdate = true;
       }
-      if(mt2_T == null) doTRejectUpdate = true;
+      if(mt2_T == null) {doTRejectUpdate = true; System.out.println("MT2_T is null");} 
       else if (mt2_T.tagCount == 0) doTRejectUpdate = true;
-      if(mt2_C == null) doCRejectUpdate = true;
-      else if (mt2_C.tagCount == 0) doCRejectUpdate = true;
+      if(mt2_E == null) {doERejectUpdate = true; System.out.println("MT2_E is null");}
+      else if (mt2_E.tagCount == 0) doERejectUpdate = true;
       
       
 
-      if (!doTRejectUpdate || !doCRejectUpdate) {
+      if (!doTRejectUpdate || !doERejectUpdate) {
         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999)); //StdDev from Limelight website
       }
       if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_T.pose, mt2_T.timestampSeconds);
-      if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_C.pose, mt2_C.timestampSeconds);
-    }
-    */
+      if (!doTRejectUpdate) poseEstimator.addVisionMeasurement(mt2_E.pose, mt2_E.timestampSeconds);
+    }*/
+    
   }
 
 // PID

@@ -42,7 +42,7 @@ public final class Constants {
         public static final int frontLeftTurningCANID = 1;
         public static final int frontLeftTurningEncoderID = 2; //:)
         public static final boolean frontLeftReversed = true;
-        public static final double frontLeftAbsoluteOffset = 221.86;
+        public static final double frontLeftAbsoluteOffset = 213.86;//146.2; 
         public static final double frontLeftTurningkP = 0.0035;
         public static final double frontLeftTurningkI = 0.05;
 
@@ -51,7 +51,7 @@ public final class Constants {
         public static final int frontRightTurningCANID = 11;
         public static final int FrontRightTurningEncoderID = 3;
         public static final boolean frontRightReversed = true;
-        public static final double frontRightAbsoluteOffset = 152.70;
+        public static final double frontRightAbsoluteOffset = 150.9; //152.70
         public static final double frontRightTurningkP = 0.004;
         public static final double frontRightTurningkI = 0.05;
 
@@ -60,7 +60,7 @@ public final class Constants {
         public static final int backLeftTurningCANID = 2;
         public static final int backLeftTurningEncoderID = 0;
         public static final boolean backLeftReversed = true;
-        public static final double backLeftAbsoluteOffset = 72.73;
+        public static final double backLeftAbsoluteOffset = 72.2; //72.73
         public static final double backLeftTurningkP = 0.004;
         public static final double backLeftTurningkI = 0.05;
 
@@ -69,7 +69,7 @@ public final class Constants {
         public static final int backRightTurningCANID = 10;
         public static final int backRightTurningEncoderID = 1;
         public static final boolean backRightReversed = true;
-        public static final double backRightAbsoluteOffset = Units.radiansToDegrees(1.639);//95.95;
+        public static final double backRightAbsoluteOffset = 92.7;//Units.radiansToDegrees(1.639)//95.95;
         public static final double backRightTurningkP = 0.004;
         public static final double backRightTurningkI = 0.05;
     }
@@ -119,9 +119,10 @@ public final class Constants {
         public static final double pivotMotorRotToRad = PivotRatio * (2 * Math.PI);
         public static final double intakeMotorRotToRad = intakeRatio * (2 * Math.PI);
         public static final double voltageMin = 9.9;
-        public static final double pivotMin = 0.0;
-        public static final double pivotOut = 17.0;
-        public static final double pivotMax = 185.0;
+        public static final double pivotMin = 0;
+        public static final double pivotOut = 20.0;
+        public static final double pivotDanger = 90.0;
+        public static final double pivotMax = 185;
         public static final double MaxAlgaeHeight = 7.0;
     }
     public static final class ElevatorConstants {
@@ -133,16 +134,16 @@ public final class Constants {
         public static final double maxAcceleration = 40; //inches per second squared
         public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755);//* 2; //1.751//ratio * 2pi / gear radius in inchs
         public static final double Min = 1; //highest point for min
-        public static final double Drop = 6; //highest point for min
+        public static final double Drop = 4; //highest point for min
         public static final double slowModetrigger = 20;
         public static final double Max = 122; //lowest point for max
         public static final double TOFEdgeBuffer = 100;
-        /**array [min, max]*/public static final double coralL1 = 12; 
-        /**array [min, max]*/public static final double coralL2 = 26;
-        /**array [min, max]*/public static final double coralL3 = 62;
-        /**array [min, max]*/public static final double coralL4 = 118.2;
-        /**array [min, max]*/public static final double algaeL2 = 49;
-        /**array [min, max]*/public static final double algaeL3 = 86;
+        public static final double coralL1 = 12; 
+        public static final double coralL2 = 26;
+        public static final double coralL3 = 62;
+        public static final double coralL4 = 119.95;
+        public static final double algaeL2 = 49;
+        public static final double algaeL3 = 86;
         public static final double slowModeSpeed = 0.2; 
 
 
@@ -150,18 +151,18 @@ public final class Constants {
     public static final class airlockConstants {
         public static final int backLCCANID = 16;
         public static final int frontLCCANID = 17;
-        /**array [min, max]*/public static final double[] frontLCTrigger = {0,20};
-        /**array [min, max]*/public static final double[] backLCTrigger = {0,20};
+        /**array [min, max]*/public static final double[] frontLCTrigger = {0,40};
+        /**array [min, max]*/public static final double[] backLCTrigger = {0,40};
     }
     public static final class falconFlareConstants{
-        public static final int dio1 = 0;
-        public static final int dio2 = 1;
-        public static final int dio3 = 2;
+        public static final int dio1 = 7;
+        public static final int dio2 = 8;
+        public static final int dio3 = 9;
     }
 public static final class limelightConstants{
     public static final int[] redReef = {};
     public static final int[] blueReef = {};
-    public static final double[] LLendoffset = {0.3175,0,0.5334,0,0,0};
+    public static final double[] LLendoffset = {0.3175,0,0.5334,0,-20,0};
     public static final double[] LLfunneloffset = {0,-2.75,0,0,0,0};
 }
-}
+}   

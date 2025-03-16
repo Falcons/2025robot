@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auto;
+package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.driveTrain.SetHeading;
-import frc.robot.subsystems.driveTrain.SwerveSubsystem;
+import frc.robot.subsystems.elevator.Elevator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TaxiAndInvertDrive extends SequentialCommandGroup {
-  /** Creates a new TaxiAndInvertDrive. */
-  public TaxiAndInvertDrive(SwerveSubsystem swerve) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+public class TrapAndSmallPID extends SequentialCommandGroup {
+  Elevator elevator;
+  double endPos;
+  /** Creates a new TrapAndSmallPID. */
+  public TrapAndSmallPID(Elevator elevator, double maxV, double maxA, double endPos) {
+    addRequirements(elevator);
     addCommands(
-      new Taxi(swerve, 2.0),
-      new SetHeading(swerve, 180)
+      new ElevatorTrapezoidalMove(elevator, maxV, maxA, endPos),
+      new ElevatorSetSmallPid(elevator, endPos)
     );
   }
 }

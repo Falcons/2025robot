@@ -7,7 +7,6 @@ package frc.robot.commands.elevator;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 import frc.robot.subsystems.elevator.Elevator;
 
@@ -33,9 +32,8 @@ public class ElevatorManual extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // boolean SM = false;
-    // if(elevator.getEncoder() >= ElevatorConstants.slowModetrigger){SM = true;}
-    // swerve.setSlowMode(SM);
+    // swerve.setSlowMode(elevator.getEncoder() >= ElevatorConstants.slowModetrigger);
+    if(elevator.danger) elevator.setVoltage(0.76);
     elevator.set(speed.get());
   }
 
