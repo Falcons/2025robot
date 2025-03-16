@@ -23,8 +23,8 @@ public class L1ToSoruce extends SequentialCommandGroup {
       new relLimeL1(swerve, elevator, coral, tagID),
       new relAutoDrive(swerve, new ChassisSpeeds(-1,0,0), 1),
       new relAutoDrive(swerve, new ChassisSpeeds(0,0,Units.degreesToRadians(-45)), 2),
-      new relAutoDrive(swerve, new ChassisSpeeds(1,0,0), 0.5),
-      new FollowTagG(swerve, 1)
+      new relAutoDrive(swerve, new ChassisSpeeds(1,0,0), 0.5)
+      // new FollowTagG(swerve, 1)
     );
   }
 }

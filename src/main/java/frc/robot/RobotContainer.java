@@ -19,8 +19,6 @@ import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
-import frc.robot.commands.auto.FollowTagG;
-import frc.robot.commands.auto.L1ToSoruce;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.relLimeL1;
 import frc.robot.commands.algae.pivotPidToggle;
@@ -35,8 +33,6 @@ import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.commands.elevator.PivotAndElevatorHome;
-import frc.robot.commands.elevator.SetElevatorSmallPIDMan;
-import frc.robot.commands.elevator.trapAndSmallPid;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.FalconFlare;
 import frc.robot.subsystems.algae.Pivot;
@@ -72,7 +68,7 @@ public class RobotContainer {
       () -> -driver.getLeftX(), 
       () -> -driver.getRightX(), 
       () -> !driver.getHID().getLeftBumper()));
-      coral.setDefaultCommand(new CoralStep(coral, airlock, () -> -0.1, flare));
+      coral.setDefaultCommand(new CoralStep(coral, airlock, () -> -0.1));
       // algaeP.setDefaultCommand(new pivotDefault(algaeP, elevator));
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
@@ -94,7 +90,7 @@ public class RobotContainer {
     // SmartDashboard.putData("auto", path_chooser);
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral));
-    auto_chooser.addOption("limelight L!", new relLimeL1(swerve, elevator, coral, 11));
+    auto_chooser.addOption("limelight L1", new relLimeL1(swerve, elevator, coral, 6));
     SmartDashboard.putData("auto", auto_chooser);
   }
   

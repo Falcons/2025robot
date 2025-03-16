@@ -7,9 +7,7 @@ package frc.robot.commands.coral;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Airlock;
-import frc.robot.subsystems.FalconFlare;
 import frc.robot.subsystems.shooter.Coral;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -17,13 +15,11 @@ public class CoralStep extends Command {
   Coral coral;
   Airlock airlock;
   Supplier<Double> speed;
-  FalconFlare falconFlare;
   /** Creates a new CoralStep. */
-  public CoralStep(Coral coral, Airlock airlock, Supplier<Double> speed, FalconFlare falconFlare) {
+  public CoralStep(Coral coral, Airlock airlock, Supplier<Double> speed) {
     this.coral = coral;
     this.airlock = airlock;
     this.speed = speed;
-    this.falconFlare = falconFlare;
     addRequirements(coral);
   }
 
@@ -39,9 +35,6 @@ public class CoralStep extends Command {
     double speed = this.speed.get();
     if(!airlock.checkStep()){
       speed = 0;
-    } else if (ShooterConstants.shooterPriority >= falconFlare.getPriority()){
-      falconFlare.setPriority(ShooterConstants.shooterPriority);
-      falconFlare.setLights(true, false, true);
     }
     coral.set(speed, speed);
   }

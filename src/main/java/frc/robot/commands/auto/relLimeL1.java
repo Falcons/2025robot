@@ -18,15 +18,15 @@ import frc.robot.subsystems.shooter.Coral;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class relLimeL1 extends SequentialCommandGroup {
-  /** Creates a new relLimeL1. */
+    double[] offset = {0,0,0};
+    /** Creates a new relLimeL1. */
   public relLimeL1(SwerveSubsystem swerve, Elevator elevator, Coral coral,double tagID) {
     // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-     new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1).asProxy(),
-     new FollowTagG(swerve, tagID),
-     new wait(1.25),
-     new rawCoralSet(coral, -0.10, -0.40).withTimeout(1)
+      new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1).asProxy(),
+      new FollowTagG(swerve, tagID, offset),
+      new wait(1.25),
+      new rawCoralSet(coral, -0.10, -0.40).withTimeout(1).asProxy()
      );
   }
 }

@@ -41,6 +41,12 @@ public class FalconFlare extends SubsystemBase {
     D2.set(in2);
     D3.set(in3);
   }
+  public void setLights(String colour){
+    Boolean[] data = colours.get(colour);
+    D1.set(data[0]);
+    D2.set(data[1]);
+    D3.set(data[2]);
+  }
 
   public void setPriority(int priority){
     this.priority = priority;
@@ -53,4 +59,6 @@ public class FalconFlare extends SubsystemBase {
     boolean isRed = Alliance.get() == DriverStation.Alliance.Red;
     setLights(false, false, isRed);
   }
+  public void dance(){}
 }
+

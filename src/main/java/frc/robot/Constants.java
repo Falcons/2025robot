@@ -42,7 +42,7 @@ public final class Constants {
         public static final int frontLeftTurningCANID = 1;
         public static final int frontLeftTurningEncoderID = 2; //:)
         public static final boolean frontLeftReversed = true;
-        public static final double frontLeftAbsoluteOffset = 213.86;//146.2; 
+        public static final double frontLeftAbsoluteOffset = 213.9;//146.2; 
         public static final double frontLeftTurningkP = 0.0035;
         public static final double frontLeftTurningkI = 0.05;
 
@@ -51,7 +51,7 @@ public final class Constants {
         public static final int frontRightTurningCANID = 11;
         public static final int FrontRightTurningEncoderID = 3;
         public static final boolean frontRightReversed = true;
-        public static final double frontRightAbsoluteOffset = 150.9; //152.70
+        public static final double frontRightAbsoluteOffset = 149; //152.70
         public static final double frontRightTurningkP = 0.004;
         public static final double frontRightTurningkI = 0.05;
 
@@ -60,7 +60,7 @@ public final class Constants {
         public static final int backLeftTurningCANID = 2;
         public static final int backLeftTurningEncoderID = 0;
         public static final boolean backLeftReversed = true;
-        public static final double backLeftAbsoluteOffset = 72.2; //72.73
+        public static final double backLeftAbsoluteOffset = 72.7; //72.73
         public static final double backLeftTurningkP = 0.004;
         public static final double backLeftTurningkI = 0.05;
 
@@ -69,7 +69,7 @@ public final class Constants {
         public static final int backRightTurningCANID = 10;
         public static final int backRightTurningEncoderID = 1;
         public static final boolean backRightReversed = true;
-        public static final double backRightAbsoluteOffset = 92.7;//Units.radiansToDegrees(1.639)//95.95;
+        public static final double backRightAbsoluteOffset = 93.2;//Units.radiansToDegrees(1.639)//95.95;
         public static final double backRightTurningkP = 0.004;
         public static final double backRightTurningkI = 0.05;
     }
@@ -153,8 +153,8 @@ public final class Constants {
     public static final class airlockConstants {
         public static final int backLCCANID = 16;
         public static final int frontLCCANID = 17;
-        /**array [min, max]*/public static final double[] frontLCTrigger = {0,40};
-        /**array [min, max]*/public static final double[] backLCTrigger = {0,40};
+        /**array [min, max]*/public static final double[] frontLCTrigger = {0,60};
+        /**array [min, max]*/public static final double[] backLCTrigger = {0,60};
     }
     public static final class falconFlareConstants{
         public static final int dio1 = 7;

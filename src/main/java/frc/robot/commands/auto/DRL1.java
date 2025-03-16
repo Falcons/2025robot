@@ -21,7 +21,7 @@ public class DRL1 extends SequentialCommandGroup {
     addCommands(
       new Taxi(swerve, 2.5),
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1+0.5).asProxy(),
-      new RawShootForTime(coral, 0, -20, 2)
+      new RawShootForTime(coral, 0, -20, 2).asProxy()
     );
   }
 }

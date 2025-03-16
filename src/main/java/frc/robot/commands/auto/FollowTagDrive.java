@@ -11,6 +11,7 @@ import com.pathplanner.lib.path.Waypoint;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
@@ -21,11 +22,12 @@ public class FollowTagDrive extends Command {
   double tagID;
   List<Waypoint> waypoints;
   PathPlannerPath path;
-  double[] targetPose;
+  double[] targetPose, offset;
   /** Creates a new FollowTag. */
-  public FollowTagDrive(SwerveSubsystem swerve, double tagID) { 
+  public FollowTagDrive(SwerveSubsystem swerve, double tagID, double[] offset) { 
     this.swerve = swerve;
     this.tagID = tagID;
+    this.offset = offset;
     addRequirements(swerve);
   }
 
@@ -39,14 +41,17 @@ public class FollowTagDrive extends Command {
     ChassisSpeeds chassisSpeeds;
     try {
       if (LimelightHelpers.getFiducialID("limelight-tag") == tagID) {
+        System.out.println("using limeligt-tag");
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-tag");
       }else if (LimelightHelpers.getFiducialID("limelight-end") == tagID) {
+        System.out.println("using limeligt-end");
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
       }else targetPose = new double[]{0,0,0,0,0,0};
     } catch (Exception e) {
       System.err.println(e);
     }
-    chassisSpeeds = new ChassisSpeeds(targetPose[2], -targetPose[0], Units.degreesToRadians(-targetPose[4]));
+    SmartDashboard.putNumberArray("Auto/target pose", targetPose);
+    chassisSpeeds = new ChassisSpeeds(targetPose[2]+offset[2], -targetPose[0]+offset[0], Units.degreesToRadians(-targetPose[4]));
     swerve.driveRobotRelative(chassisSpeeds);
   }
 
