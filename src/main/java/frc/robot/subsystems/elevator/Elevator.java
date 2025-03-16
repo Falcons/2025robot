@@ -36,14 +36,14 @@ public class Elevator extends SubsystemBase {
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
-    FalconFlare falconFlare = new FalconFlare();
     double[] L1offset = limelightConstants.LLendoffset; 
     public double targetPos = 15;
     public Double speedMod = 1.0;
     public boolean atMax, atMin, atDrop, danger;
     private Airlock airlock;
+    FalconFlare falconFlare;
     /** Creates a new elevator. */
-  public Elevator(Airlock airlock) {
+  public Elevator(Airlock airlock, FalconFlare falconFlare) {
     this.airlock = airlock;
     TOF.setRangingMode(RangingMode.Short, 24);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
