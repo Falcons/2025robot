@@ -20,6 +20,7 @@ import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
 import frc.robot.commands.auto.Taxi;
+import frc.robot.commands.auto.UnfilterdRelLimeL1;
 import frc.robot.commands.auto.relLimeL1;
 import frc.robot.commands.algae.pivotPidToggle;
 import frc.robot.commands.algae.AlgaeIntake;
@@ -90,7 +91,13 @@ public class RobotContainer {
     // SmartDashboard.putData("auto", path_chooser);
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral));
-    auto_chooser.addOption("limelight L1", new relLimeL1(swerve, elevator, coral, 6));
+    auto_chooser.addOption("unfilterd L1", new UnfilterdRelLimeL1(swerve, elevator, coral));
+    auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, 8));
+    auto_chooser.addOption("Red Front L1", new relLimeL1(swerve, elevator, coral, 7));
+    auto_chooser.addOption("Red left L1", new relLimeL1(swerve, elevator, coral, 6));
+    auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, 19));
+    auto_chooser.addOption("blue front L1", new relLimeL1(swerve, elevator, coral, 18));
+    auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, 17));
     SmartDashboard.putData("auto", auto_chooser);
   }
   

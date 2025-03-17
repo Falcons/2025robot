@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auto;
+package frc.robot.commands.moveToTarget;
 
 import java.util.List;
 
@@ -17,14 +17,14 @@ import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class FollowTagDrive extends Command {
+public class FollowTag extends Command {
   SwerveSubsystem swerve;
   double tagID;
   List<Waypoint> waypoints;
   PathPlannerPath path;
   double[] targetPose, offset;
   /** Creates a new FollowTag. */
-  public FollowTagDrive(SwerveSubsystem swerve, double tagID, double[] offset) { 
+  public FollowTag(SwerveSubsystem swerve, double tagID, double[] offset) { 
     this.swerve = swerve;
     this.tagID = tagID;
     this.offset = offset;
@@ -41,17 +41,15 @@ public class FollowTagDrive extends Command {
     ChassisSpeeds chassisSpeeds;
     try {
       if (LimelightHelpers.getFiducialID("limelight-tag") == tagID) {
-        System.out.println("using limeligt-tag");
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-tag");
       }else if (LimelightHelpers.getFiducialID("limelight-end") == tagID) {
-        System.out.println("using limeligt-end");
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
       }else targetPose = new double[]{0,0,0,0,0,0};
     } catch (Exception e) {
       System.err.println(e);
     }
     SmartDashboard.putNumberArray("Auto/target pose", targetPose);
-    chassisSpeeds = new ChassisSpeeds(targetPose[2]+offset[2], -targetPose[0]+offset[0], Units.degreesToRadians(-targetPose[4]));
+    chassisSpeeds = new ChassisSpeeds(0, -targetPose[0]+offset[0], Units.degreesToRadians(-targetPose[4]));
     swerve.driveRobotRelative(chassisSpeeds);
   }
 
@@ -62,6 +60,6 @@ public class FollowTagDrive extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !LimelightHelpers.getTV("limelight-end");
+    return Math.abs(targetPose[0]+offset[0])  <= 0.1 && Math.abs(targetPose[4]) <= 5;
   }
 }

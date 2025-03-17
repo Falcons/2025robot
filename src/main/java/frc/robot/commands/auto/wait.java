@@ -20,6 +20,7 @@ public class wait extends Command {
   @Override
   public void initialize() {
     System.out.println(this.getName()+  " start");
+    System.out.println(timer.get());
     timer.reset();
     timer.start();
   }

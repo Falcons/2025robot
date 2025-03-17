@@ -5,19 +5,19 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.moveToTarget.FollowTag;
-import frc.robot.commands.moveToTarget.FollowTagDrive;
+import frc.robot.commands.moveToTarget.UnfilterdFollowTag;
+import frc.robot.commands.moveToTarget.UnfilterdFollowTagDrive;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class FollowTagG extends SequentialCommandGroup {
+public class UnfilterdFollowTagG extends SequentialCommandGroup {
   /** Creates a new FollowTagG. */
-  public FollowTagG(SwerveSubsystem swerve, double tagID, double[] offset) {
+  public UnfilterdFollowTagG(SwerveSubsystem swerve, double[] offset) {
     addCommands(
-      new FollowTag(swerve, tagID, offset),
-      new FollowTagDrive(swerve, tagID, offset)
+      new UnfilterdFollowTag(swerve, offset),
+      new UnfilterdFollowTagDrive(swerve, offset)
     );
   }
 }
