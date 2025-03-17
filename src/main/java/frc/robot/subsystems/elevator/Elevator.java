@@ -4,14 +4,14 @@
 
 package frc.robot.subsystems.elevator;
 
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
@@ -95,20 +95,20 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-0.5 && getEncoder() <= ElevatorConstants.coralL1+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L2", getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L3", getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5);
-    SmartDashboard.putBoolean("Elevator/Level/L4", getEncoder() >= ElevatorConstants.coralL4M-0.02 && getEncoder() <= ElevatorConstants.coralL4M+0.02);
+    SmartDashboard.putBoolean("Elevator/Level/L4", getEncoder() >= ElevatorConstants.coralL4L-0.02 && getEncoder() <= ElevatorConstants.coralL4H+0.02);
     leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(leftMoter.hasActiveFault());
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
     rightWarningAlert.setText("elevator right:" + rightMoter.getWarnings().toString()); rightWarningAlert.set(rightMoter.hasActiveWarning());
     if (ElevatorConstants.elevatorPriority >= falconFlare.getPriority()){
       falconFlare.setPriority(ElevatorConstants.elevatorPriority);
-      if (getEncoder() >= ElevatorConstants.coralL1-0.5 && getEncoder() <= ElevatorConstants.coralL1+0.5){falconFlare.setLights(false, true, true);}
-      if (getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5){falconFlare.setLights(true, true, false);}
-      if (getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5){falconFlare.setLights(true, false, false);}
-      if (getEncoder() >= ElevatorConstants.coralL4M-0.1 && getEncoder() <= ElevatorConstants.coralL4M+0.1){falconFlare.setLights(true, true, true);}
-      if (getEncoder() >= ElevatorConstants.algaeL2-0.1 && getEncoder() <= ElevatorConstants.algaeL2+0.1){falconFlare.setLights(true,false,true);}
-      if (getEncoder() >= ElevatorConstants.algaeL3-0.1 && getEncoder() <= ElevatorConstants.algaeL3+0.1){falconFlare.setLights(true,false,true);}
-      if (getEncoder() < ElevatorConstants.coralL1-0.5) {falconFlare.setLights(false, true, false);}
+      if (getEncoder() >= ElevatorConstants.coralL1-0.5 && getEncoder() <= ElevatorConstants.coralL1+0.5){falconFlare.setLights("green");}
+      if (getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5){falconFlare.setLights("blue");}
+      if (getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5){falconFlare.setLights("purple");}
+      if (getEncoder() >= ElevatorConstants.coralL4L-0.02 && getEncoder() <= ElevatorConstants.coralL4H+0.02){falconFlare.setLights("red");}
+      if (getEncoder() >= ElevatorConstants.algaeL2-0.1 && getEncoder() <= ElevatorConstants.algaeL2+0.1){falconFlare.setLights("yellow");}
+      if (getEncoder() >= ElevatorConstants.algaeL3-0.1 && getEncoder() <= ElevatorConstants.algaeL3+0.1){falconFlare.setLights("yellow");}
+      if (getEncoder() < ElevatorConstants.coralL1-0.5) {falconFlare.setLights("white");}
     }
   }
   /**sets the speed of the elevator*/

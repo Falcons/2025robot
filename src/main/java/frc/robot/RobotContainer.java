@@ -117,12 +117,6 @@ public class RobotContainer {
     operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
     operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
     operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4M));
-    /* 
-    operator.povDown().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
-    operator.povLeft().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
-    operator.povRight().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
-    operator.povUp().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
-    */
     operator.leftBumper().onTrue(new ElevatorAndPivotOut(algaeP, elevator, ElevatorConstants.algaeL2));
     operator.rightBumper().onTrue(new ElevatorAndPivotOut(algaeP, elevator, ElevatorConstants.algaeL3));
     
@@ -153,7 +147,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     try {
       return auto_chooser.getSelected();
-    // return path_chooser.getSelected();  
     } catch (Exception e) {
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
       return new Taxi(swerve, 2.0);

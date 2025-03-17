@@ -135,7 +135,10 @@ public final class Constants {
         public static final double maxAcceleration = 40; //inches per second squared
         public static final double motorRotToIN = (motorRatio * (2 * Math.PI)/0.8755);//* 2; //1.751//ratio * 2pi / gear radius in inchs
         public static final double Min = 1; //highest point for min
-        public static final double Drop = 4; //highest point for min
+        public static final double Drop = 4; //highest point for drop
+        public static final double FFLow = 10;
+        public static final double FFMid = 50;
+        public static final double FFhigh = 60;
         public static final double slowModetrigger = 20;
         public static final double Max = 122; //lowest point for max
         public static final double TOFEdgeBuffer = 100;

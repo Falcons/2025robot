@@ -59,5 +59,6 @@ public class UnfilterdFollowTagDrive extends Command {
   @Override
   public boolean isFinished() {
     return !LimelightHelpers.getTV("limelight-end");
+    // return Math.abs(targetPose[2]+offset[2]) < 0.5;
   }
 }
