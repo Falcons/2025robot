@@ -95,9 +95,9 @@ public class RobotContainer {
     auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, 8));
     auto_chooser.addOption("Red Front L1", new relLimeL1(swerve, elevator, coral, 7));
     auto_chooser.addOption("Red left L1", new relLimeL1(swerve, elevator, coral, 6));
-    auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, 19));
+    auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, 17));
     auto_chooser.addOption("blue front L1", new relLimeL1(swerve, elevator, coral, 18));
-    auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, 17));
+    auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, 19));
     SmartDashboard.putData("auto", auto_chooser);
   }
   
