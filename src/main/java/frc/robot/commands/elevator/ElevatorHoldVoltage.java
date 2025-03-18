@@ -5,18 +5,15 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorHoldVoltage extends Command {
   Elevator elevator;
-  double high, mid, low;
   /** Creates a new ElevatorSetVoltage. */
-  public ElevatorHoldVoltage(Elevator elevator, double high, double mid, double low) {
+  public ElevatorHoldVoltage(Elevator elevator) {
     this.elevator = elevator;
-    this.high = high;
-    this.mid = mid;
-    this.low = low;
     addRequirements(elevator);
   }
 
@@ -29,7 +26,8 @@ public class ElevatorHoldVoltage extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double cVolts = mid;
+    double cVolts = ElevatorConstants.FFMid;
+    if (elevator.getEncoder() >= 119) cVolts = ElevatorConstants.FFhigh;
     if (elevator.atDrop && !elevator.danger) cVolts = 0;
     elevator.setVoltage(cVolts);
   }
