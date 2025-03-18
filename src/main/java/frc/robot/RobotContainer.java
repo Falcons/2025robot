@@ -16,11 +16,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
+import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
-import frc.robot.commands.auto.FollowTagG;
-import frc.robot.commands.auto.L1ToSoruce;
 import frc.robot.commands.auto.Taxi;
+import frc.robot.commands.auto.UnfilterdRelLimeL1;
 import frc.robot.commands.auto.relLimeL1;
 import frc.robot.commands.algae.pivotPidToggle;
 import frc.robot.commands.algae.AlgaeIntake;
@@ -30,10 +30,11 @@ import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
 import frc.robot.commands.driveTrain.invertdrive;
+import frc.robot.commands.elevator.ElevatorHoldVoltage;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
-import frc.robot.commands.elevator.SetElevatorSmallPIDMan;
+import frc.robot.commands.elevator.PivotAndElevatorHome;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.FalconFlare;
 import frc.robot.subsystems.algae.Pivot;
@@ -44,7 +45,7 @@ public class RobotContainer {
 
   private final Airlock airlock = new Airlock();
   private final FalconFlare flare = new FalconFlare();
-  private final Elevator elevator = new Elevator(airlock);
+  private final Elevator elevator = new Elevator(airlock, flare);
   private final Coral coral = new Coral();
   private final Pivot algaeP = new Pivot(elevator);
   private final frc.robot.subsystems.algae.Intake algaeI = new frc.robot.subsystems.algae.Intake();
@@ -58,7 +59,7 @@ public class RobotContainer {
   private final double operatorLSDeadZone = 0.1;
   private final double operatorRTDeadZone = 0.01;
   private final double operatorLTDeadZone = 0.01;
-  private final Boolean layout = false;
+  // private final Boolean layout = false;
   // SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   SendableChooser<Command> auto_chooser = new SendableChooser<Command>();
   public RobotContainer() { 
@@ -75,7 +76,7 @@ public class RobotContainer {
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
-    elevator.setDefaultCommand(new ElevatorSetVoltage(elevator, 0.76));
+    elevator.setDefaultCommand(new ElevatorHoldVoltage(elevator));
 
     configureBindings();
 
@@ -86,14 +87,20 @@ public class RobotContainer {
     NamedCommands.registerCommand("set elevator L1", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     NamedCommands.registerCommand("set elevator L2", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
     NamedCommands.registerCommand("set elevator L3", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
-    NamedCommands.registerCommand("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4)); 
+    NamedCommands.registerCommand("set elevator L4", new ElevatorTrapezoidalMove(elevator,ElevatorConstants.maxSpeed,ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4M)); 
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
     // path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", stream -> stream.filter(auto -> !auto.getName().startsWith(".")));
     // SmartDashboard.putData("auto", path_chooser);
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral));
-    auto_chooser.addOption("limelight L!", new relLimeL1(swerve, elevator, coral, 11));
+    auto_chooser.addOption("unfilterd L1", new UnfilterdRelLimeL1(swerve, elevator, coral));
+    auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, 8));
+    auto_chooser.addOption("Red Front L1", new relLimeL1(swerve, elevator, coral, 7));
+    auto_chooser.addOption("Red left L1", new relLimeL1(swerve, elevator, coral, 6));
+    auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, 17));
+    auto_chooser.addOption("blue front L1", new relLimeL1(swerve, elevator, coral, 18));
+    auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, 19));
     SmartDashboard.putData("auto", auto_chooser);
   }
   
@@ -101,27 +108,20 @@ public class RobotContainer {
     operator.x().whileTrue(new AlgaeIntake(algaeI, -1)); // intake algae
     operator.a().whileTrue(new AlgaeIntake(algaeI, 1)); // shoot algae
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
-    operator.y().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.Min));
+    operator.y().onTrue(new PivotAndElevatorHome(algaeP, elevator));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.05));
     operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.00, -0.20)); //-0.10 , -0.40
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.30));
-    operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.20)); // outake
+    operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.30)); // outake
     
-    /* 
+    
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
     operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
-    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
-    */
-    /*
-    operator.povDown().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
-    operator.povLeft().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
-    operator.povRight().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
-    operator.povUp().onTrue(new trapAndSmallPid(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4));
-    */
-    operator.leftBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL2));
-    operator.rightBumper().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL3));
+    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL0));
+    operator.leftBumper().onTrue(new ElevatorAndPivotOut(algaeP, elevator, ElevatorConstants.algaeL2));
+    operator.rightBumper().onTrue(new ElevatorAndPivotOut(algaeP, elevator, ElevatorConstants.algaeL3));
     
     /* 
     operator.start().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotMax));
@@ -131,26 +131,25 @@ public class RobotContainer {
     
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
     // driver.a().onTrue(new SwerveToggleSlowMode(swerve));
-    driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
     // driver.x().whileTrue(new pathToTag(swerve, 6));
-    driver.x().whileTrue(new L1ToSoruce(swerve, elevator, coral, 11));
-    driver.start().whileTrue(new FollowTagG(swerve, 11));
-    driver.back().whileTrue(new relLimeL1(swerve, elevator, coral, 11));
+    // driver.x().whileTrue(new L1ToSoruce(swerve, elevator, coral, 11));
+    // driver.start().whileTrue(new FollowTagG(swerve, 11));
+    // driver.back().whileTrue(new relLimeL1(swerve, elevator, coral, 11));
+    driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
-
+    /*
     driver.povUp().onTrue(new SetElevatorSmallPIDMan(elevator, +0.5));
     driver.povDown().onTrue(new SetElevatorSmallPIDMan(elevator, -0.5));
-    /* 
-    driver.povUp().onTrue(new SetElevatorSmallPID(elevator, () -> elevator.getEncoder()+0.5));
-    driver.povDown().onTrue(new SetElevatorSmallPID(elevator, () -> elevator.getEncoder()-0.5));
     */
+    driver.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4H));
+    driver.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4M));
+    driver.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4L));
   }
 
   public Command getAutonomousCommand() {
     try {
       return auto_chooser.getSelected();
-    // return path_chooser.getSelected();  
     } catch (Exception e) {
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
       return new Taxi(swerve, 2.0);

@@ -35,11 +35,12 @@ public class PivotPid extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println(this.getName() + " ends");
+    pivot.stopPivot();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return pivot.atSetpoint();
   }
 }

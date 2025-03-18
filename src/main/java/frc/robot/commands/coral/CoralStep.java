@@ -33,7 +33,9 @@ public class CoralStep extends Command {
   @Override
   public void execute() {
     double speed = this.speed.get();
-    if(!airlock.checkStep()) speed = 0;
+    if(!airlock.checkStep()){
+      speed = 0;
+    }
     coral.set(speed, speed);
   }
 

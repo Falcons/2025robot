@@ -4,18 +4,19 @@
 
 package frc.robot.subsystems.elevator;
 
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Alert;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,7 +29,7 @@ import frc.robot.subsystems.FalconFlare;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.7, 0, 0); 
+    PIDController Pid = new PIDController(0.7, 0.25, 0); 
     PIDController PidSmall = new PIDController(0.3, 0, 0); 
     ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.75, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
@@ -36,15 +37,16 @@ public class Elevator extends SubsystemBase {
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
-    FalconFlare falconFlare = new FalconFlare();
     double[] L1offset = limelightConstants.LLendoffset; 
     public double targetPos = 15;
     public Double speedMod = 1.0;
     public boolean atMax, atMin, atDrop, danger;
     private Airlock airlock;
+    FalconFlare falconFlare;
     /** Creates a new elevator. */
-  public Elevator(Airlock airlock) {
+  public Elevator(Airlock airlock, FalconFlare falconFlare) {
     this.airlock = airlock;
+    this.falconFlare = falconFlare;
     TOF.setRangingMode(RangingMode.Short, 24);
     this.rightMoter = new SparkMax(ElevatorConstants.liftMotor1CANID, MotorType.kBrushless);
     rightConfig = new SparkMaxConfig();
@@ -91,18 +93,23 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putBoolean("Elevator/at min", atMin);
     SmartDashboard.putBoolean("Elevator/at drop", atDrop);
     SmartDashboard.putBoolean("Elevator/in danger", danger);
-    SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1);
+    SmartDashboard.putBoolean("Elevator/Level/L1", getEncoder() >= ElevatorConstants.coralL1-0.5 && getEncoder() <= ElevatorConstants.coralL1+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L2", getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5);
     SmartDashboard.putBoolean("Elevator/Level/L3", getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5);
-    SmartDashboard.putBoolean("Elevator/Level/L4", getEncoder() >= ElevatorConstants.coralL4-0.1 && getEncoder() <= ElevatorConstants.coralL4+0.1);
+    SmartDashboard.putBoolean("Elevator/Level/L4", getEncoder() >= ElevatorConstants.coralL4L-0.02 && getEncoder() <= ElevatorConstants.coralL4H+0.02);
     leftFaultAlert.setText("elevator left:" + leftMoter.getFaults().toString()); leftFaultAlert.set(leftMoter.hasActiveFault());
     rightFaultAlert.setText("elevator right:" + rightMoter.getFaults().toString()); rightFaultAlert.set(rightMoter.hasActiveFault());
     leftWarningAlert.setText("elevator left" + leftMoter.getWarnings().toString()); leftWarningAlert.set(leftMoter.hasActiveWarning());
     rightWarningAlert.setText("elevator right:" + rightMoter.getWarnings().toString()); rightWarningAlert.set(rightMoter.hasActiveWarning());
-    if (getEncoder() >= ElevatorConstants.coralL1-1 && getEncoder() <= ElevatorConstants.coralL1+1){falconFlare.setLights(false, true, true);}
-    if (getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5){falconFlare.setLights(true, true, false);}
-    if (getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5){falconFlare.setLights(true, false, false);}
-    if (getEncoder() >= ElevatorConstants.coralL4-0.02 && getEncoder() <= ElevatorConstants.coralL4+0.02){falconFlare.setLights(true, true, true);}
+    if(!DriverStation.isDisabled()){
+      if (getEncoder() >= ElevatorConstants.coralL1-0.5 && getEncoder() <= ElevatorConstants.coralL1+0.5){falconFlare.setLights("green");}
+      if (getEncoder() >= ElevatorConstants.coralL2-0.5 && getEncoder() <= ElevatorConstants.coralL2+0.5){falconFlare.setLights("blue");}
+      if (getEncoder() >= ElevatorConstants.coralL3-0.5 && getEncoder() <= ElevatorConstants.coralL3+0.5){falconFlare.setLights("purple");}
+      if (getEncoder() >= ElevatorConstants.coralL4L-0.02 && getEncoder() <= ElevatorConstants.coralL4H+0.02){falconFlare.setLights("red");}
+      if (getEncoder() >= ElevatorConstants.algaeL2-0.1 && getEncoder() <= ElevatorConstants.algaeL2+0.1){falconFlare.setLights("yellow");}
+      if (getEncoder() >= ElevatorConstants.algaeL3-0.1 && getEncoder() <= ElevatorConstants.algaeL3+0.1){falconFlare.setLights("yellow");}
+      if (getEncoder() < ElevatorConstants.coralL1-0.5) {falconFlare.setLights("white");}
+    }
   }
   /**sets the speed of the elevator*/
   public void set(double speed){
