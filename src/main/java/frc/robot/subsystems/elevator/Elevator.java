@@ -31,7 +31,7 @@ public class Elevator extends SubsystemBase {
     private SparkMaxConfig leftConfig, rightConfig;
     PIDController Pid = new PIDController(0.7, 0.25, 0); 
     PIDController PidSmall = new PIDController(0.3, 0, 0); 
-    ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.75, 0);
+    ElevatorFeedforward feedforward = new ElevatorFeedforward(0, ElevatorConstants.FFMid, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
