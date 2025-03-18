@@ -79,8 +79,6 @@ public class Elevator extends SubsystemBase {
     atMax = getEncoder() >= ElevatorConstants.Max;
     atDrop = getEncoder() <= ElevatorConstants.Drop;
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
-    SmartDashboard.putNumber("Elevator/raw left encoder", leftMoter.getEncoder().getPosition());
-    SmartDashboard.putNumber("Elevator/raw right encoder", rightMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
     SmartDashboard.putNumber("Elevator/avg encoder", getEncoder());
     SmartDashboard.putNumber("Elevator/left velocity", getLeftVelocity());

@@ -32,7 +32,6 @@ import frc.robot.commands.driveTrain.SwerveSlowModeHold;
 import frc.robot.commands.driveTrain.invertdrive;
 import frc.robot.commands.elevator.ElevatorHoldVoltage;
 import frc.robot.commands.elevator.ElevatorManual;
-import frc.robot.commands.elevator.ElevatorSetVoltage;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.commands.elevator.PivotAndElevatorHome;
 import frc.robot.subsystems.Airlock;
