@@ -139,6 +139,7 @@ public final class Constants {
         public static final double FFLow = 0.3;
         public static final double FFMid = 0.40;
         public static final double FFhigh = 0.45;
+        public static final double FFhigh = 0.45;
         public static final double slowModetrigger = 20;
         public static final double Max = 122; //lowest point for max
         public static final double TOFEdgeBuffer = 100;
