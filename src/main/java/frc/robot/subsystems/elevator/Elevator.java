@@ -69,7 +69,6 @@ public class Elevator extends SubsystemBase {
     Pid.setIntegratorRange(-0.01, 0.01);
     PidSmall.setTolerance(0.05);
     updateEncoders(0);
-    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/78.74, L1offset[3], L1offset[4], L1offset[5]);
   }
 
   @Override
@@ -79,8 +78,6 @@ public class Elevator extends SubsystemBase {
     atMax = getEncoder() >= ElevatorConstants.Max;
     atDrop = getEncoder() <= ElevatorConstants.Drop;
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
-    SmartDashboard.putNumber("Elevator/raw left encoder", leftMoter.getEncoder().getPosition());
-    SmartDashboard.putNumber("Elevator/raw right encoder", rightMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
     SmartDashboard.putNumber("Elevator/avg encoder", getEncoder());
     SmartDashboard.putNumber("Elevator/left velocity", getLeftVelocity());
