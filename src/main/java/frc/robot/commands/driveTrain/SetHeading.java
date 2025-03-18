@@ -4,6 +4,7 @@
 
 package frc.robot.commands.driveTrain;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
@@ -14,6 +15,8 @@ public class SetHeading extends InstantCommand {
 SwerveSubsystem swerve;
 double angle;
   public SetHeading(SwerveSubsystem swerve, double angle) {
+    // this.angle = Units.degreesToRadians(angle);
+    this.angle = angle;
     this.swerve = swerve;
   }
 

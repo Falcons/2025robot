@@ -185,6 +185,7 @@ public class Elevator extends SubsystemBase {
   public void updateEncoders(double value){
     leftMoter.getEncoder().setPosition(value);
     rightMoter.getEncoder().setPosition(value);
+    System.out.println("ele encoders set to " + value);
   }
   public double getLeftVelocity(){
     return leftMoter.getEncoder().getVelocity();

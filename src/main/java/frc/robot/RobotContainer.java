@@ -28,6 +28,7 @@ import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.coral.CoralStep;
 import frc.robot.commands.coral.rawCoralSet;
+import frc.robot.commands.driveTrain.SetHeading;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
 import frc.robot.commands.driveTrain.invertdrive;
@@ -91,14 +92,14 @@ public class RobotContainer {
     // path_chooser = AutoBuilder.buildAutoChooserWithOptionsModifier("default", stream -> stream.filter(auto -> !auto.getName().startsWith(".")));
     // SmartDashboard.putData("auto", path_chooser);
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
-    auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral));
-    auto_chooser.addOption("unfilterd L1", new UnfilterdRelLimeL1(swerve, elevator, coral));
-    auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, 9));
-    auto_chooser.addOption("Red back L1", new relLimeL1(swerve, elevator, coral, 10));
-    auto_chooser.addOption("Red left L1", new relLimeL1(swerve, elevator, coral, 11));
-    auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, 22));
-    auto_chooser.addOption("blue back L1", new relLimeL1(swerve, elevator, coral, 21));
-    auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, 20));
+    auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral, algaeP));
+    auto_chooser.addOption("unfilterd L1", new UnfilterdRelLimeL1(swerve, elevator, algaeP, coral));
+    auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, algaeP, 9));
+    auto_chooser.addOption("Red back L1", new relLimeL1(swerve, elevator, coral, algaeP, 10));
+    auto_chooser.addOption("Red left L1", new relLimeL1(swerve, elevator, coral, algaeP, 11));
+    auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, algaeP, 22));
+    auto_chooser.addOption("blue back L1", new relLimeL1(swerve, elevator, coral, algaeP, 21));
+    auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, algaeP, 20));
     SmartDashboard.putData("auto", auto_chooser);
   }
   
@@ -108,7 +109,7 @@ public class RobotContainer {
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new PivotAndElevatorHome(algaeP, elevator));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.08));
-    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.00, -0.20)); //-0.10 , -0.40
+    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.05, -0.20)); //-0.10 , -0.40
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.30));
     operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.30)); // outake
@@ -147,7 +148,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     try {
-      return auto_chooser.getSelected();
+      return auto_chooser.getSelected().andThen(new SetHeading(swerve, 180));
     } catch (Exception e) {
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
       return new Taxi(swerve, 2.0);

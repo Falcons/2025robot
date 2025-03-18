@@ -26,6 +26,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.Alert;
@@ -134,7 +135,7 @@ public class SwerveSubsystem extends SubsystemBase {
     new Thread(() -> {
       try {
         Thread.sleep(1000);
-        zeroHeading();
+        // zeroHeading();
       } catch (Exception e) {
       }
     }).start();
@@ -258,10 +259,16 @@ public Command followPathCommand(PathPlannerPath path) {
   /** Resets Gyro Heading to 0 */
   public void zeroHeading() {
     gyro.reset();
+    System.out.println("gyro heading reset");
   }
   /** sets Gyro Heading */
-  public void setHeading(double angle) {
+  public void setHeading(double angle){
     gyro.setYaw(angle);
+    System.out.println("gyro heading set to " + angle);
+    /*
+    double radAngle = Units.degreesToRadians(angle);
+    poseEstimator.resetRotation(new Rotation2d(radAngle));
+    */
   }
   /** @return Gyro Rotation2d, continuous */
   public Rotation2d getRotation2d() {
