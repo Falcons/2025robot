@@ -93,12 +93,12 @@ public class RobotContainer {
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral));
     auto_chooser.addOption("unfilterd L1", new UnfilterdRelLimeL1(swerve, elevator, coral));
-    auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, 8));
-    auto_chooser.addOption("Red Front L1", new relLimeL1(swerve, elevator, coral, 7));
-    auto_chooser.addOption("Red left L1", new relLimeL1(swerve, elevator, coral, 6));
-    auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, 17));
-    auto_chooser.addOption("blue front L1", new relLimeL1(swerve, elevator, coral, 18));
-    auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, 19));
+    auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, 9));
+    auto_chooser.addOption("Red back L1", new relLimeL1(swerve, elevator, coral, 10));
+    auto_chooser.addOption("Red left L1", new relLimeL1(swerve, elevator, coral, 11));
+    auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, 22));
+    auto_chooser.addOption("blue back L1", new relLimeL1(swerve, elevator, coral, 21));
+    auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, 20));
     SmartDashboard.putData("auto", auto_chooser);
   }
   
@@ -107,7 +107,7 @@ public class RobotContainer {
     operator.a().whileTrue(new AlgaeIntake(algaeI, 1)); // shoot algae
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new PivotAndElevatorHome(algaeP, elevator));
-    operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.05));
+    operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.08));
     operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.00, -0.20)); //-0.10 , -0.40
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.30));
