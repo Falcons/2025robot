@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.ElevatorAndPivotOut;
+import frc.robot.commands.algae.ElevatorLowAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
 import frc.robot.commands.auto.Taxi;
@@ -116,7 +117,7 @@ public class RobotContainer {
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));
     operator.povLeft().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2));
     operator.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3));
-    operator.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.algaeL0));
+    operator.povUp().onTrue(new ElevatorLowAndPivotOut(elevator, algaeP));
     operator.leftBumper().onTrue(new ElevatorAndPivotOut(algaeP, elevator, ElevatorConstants.algaeL2));
     operator.rightBumper().onTrue(new ElevatorAndPivotOut(algaeP, elevator, ElevatorConstants.algaeL3));
     
