@@ -31,7 +31,8 @@ public class Elevator extends SubsystemBase {
     private SparkMaxConfig leftConfig, rightConfig;
     PIDController Pid = new PIDController(0.7, 0.25, 0); 
     PIDController PidSmall = new PIDController(0.3, 0, 0); 
-    ElevatorFeedforward feedforward = new ElevatorFeedforward(0, ElevatorConstants.FFMid, 0);
+    ElevatorFeedforward feedforwardMid = new ElevatorFeedforward(0, ElevatorConstants.FFMid, 0);
+    ElevatorFeedforward feedforwardHigh = new ElevatorFeedforward(0, ElevatorConstants.FFhigh, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
@@ -69,7 +70,6 @@ public class Elevator extends SubsystemBase {
     Pid.setIntegratorRange(-0.01, 0.01);
     PidSmall.setTolerance(0.05);
     updateEncoders(0);
-    LimelightHelpers.setCameraPose_RobotSpace("limelight-end", L1offset[0], L1offset[1], L1offset[2]+getEncoder()/78.74, L1offset[3], L1offset[4], L1offset[5]);
   }
 
   @Override
@@ -79,8 +79,6 @@ public class Elevator extends SubsystemBase {
     atMax = getEncoder() >= ElevatorConstants.Max;
     atDrop = getEncoder() <= ElevatorConstants.Drop;
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
-    SmartDashboard.putNumber("Elevator/raw left encoder", leftMoter.getEncoder().getPosition());
-    SmartDashboard.putNumber("Elevator/raw right encoder", rightMoter.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
     SmartDashboard.putNumber("Elevator/avg encoder", getEncoder());
     SmartDashboard.putNumber("Elevator/left velocity", getLeftVelocity());
@@ -131,10 +129,13 @@ public class Elevator extends SubsystemBase {
   }
   /**sets the elevator to a specific position*/
   public void setPID(double setpoint){
-    double FF = feedforward.calculate(setpoint);
+    double FFMid = feedforwardMid.calculate(setpoint);
+    double FFHigh = feedforwardHigh.calculate(setpoint);
     double pid = Pid.calculate(getEncoder(), setpoint);
-    if(!atDrop) pid += FF;
-    SmartDashboard.putNumber("Elevator/PID/FF1", FF);
+    if(!atDrop && getEncoder() >= 119) pid += FFHigh;
+    else if(!atDrop) pid += FFMid;
+    SmartDashboard.putNumber("Elevator/PID/FF Mid", FFMid);
+    SmartDashboard.putNumber("Elevator/PID/FF high", FFHigh);
     SmartDashboard.putNumber("Elevator/PID/target", pid);
     SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
     SmartDashboard.putNumber("Elevator/PID/error", Pid.getError());
@@ -142,7 +143,7 @@ public class Elevator extends SubsystemBase {
   }
   /**sets the elevator to a specific position*/
   public void setSmallPID(double setpoint){
-    double FF = feedforward.calculate(setpoint);
+    double FF = feedforwardMid.calculate(setpoint);
     double pid = PidSmall.calculate(getEncoder(), setpoint);
     if(!atDrop && pid > 0) pid += FF;
     if(!atDrop && pid < 0) pid += FF-0.4;
@@ -184,6 +185,7 @@ public class Elevator extends SubsystemBase {
   public void updateEncoders(double value){
     leftMoter.getEncoder().setPosition(value);
     rightMoter.getEncoder().setPosition(value);
+    System.out.println("ele encoders set to " + value);
   }
   public double getLeftVelocity(){
     return leftMoter.getEncoder().getVelocity();
