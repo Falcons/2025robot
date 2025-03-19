@@ -4,11 +4,11 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
-import frc.robot.commands.elevator.PivotAndElevatorHome;
 import frc.robot.commands.moveToTarget.FollowTagG;
 import frc.robot.subsystems.algae.Pivot;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
@@ -27,8 +27,8 @@ public class relLimeL1 extends SequentialCommandGroup {
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1).asProxy(),
       new FollowTagG(swerve, tagID, offset),
       new wait(1.25),
+      new relAutoDrive(swerve, new ChassisSpeeds(1, 0, 0), 0.5),
       new rawCoralSet(coral, -0.05, -0.20).withTimeout(1).asProxy()
-      // new PivotAndElevatorHome(pivot, elevator).asProxy()
      );
   }
 }
