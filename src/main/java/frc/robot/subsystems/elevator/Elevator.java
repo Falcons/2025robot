@@ -39,7 +39,7 @@ public class Elevator extends SubsystemBase {
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
     double[] L1offset = limelightConstants.LLendoffset; 
-    public double targetPos = 15;
+    public double targetPos = 0;
     public Double speedMod = 1.0;
     public boolean atMax, atMin, atDrop, danger;
     private Airlock airlock;
@@ -79,6 +79,7 @@ public class Elevator extends SubsystemBase {
     atMax = getEncoder() >= ElevatorConstants.Max;
     atDrop = getEncoder() <= ElevatorConstants.Drop;
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
+//SmartDashborad.putNumber("Elevator/Target", targetPos)
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
     SmartDashboard.putNumber("Elevator/avg encoder", getEncoder());
     SmartDashboard.putNumber("Elevator/left velocity", getLeftVelocity());
