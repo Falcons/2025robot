@@ -17,14 +17,13 @@ import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class UnfilterdFollowTagDrive extends Command {
+public class UnfilterdFollowTagRot extends Command {
   SwerveSubsystem swerve;
   List<Waypoint> waypoints;
   PathPlannerPath path;
   double[] targetPose, offset;
-  boolean end = false;
   /** Creates a new FollowTag. */
-  public UnfilterdFollowTagDrive(SwerveSubsystem swerve, double[] offset) { 
+  public UnfilterdFollowTagRot(SwerveSubsystem swerve, double[] offset) { 
     this.swerve = swerve;
     this.offset = offset;
     addRequirements(swerve);
@@ -43,15 +42,15 @@ public class UnfilterdFollowTagDrive extends Command {
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-tag");
       }else if (LimelightHelpers.getTV("limelight-end")) {
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
-      }else end = true; 
+      };
     } catch (Exception e) {
       System.err.println(e);
     }
-    SmartDashboard.putNumber("auto/pose/drive/X", targetPose[0]);
-    SmartDashboard.putNumber("auto/pose/drive/Y", targetPose[1]);
-    SmartDashboard.putNumber("auto/pose/drive/Z", targetPose[2]);
-    SmartDashboard.putNumber("auto/pose/drive/Yaw", targetPose[4]);
-    chassisSpeeds = new ChassisSpeeds(targetPose[2]*0.8,-targetPose[0], Units.degreesToRadians(-targetPose[4]*0.85));
+    SmartDashboard.putNumber("auto/pose/rot/X", targetPose[0]);
+    SmartDashboard.putNumber("auto/pose/rot/Y", targetPose[1]);
+    SmartDashboard.putNumber("auto/pose/rot/Z", targetPose[2]);
+    SmartDashboard.putNumber("auto/pose/rot/Yaw", targetPose[4]);
+    chassisSpeeds = new ChassisSpeeds(0, 0, Units.degreesToRadians(-targetPose[4]*0.85));
     swerve.driveRobotRelative(chassisSpeeds);
   }
 
@@ -62,7 +61,6 @@ public class UnfilterdFollowTagDrive extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return !LimelightHelpers.getTV("limelight-end");
-    return Math.abs(targetPose[2]) <= 0.7; //|| end;
+    return Math.abs(targetPose[4]) <= 5;
   }
 }

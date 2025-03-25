@@ -64,6 +64,7 @@ public class RobotContainer {
   // SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   SendableChooser<Command> auto_chooser = new SendableChooser<Command>();
   public RobotContainer() { 
+    System.out.println("robot start");
     CanBridge.runTCP();
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 

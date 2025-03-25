@@ -25,9 +25,10 @@ public class UnfilterdRelLimeL2 extends SequentialCommandGroup {
   public UnfilterdRelLimeL2(SwerveSubsystem swerve, Elevator elevator, Pivot pivot, Coral coral, double lOrR) {
     // Add your commands in the addCommands() call, e.g.
     addCommands( 
-      new Taxi(swerve, 1.0),
+      new Taxi(swerve, 0.5),
       new UnfilterdFollowTagG(swerve, offset),
-      new relAutoDrive(swerve, new ChassisSpeeds(0.25,lOrR, 0), 0.4),
+      new relAutoDrive(swerve, new ChassisSpeeds(0, lOrR, 0), 0.4),
+      new relAutoDrive(swerve, new ChassisSpeeds(0.25, 0, 0), 0.4),
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2).asProxy(),
       // new CoralShoot(coral, elevator, () -> -0.30)
       new RawShootForTime(coral, -0.30, -0.30, 2).asProxy()

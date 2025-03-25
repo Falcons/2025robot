@@ -46,7 +46,11 @@ public class UnfilterdFollowTag extends Command {
     } catch (Exception e) {
       System.err.println(e);
     }
-    chassisSpeeds = new ChassisSpeeds(0, -targetPose[0]+offset[0], Units.degreesToRadians(-targetPose[4]*0.5));
+    SmartDashboard.putNumber("auto/pose/rot/X", targetPose[0]);
+    SmartDashboard.putNumber("auto/pose/rot/Y", targetPose[1]);
+    SmartDashboard.putNumber("auto/pose/rot/Z", targetPose[2]);
+    SmartDashboard.putNumber("auto/pose/rot/Yaw", targetPose[4]);
+    chassisSpeeds = new ChassisSpeeds(0, -targetPose[0], Units.degreesToRadians(-targetPose[4]*0.85));
     swerve.driveRobotRelative(chassisSpeeds);
   }
 
@@ -57,6 +61,6 @@ public class UnfilterdFollowTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(targetPose[0]+offset[0])  <= 0.1 && Math.abs(targetPose[4]) <= 5;
+    return Math.abs(targetPose[0])  <= 0.1;
   }
 }
