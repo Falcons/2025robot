@@ -69,7 +69,7 @@ public final class Constants {
         public static final int backRightTurningCANID = 10;
         public static final int backRightTurningEncoderID = 1;
         public static final boolean backRightReversed = true;
-        public static final double backRightAbsoluteOffset = 93.2;//Units.radiansToDegrees(1.639)//95.95;
+        public static final double backRightAbsoluteOffset = 95.2;//Units.radiansToDegrees(1.639)//95.95;
         public static final double backRightTurningkP = 0.004;
         public static final double backRightTurningkI = 0.05;
     }

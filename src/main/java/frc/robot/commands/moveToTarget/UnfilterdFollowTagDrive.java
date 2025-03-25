@@ -22,6 +22,7 @@ public class UnfilterdFollowTagDrive extends Command {
   List<Waypoint> waypoints;
   PathPlannerPath path;
   double[] targetPose, offset;
+  boolean end = false;
   /** Creates a new FollowTag. */
   public UnfilterdFollowTagDrive(SwerveSubsystem swerve, double[] offset) { 
     this.swerve = swerve;
@@ -42,11 +43,10 @@ public class UnfilterdFollowTagDrive extends Command {
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-tag");
       }else if (LimelightHelpers.getTV("limelight-end")) {
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
-      }else targetPose = new double[]{0,0,0,0,0,0};
+      }else end = true; 
     } catch (Exception e) {
       System.err.println(e);
     }
-    SmartDashboard.putNumberArray("Auto/target pose", targetPose);
     chassisSpeeds = new ChassisSpeeds(targetPose[2]+offset[2], -targetPose[0]+offset[0], Units.degreesToRadians(-targetPose[4]));
     swerve.driveRobotRelative(chassisSpeeds);
   }
@@ -58,7 +58,7 @@ public class UnfilterdFollowTagDrive extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !LimelightHelpers.getTV("limelight-end");
-    // return Math.abs(targetPose[2]+offset[2]) < 0.5;
+    // return !LimelightHelpers.getTV("limelight-end");
+    return Math.abs(targetPose[2]+offset[2]) <= 0.7 || end;
   }
 }

@@ -42,12 +42,11 @@ public class UnfilterdFollowTag extends Command {
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-tag");
       }else if (LimelightHelpers.getTV("limelight-end")) {
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
-      }else targetPose = new double[]{0,0,0,0,0,0};
+      };
     } catch (Exception e) {
       System.err.println(e);
     }
-    SmartDashboard.putNumberArray("Auto/target pose", targetPose);
-    chassisSpeeds = new ChassisSpeeds(0, -targetPose[0]+offset[0], Units.degreesToRadians(-targetPose[4]));
+    chassisSpeeds = new ChassisSpeeds(0, -targetPose[0]+offset[0], Units.degreesToRadians(-targetPose[4]*0.5));
     swerve.driveRobotRelative(chassisSpeeds);
   }
 
