@@ -29,8 +29,7 @@ import frc.robot.subsystems.FalconFlare;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.7, 0.25, 0); 
-    PIDController PidSmall = new PIDController(0.3, 0, 0); 
+    PIDController Pid = new PIDController(0.7, 0.25, 0.25); //0.7, 0.25, 0
     ElevatorFeedforward feedforwardMid = new ElevatorFeedforward(0, ElevatorConstants.FFMid, 0);
     ElevatorFeedforward feedforwardHigh = new ElevatorFeedforward(0, ElevatorConstants.FFhigh, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
@@ -39,7 +38,7 @@ public class Elevator extends SubsystemBase {
     Alert leftWarningAlert= new Alert("Warnings","", AlertType.kWarning);
     Alert rightWarningAlert = new Alert("Warnings","", AlertType.kWarning);
     double[] L1offset = limelightConstants.LLendoffset; 
-    public double targetPos = 15;
+    public double targetPos = 0;
     public Double speedMod = 1.0;
     public boolean atMax, atMin, atDrop, danger;
     private Airlock airlock;
@@ -68,8 +67,7 @@ public class Elevator extends SubsystemBase {
 
     Pid.setTolerance(0.05);
     Pid.setIntegratorRange(-0.01, 0.01);
-    PidSmall.setTolerance(0.05);
-    updateEncoders(0);
+    if(DriverStation.isDisabled()) updateEncoders(0);
   }
 
   @Override
@@ -79,6 +77,7 @@ public class Elevator extends SubsystemBase {
     atMax = getEncoder() >= ElevatorConstants.Max;
     atDrop = getEncoder() <= ElevatorConstants.Drop;
     SmartDashboard.putNumber("Elevator/left encoder", getLeftEncoder());
+    SmartDashboard.putNumber("Elevator/Target", targetPos);
     SmartDashboard.putNumber("Elevator/right encoder", getRightEncoder());
     SmartDashboard.putNumber("Elevator/avg encoder", getEncoder());
     SmartDashboard.putNumber("Elevator/left velocity", getLeftVelocity());
@@ -139,19 +138,6 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Elevator/PID/target", pid);
     SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
     SmartDashboard.putNumber("Elevator/PID/error", Pid.getError());
-    setVoltage(pid);
-  }
-  /**sets the elevator to a specific position*/
-  public void setSmallPID(double setpoint){
-    double FF = feedforwardMid.calculate(setpoint);
-    double pid = PidSmall.calculate(getEncoder(), setpoint);
-    if(!atDrop && pid > 0) pid += FF;
-    if(!atDrop && pid < 0) pid += FF-0.4;
-    
-    SmartDashboard.putNumber("Elevator/PID/Small/FF1", FF);
-    SmartDashboard.putNumber("Elevator/PID/Small/target", pid);
-    SmartDashboard.putNumber("Elevator/PID/Small/setpoint", setpoint);
-    SmartDashboard.putNumber("Elevator/PID/Small/error", PidSmall.getError());
     setVoltage(pid);
   }
   public void resetEncoder(){

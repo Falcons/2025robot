@@ -4,19 +4,15 @@
 
 package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetElevatorSmallPIDMan extends Command {
+public class ElevatorDefaultPID extends Command {
   Elevator elevator;
-  Double offset;
-  double target;
-  /** Creates a new SetElevatorPID. */
-  public SetElevatorSmallPIDMan(Elevator elevator, Double offset) {
+  /** Creates a new ElevatorDefaultPID. */
+  public ElevatorDefaultPID(Elevator elevator) {
     this.elevator = elevator;
-    this.offset = offset;
     addRequirements(elevator);
   }
 
@@ -24,15 +20,12 @@ public class SetElevatorSmallPIDMan extends Command {
   @Override
   public void initialize() {
     System.out.println(this.getName() + " start");
-    target = elevator.getEncoder()+offset;
-    SmartDashboard.putNumber("Elevator/PID/Small/target", target);    
-    SmartDashboard.putNumber("Elevator/PID/Small/offset", offset);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevator.setSmallPID(target);
+    elevator.setPID(elevator.targetPos);
   }
 
   // Called once the command ends or is interrupted.
@@ -44,7 +37,6 @@ public class SetElevatorSmallPIDMan extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return elevator.atSetpoint();
-    return false; //set to true if hold bad
+    return false;
   }
 }
