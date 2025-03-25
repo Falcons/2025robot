@@ -69,6 +69,7 @@ public class RobotContainer {
   // SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   SendableChooser<Command> auto_chooser = new SendableChooser<Command>();
   public RobotContainer() { 
+    if(DriverStation.isDisabled()) System.out.println("disabled");
     CanBridge.runTCP();
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 
@@ -87,12 +88,7 @@ public class RobotContainer {
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral, algaeP));
     auto_chooser.addOption("unfilterd L1", new UnfilterdRelLimeL1(swerve, elevator, algaeP, coral));
-    auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, algaeP, 9));
-    auto_chooser.addOption("Red back L1", new relLimeL1(swerve, elevator, coral, algaeP, 10));
-    auto_chooser.addOption("Red left L1", new relLimeL1(swerve, elevator, coral, algaeP, 11));
-    auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, algaeP, 22));
-    auto_chooser.addOption("blue back L1", new relLimeL1(swerve, elevator, coral, algaeP, 21));
-    auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, algaeP, 20));
+    auto_chooser.addOption("L2 right", new UnfilterdRelLimeL2(swerve, elevator, algaeP, coral, -1));
     SmartDashboard.putData("auto", auto_chooser);
   }
   
