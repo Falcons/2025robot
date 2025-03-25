@@ -21,9 +21,11 @@ import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.algae.TBElevatorAndPivotOut;
 import frc.robot.commands.auto.DRL1;
+import frc.robot.commands.auto.PIDtest;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.UnfilterdRelLimeL1;
 import frc.robot.commands.auto.UnfilterdRelLimeL2;
+import frc.robot.commands.auto.relLimeL1;
 import frc.robot.commands.algae.pivotPidToggle;
 import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
@@ -58,6 +60,7 @@ public class RobotContainer {
   private final SwerveSubsystem swerve = new SwerveSubsystem();
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(1);
+  private final SetHeading setHeading = new SetHeading(swerve, 0);
 
 
   private final double globalSpeedMod = 1;
@@ -69,6 +72,9 @@ public class RobotContainer {
   // SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   SendableChooser<Command> auto_chooser = new SendableChooser<Command>();
   public RobotContainer() { 
+    if (DriverStation.isDisabled()){
+      new SetHeading(swerve, 0);
+    }
     CanBridge.runTCP();
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 
@@ -81,6 +87,8 @@ public class RobotContainer {
       // algaeP.setDefaultCommand(new pivotDefault(algaeP, elevator));
       // algaeP.setDefaultCommand(new AlgaePivot(algaeP, () -> operator.getLeftY()*0.2)); // pivot
       // algaeI.setDefaultCommand(new intakeVoltage(algaeI, () -> 5.0));
+
+
     configureBindings();
 
     SmartDashboard.putData("Reset Field Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d())).ignoringDisable(true));
