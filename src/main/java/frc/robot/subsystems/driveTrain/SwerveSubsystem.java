@@ -464,4 +464,7 @@ public Command followPathCommand(PathPlannerPath path) {
     PIDController pid = pidMap.get(controller);
     return pid.calculate(measurement, setpoint);
   } 
+  public double getYawInDegrees(){
+    return gyro.getYaw().getValueAsDouble();
+  }
 }
