@@ -29,7 +29,7 @@ import frc.robot.subsystems.FalconFlare;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.7, 0.25, 0.25); //0.7, 0.25, 0
+    PIDController Pid = new PIDController(0.25, 0, 0); //0.7, 0.25, 0
     ElevatorFeedforward feedforwardMid = new ElevatorFeedforward(0, ElevatorConstants.FFMid, 0);
     ElevatorFeedforward feedforwardHigh = new ElevatorFeedforward(0, ElevatorConstants.FFhigh, 0);
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
@@ -155,6 +155,12 @@ public class Elevator extends SubsystemBase {
   /**@return the range of the TOF sensor in inchs*/
   public double getTOF(){
     return TOF.getRange();
+  }
+  public Double getTargetPos(){
+    return targetPos;
+  }
+  public void setTargetPos(double pos){
+    targetPos = pos;
   }
   /**@return the encoder position of the right motor*/
   public double getRightEncoder(){

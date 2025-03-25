@@ -4,6 +4,8 @@
 
 package frc.robot.commands.elevator;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.elevator.Elevator;
@@ -13,8 +15,8 @@ import frc.robot.subsystems.elevator.Elevator;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ElevatorAdjustTargetPos extends InstantCommand {
   Elevator elevator;
-  double targetPos;
-  public ElevatorAdjustTargetPos(Elevator elevator, double targetPos) {
+  Supplier<Double> targetPos;
+  public ElevatorAdjustTargetPos(Elevator elevator, Supplier<Double> targetPos) {
     this.elevator = elevator;
     this.targetPos = targetPos;
   }
@@ -22,9 +24,9 @@ public class ElevatorAdjustTargetPos extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double newTarget = elevator.targetPos + targetPos;
+    double newTarget = elevator.getTargetPos() + targetPos.get();
     if(newTarget > ElevatorConstants.Max) newTarget = ElevatorConstants.Max;
     if(newTarget > ElevatorConstants.Min) newTarget = ElevatorConstants.Min;
-    elevator.targetPos = newTarget;
+    elevator.setTargetPos(newTarget);
   }
 }
