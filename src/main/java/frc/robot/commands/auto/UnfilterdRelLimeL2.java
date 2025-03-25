@@ -4,11 +4,12 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.commands.coral.rawCoralSet;
+import frc.robot.commands.coral.CoralShoot;
+import frc.robot.commands.coral.RawShootForTime;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
-import frc.robot.commands.elevator.PivotAndElevatorHome;
 import frc.robot.commands.moveToTarget.UnfilterdFollowTagG;
 import frc.robot.subsystems.algae.Pivot;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
@@ -18,18 +19,18 @@ import frc.robot.subsystems.shooter.Coral;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class UnfilterdRelLimeL1 extends SequentialCommandGroup {
+public class UnfilterdRelLimeL2 extends SequentialCommandGroup {
     double[] offset = {0,0,0};
     /** Creates a new UnfilteredRelLimeL1. */
-  public UnfilterdRelLimeL1(SwerveSubsystem swerve, Elevator elevator, Pivot pivot, Coral coral) {
+  public UnfilterdRelLimeL2(SwerveSubsystem swerve, Elevator elevator, Pivot pivot, Coral coral, double lOrR) {
     // Add your commands in the addCommands() call, e.g.
-    addCommands(
-      new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1).asProxy(),
+    addCommands( 
+      new Taxi(swerve, 1.0),
       new UnfilterdFollowTagG(swerve, offset),
-      new Taxi(swerve, 0.5),
-      new wait(1.0),
-      new rawCoralSet(coral, -0.05, -0.20).withTimeout(1).asProxy()
-      // new PivotAndElevatorHome(pivot, elevator).asProxy()
+      new relAutoDrive(swerve, new ChassisSpeeds(0.25,lOrR, 0), 0.4),
+      new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2).asProxy(),
+      // new CoralShoot(coral, elevator, () -> -0.30)
+      new RawShootForTime(coral, -0.30, -0.30, 2).asProxy()
      );
   }
 }

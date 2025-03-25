@@ -22,7 +22,7 @@ import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.UnfilterdRelLimeL1;
-import frc.robot.commands.auto.relLimeL1;
+import frc.robot.commands.auto.UnfilterdRelLimeL2;
 import frc.robot.commands.algae.pivotPidToggle;
 import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
@@ -93,13 +93,17 @@ public class RobotContainer {
     // SmartDashboard.putData("auto", path_chooser);
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral, algaeP));
-    auto_chooser.addOption("unfilterd L1", new UnfilterdRelLimeL1(swerve, elevator, algaeP, coral));
+    auto_chooser.addOption("L1", new UnfilterdRelLimeL1(swerve, elevator, algaeP, coral));
+    // auto_chooser.addOption("L2 left", new UnfilterdRelLimeL2(swerve, elevator, algaeP, coral, 1));
+    auto_chooser.addOption("L2 right", new UnfilterdRelLimeL2(swerve, elevator, algaeP, coral, -1));
+    /*
     auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, algaeP, 9));
     auto_chooser.addOption("Red back L1", new relLimeL1(swerve, elevator, coral, algaeP, 10));
     auto_chooser.addOption("Red left L1", new relLimeL1(swerve, elevator, coral, algaeP, 11));
     auto_chooser.addOption("blue right L1", new relLimeL1(swerve, elevator, coral, algaeP, 22));
     auto_chooser.addOption("blue back L1", new relLimeL1(swerve, elevator, coral, algaeP, 21));
     auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, algaeP, 20));
+    */
     SmartDashboard.putData("auto", auto_chooser);
   }
   
@@ -148,7 +152,8 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     try {
-      return auto_chooser.getSelected().andThen(new SetHeading(swerve, 180));
+      System.out.println("starting " + auto_chooser.getSelected().getName());
+      return auto_chooser.getSelected();
     } catch (Exception e) {
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
       return new Taxi(swerve, 2.0);
