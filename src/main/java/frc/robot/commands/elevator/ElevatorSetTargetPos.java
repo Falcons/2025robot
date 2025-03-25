@@ -4,21 +4,23 @@
 
 package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.elevator.Elevator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TrapAndSmallPID extends SequentialCommandGroup {
+public class ElevatorSetTargetPos extends InstantCommand {
   Elevator elevator;
-  double endPos;
-  /** Creates a new TrapAndSmallPID. */
-  public TrapAndSmallPID(Elevator elevator, double maxV, double maxA, double endPos) {
-    addRequirements(elevator);
-    addCommands(
-      new ElevatorTrapezoidalMove(elevator, maxV, maxA, endPos),
-      new ElevatorSetSmallPid(elevator, endPos)
-    );
+  double targetPos;
+  public ElevatorSetTargetPos(Elevator elevator, double targetPos) {
+    this.elevator = elevator;
+    this.targetPos = targetPos;
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    elevator.targetPos = targetPos;
   }
 }
