@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
@@ -20,6 +21,7 @@ import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.ElevatorLowAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
+import frc.robot.commands.auto.PIDtest;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.UnfilterdRelLimeL1;
 import frc.robot.commands.auto.UnfilterdRelLimeL2;
@@ -28,6 +30,7 @@ import frc.robot.commands.algae.AlgaeIntake;
 import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.coral.CoralStep;
 import frc.robot.commands.coral.rawCoralSet;
+import frc.robot.commands.driveTrain.AllModulePID;
 import frc.robot.commands.driveTrain.SetHeading;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
@@ -36,6 +39,7 @@ import frc.robot.commands.elevator.ElevatorHoldVoltage;
 import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.commands.elevator.PivotAndElevatorHome;
+import frc.robot.commands.moveToTarget.PIDFollowTag;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.FalconFlare;
 import frc.robot.subsystems.algae.Pivot;
@@ -65,6 +69,7 @@ public class RobotContainer {
   SendableChooser<Command> auto_chooser = new SendableChooser<Command>();
   public RobotContainer() { 
     System.out.println("robot start");
+    swerve.zeroHeading();
     CanBridge.runTCP();
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 
@@ -131,6 +136,7 @@ public class RobotContainer {
     operator.start().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotMax));
     operator.back().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotOut));
     */
+    operator.back().onTrue(new ElevatorAndPivotOut(algaeP, elevator, ElevatorConstants.coralL1));
     operator.start().onTrue(new pivotPidToggle(algaeP));
     
     //driver.rightBumper().toggleOnTrue(new AllModulePID(swerve));
@@ -142,6 +148,9 @@ public class RobotContainer {
     driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
+    // driver.x().whileTrue(new AllModulePID(swerve));
+    // driver.x().whileTrue(new PIDtest(swerve, 1));
+    driver.x().onTrue(new PIDFollowTag(swerve, 6));
     /*
     driver.povUp().onTrue(new SetElevatorSmallPIDMan(elevator, +0.5));
     driver.povDown().onTrue(new SetElevatorSmallPIDMan(elevator, -0.5));

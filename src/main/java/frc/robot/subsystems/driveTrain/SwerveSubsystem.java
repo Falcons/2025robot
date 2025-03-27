@@ -86,8 +86,8 @@ public class SwerveSubsystem extends SubsystemBase {
         new PIDConstants(DriveConstants.rotationKP, DriveConstants.rotationKI, DriveConstants.rotationKD));
   //PhotonCamera photonCam;
 
-  private final PIDController xPID = new PIDController(DriveConstants.translationKP, 0, 0);
-  private final PIDController yPID = new PIDController(DriveConstants.translationKP, 0, 0);
+  private final PIDController xPID = new PIDController(DriveConstants.translationKP, DriveConstants.translationKI, DriveConstants.translationKD);
+  private final PIDController yPID = new PIDController(DriveConstants.translationKP, DriveConstants.translationKI, DriveConstants.translationKD);
   private final PIDController rotationPID = new PIDController(DriveConstants.rotationKP, DriveConstants.rotationKI, 0);
   private final SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, getRotation2d(), getModulePositions(), new Pose2d());
   private Alert slowModeAlert = new Alert("drive slow mode active", AlertType.kInfo);
@@ -274,7 +274,9 @@ public Command followPathCommand(PathPlannerPath path) {
   public Rotation2d getRotation2d() {
     return gyro.getRotation2d();
   }
-
+  public double getYawInDegrees(){
+    return gyro.getYaw().getValueAsDouble();
+  }
   /** @return Gyro Heading in Radians (-Pi, Pi) CCW+ */
   public double getWrappedHeadingRadians() {
     return Math.IEEEremainder(getRotation2d().getRadians(), 2 * Math.PI);
