@@ -21,15 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
 public class Coral extends SubsystemBase {
-
-  private ShuffleboardTab tab = Shuffleboard.getTab("tab 3");
-   private GenericEntry leftCoralSpeed =
-      tab.add("Left Coral Speed", 0.03)
-         .getEntry();
-    private GenericEntry rightCoralSpeed =
-    tab.add("Right Coral Speed", 0.2)
-       .getEntry();
-
+  
   private final SparkMax leftShooter, rightShooter;
   private SparkMaxConfig rightShooterConfig = new SparkMaxConfig();
   private SparkMaxConfig leftShooterConfig = new SparkMaxConfig();
@@ -60,8 +52,8 @@ public class Coral extends SubsystemBase {
   public void set(double left, double right) {
     SmartDashboard.putNumber("Coral/right speed", right);
     SmartDashboard.putNumber("Coral/left speed", left);
-    leftShooter.set(leftCoralSpeed.getDouble(0.03));
-    rightShooter.set(rightCoralSpeed.getDouble(0.2));
+    leftShooter.set(left);
+    rightShooter.set(right);
   }
   public void stop() {
     leftShooter.stopMotor();

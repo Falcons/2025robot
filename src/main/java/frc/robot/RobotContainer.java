@@ -8,6 +8,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import au.grapplerobotics.CanBridge;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,8 +47,12 @@ import frc.robot.subsystems.algae.Pivot;
 import frc.robot.subsystems.shooter.Coral;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 import frc.robot.subsystems.elevator.Elevator;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
 public class RobotContainer {
 
+  private ShuffleboardTab tab = Shuffleboard.getTab("tab 3");
   private final Airlock airlock = new Airlock();
   private final FalconFlare flare = new FalconFlare();
   private final Elevator elevator = new Elevator(airlock, flare);
@@ -67,6 +72,13 @@ public class RobotContainer {
   // private final Boolean layout = false;
   // SendableChooser<Command> path_chooser = new SendableChooser<Command>();
   SendableChooser<Command> auto_chooser = new SendableChooser<Command>();
+  GenericEntry leftCoralSpeed =
+    tab.add("Left Coral Speed", 0.03)
+      .getEntry();
+  GenericEntry rightCoralSpeed =
+    tab.add("Right Coral Speed", 0.2)
+      .getEntry();
+
   public RobotContainer() { 
     System.out.println("robot start");
     swerve.zeroHeading();
@@ -119,7 +131,7 @@ public class RobotContainer {
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new PivotAndElevatorHome(algaeP, elevator));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.08));
-    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.05, -0.20));
+    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, leftCoralSpeed.getDouble(0.03), rightCoralSpeed.getDouble(0.2))); //-0.10 , -0.40
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.30));
     operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.30)); // outake
