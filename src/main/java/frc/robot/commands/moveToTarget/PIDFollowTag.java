@@ -38,7 +38,7 @@ public class PIDFollowTag extends Command {
     }
     SmartDashboard.putNumber("Auto/Target Y", -targetPose[0]);
     SmartDashboard.putNumber("Auto/Target O", -targetPose[4]);
-    SmartDashboard.putNumber("Auto/Target O Rad", Units.degreesToRadians(-targetPose[4]));
+    SmartDashboard.putNumber("Auto/Target O Rad", Units.degreesToRadians(targetPose[4]));
     setpoints[0] = swerve.getPose().getX() + -targetPose[2];
     setpoints[1] = swerve.getPose().getY() + -targetPose[0];
     setpoints[2] = swerve.getPose().getRotation().getRadians() + Units.degreesToRadians(-targetPose[4]);
@@ -66,6 +66,6 @@ public class PIDFollowTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(targetPose[0])  <= 0.1 && Math.abs(targetPose[4]) <= 5;
+    return swerve.getPose().getY() == setpoints[1] && swerve.getPose().getRotation().getRadians() == setpoints[2];
   }
 }

@@ -23,6 +23,7 @@ import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
 import frc.robot.commands.auto.PIDtest;
 import frc.robot.commands.auto.Taxi;
+import frc.robot.commands.auto.UnfilterdPIDL2;
 import frc.robot.commands.auto.UnfilterdRelLimeL1;
 import frc.robot.commands.auto.UnfilterdRelLimeL2;
 import frc.robot.commands.algae.pivotPidToggle;
@@ -100,8 +101,8 @@ public class RobotContainer {
     auto_chooser.setDefaultOption("taxi", new Taxi(swerve, 2.0));
     auto_chooser.addOption("dead L1", new DRL1(swerve, elevator, coral, algaeP));
     auto_chooser.addOption("L1", new UnfilterdRelLimeL1(swerve, elevator, algaeP, coral));
-    // auto_chooser.addOption("L2 left", new UnfilterdRelLimeL2(swerve, elevator, algaeP, coral, 1));
     auto_chooser.addOption("L2 right", new UnfilterdRelLimeL2(swerve, elevator, algaeP, coral, -1));
+    auto_chooser.addOption("PID L2 right", new UnfilterdPIDL2(swerve, elevator, algaeP, coral, -1));
     /*
     auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, algaeP, 9));
     auto_chooser.addOption("Red back L1", new relLimeL1(swerve, elevator, coral, algaeP, 10));
@@ -119,7 +120,7 @@ public class RobotContainer {
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new PivotAndElevatorHome(algaeP, elevator));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.08));
-    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.05, -0.20));
+    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.03, -0.18));
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.30));
     operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.30)); // outake

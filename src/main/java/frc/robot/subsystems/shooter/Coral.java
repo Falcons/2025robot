@@ -60,8 +60,12 @@ public class Coral extends SubsystemBase {
   public void set(double left, double right) {
     SmartDashboard.putNumber("Coral/right speed", right);
     SmartDashboard.putNumber("Coral/left speed", left);
+    leftShooter.set(left);
+    rightShooter.set(right);
+    /*
     leftShooter.set(leftCoralSpeed.getDouble(0.03));
     rightShooter.set(rightCoralSpeed.getDouble(0.2));
+    */
   }
   public void stop() {
     leftShooter.stopMotor();
