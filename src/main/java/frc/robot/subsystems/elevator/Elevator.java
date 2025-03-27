@@ -29,10 +29,9 @@ import frc.robot.subsystems.FalconFlare;
 public class Elevator extends SubsystemBase {
     private final SparkMax leftMoter, rightMoter;
     private SparkMaxConfig leftConfig, rightConfig;
-    PIDController Pid = new PIDController(0.7, 0.25, 0); 
-    PIDController PidSmall = new PIDController(0.3, 0, 0); 
-    ElevatorFeedforward feedforwardMid = new ElevatorFeedforward(0, ElevatorConstants.FFMid, 0);
-    ElevatorFeedforward feedforwardHigh = new ElevatorFeedforward(0, ElevatorConstants.FFhigh, 0);
+    PIDController Pid = new PIDController(0.7, 0, 0);  //0.7, 0, 0
+    ElevatorFeedforward feedforwardMid = new ElevatorFeedforward(0, ElevatorConstants.FFMid, 0); //0 , mid , 0
+    ElevatorFeedforward feedforwardHigh = new ElevatorFeedforward(0, ElevatorConstants.FFhigh, 0); // 0 , high, 0
     private TimeOfFlight TOF = new TimeOfFlight(ElevatorConstants.TOFTopCANID);
     Alert leftFaultAlert = new Alert("Faults","", AlertType.kError); 
     Alert rightFaultAlert = new Alert("Faults","", AlertType.kError);
@@ -68,7 +67,6 @@ public class Elevator extends SubsystemBase {
 
     Pid.setTolerance(0.05);
     Pid.setIntegratorRange(-0.01, 0.01);
-    PidSmall.setTolerance(0.05);
     updateEncoders(0);
   }
 
@@ -139,19 +137,6 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Elevator/PID/target", pid);
     SmartDashboard.putNumber("Elevator/PID/setpoint", setpoint);
     SmartDashboard.putNumber("Elevator/PID/error", Pid.getError());
-    setVoltage(pid);
-  }
-  /**sets the elevator to a specific position*/
-  public void setSmallPID(double setpoint){
-    double FF = feedforwardMid.calculate(setpoint);
-    double pid = PidSmall.calculate(getEncoder(), setpoint);
-    if(!atDrop && pid > 0) pid += FF;
-    if(!atDrop && pid < 0) pid += FF-0.4;
-    
-    SmartDashboard.putNumber("Elevator/PID/Small/FF1", FF);
-    SmartDashboard.putNumber("Elevator/PID/Small/target", pid);
-    SmartDashboard.putNumber("Elevator/PID/Small/setpoint", setpoint);
-    SmartDashboard.putNumber("Elevator/PID/Small/error", PidSmall.getError());
     setVoltage(pid);
   }
   public void resetEncoder(){

@@ -119,7 +119,7 @@ public class RobotContainer {
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new PivotAndElevatorHome(algaeP, elevator));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.08));
-    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.05, -0.20)); //-0.10 , -0.40
+    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.05, -0.20));
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.30));
     operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.30)); // outake
