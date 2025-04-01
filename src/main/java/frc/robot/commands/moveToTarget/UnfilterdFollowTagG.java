@@ -12,11 +12,11 @@ import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class UnfilterdFollowTagG extends SequentialCommandGroup {
   /** Creates a new FollowTagG. */
-  public UnfilterdFollowTagG(SwerveSubsystem swerve, double[] offset) {
+  public UnfilterdFollowTagG(SwerveSubsystem swerve) {
     addCommands(
-      new UnfilterdFollowTag(swerve, offset),
+      new UnfilterdFollowTag(swerve),
       // new UnfilterdFollowTagRot(swerve, offset),
-      new UnfilterdFollowTagDrive(swerve, offset)
+      new UnfilterdFollowTagDrive(swerve)
     );
   }
 }

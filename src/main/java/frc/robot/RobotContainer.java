@@ -82,6 +82,8 @@ public class RobotContainer {
   public RobotContainer() { 
     System.out.println("robot start");
     swerve.zeroHeading();
+    elevator.updateEncoders(0);
+    flare.setLights("white");
     CanBridge.runTCP();
     swerve.setDefaultCommand(new SwerveJoystick(
       swerve, 
@@ -132,6 +134,7 @@ public class RobotContainer {
     auto_chooser.addOption("blue left L1", new relLimeL1(swerve, elevator, coral, algaeP, 20));
     */
     SmartDashboard.putData("auto", auto_chooser);
+    flare.reset();
   }
   
   private void configureBindings() {

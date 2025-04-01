@@ -19,13 +19,12 @@ import frc.robot.subsystems.shooter.Coral;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class UnfilterdPIDL2 extends SequentialCommandGroup {
-    double[] offset = {0,0,0};
     /** Creates a new UnfilteredRelLimeL1. */
   public UnfilterdPIDL2(SwerveSubsystem swerve, Elevator elevator, Pivot pivot, Coral coral, double lOrR) {
     // Add your commands in the addCommands() call, e.g.
     addCommands( 
       new Taxi(swerve, 0.5),
-      new UnfilterdPIDFollowTagG(swerve, offset),
+      new UnfilterdPIDFollowTagG(swerve),
       new relAutoDrive(swerve, new ChassisSpeeds(0, lOrR, 0), 0.4),
       new relAutoDrive(swerve, new ChassisSpeeds(0.25, 0, 0), 0.4),
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2).asProxy(),

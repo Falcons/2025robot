@@ -21,11 +21,10 @@ public class UnfilterdFollowTag extends Command {
   SwerveSubsystem swerve;
   List<Waypoint> waypoints;
   PathPlannerPath path;
-  double[] targetPose, offset;
+  double[] targetPose;
   /** Creates a new FollowTag. */
-  public UnfilterdFollowTag(SwerveSubsystem swerve, double[] offset) { 
+  public UnfilterdFollowTag(SwerveSubsystem swerve) { 
     this.swerve = swerve;
-    this.offset = offset;
     addRequirements(swerve);
   }
 

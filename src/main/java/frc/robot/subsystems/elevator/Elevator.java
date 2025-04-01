@@ -67,7 +67,6 @@ public class Elevator extends SubsystemBase {
 
     Pid.setTolerance(0.05);
     Pid.setIntegratorRange(-0.01, 0.01);
-    updateEncoders(0);
   }
 
   @Override

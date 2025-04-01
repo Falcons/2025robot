@@ -21,12 +21,11 @@ public class UnfilterdFollowTagDrive extends Command {
   SwerveSubsystem swerve;
   List<Waypoint> waypoints;
   PathPlannerPath path;
-  double[] targetPose, offset;
+  double[] targetPose;
   boolean end = false;
   /** Creates a new FollowTag. */
-  public UnfilterdFollowTagDrive(SwerveSubsystem swerve, double[] offset) { 
+  public UnfilterdFollowTagDrive(SwerveSubsystem swerve) { 
     this.swerve = swerve;
-    this.offset = offset;
     addRequirements(swerve);
   }
 
@@ -53,7 +52,7 @@ public class UnfilterdFollowTagDrive extends Command {
     SmartDashboard.putNumber("auto/pose/drive/Y", targetPose[1]);
     SmartDashboard.putNumber("auto/pose/drive/Z", targetPose[2]);
     SmartDashboard.putNumber("auto/pose/drive/Yaw", targetPose[4]);
-    chassisSpeeds = new ChassisSpeeds(targetPose[2]*0.8 + offset[0],-targetPose[0], Units.degreesToRadians(-targetPose[4]*0.85));
+    chassisSpeeds = new ChassisSpeeds(targetPose[2]*0.8,-targetPose[0], 0);//Units.degreesToRadians(-targetPose[4]*0.85));
     swerve.driveRobotRelative(chassisSpeeds);
   }
 

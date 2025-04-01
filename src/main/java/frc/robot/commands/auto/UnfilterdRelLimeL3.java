@@ -20,17 +20,17 @@ import frc.robot.subsystems.shooter.Coral;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class UnfilterdRelLimeL3 extends SequentialCommandGroup {
-    double[] offset = {0,0,0};
     /** Creates a new UnfilteredRelLimeL1.*/
   public UnfilterdRelLimeL3(SwerveSubsystem swerve, Elevator elevator, Pivot pivot,Intake intake, Coral coral, double lOrR) {
     // Add your commands in the addCommands() call, e.g.
     addCommands( 
       new Taxi(swerve, 0.5),
-      new UnfilterdFollowTagG(swerve, offset),
+      new UnfilterdFollowTagG(swerve),
       new relAutoDrive(swerve, new ChassisSpeeds(0.5, 0, 0), 0.5),
       new PivotPid(pivot, AlgaeConstants.pivotKick),
       new ElevatorAndAlgae(elevator, intake).asProxy(),
-      new relAutoDrive(swerve, new ChassisSpeeds(0, lOrR, 0), 0.31),
+      new relAutoDrive(swerve, new ChassisSpeeds(-0.25, 0, 0), 0.15),
+      new relAutoDrive(swerve, new ChassisSpeeds(0, lOrR, 0), 0.307),
       new relAutoDrive(swerve, new ChassisSpeeds(0.5, 0, 0), 0.5),
       new RawShootForTime(coral, -0.30, -0.30, 2).asProxy()
      );
