@@ -2,54 +2,59 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auto;
+package frc.robot.commands.moveToTarget;
 
-import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.hardware.Pigeon2;
+import com.fasterxml.jackson.databind.deser.impl.NullsAsEmptyProvider;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PIDtest extends Command {
+public class PIDOffset extends Command {
   SwerveSubsystem swerve;
-  ChassisSpeeds speeds;
-  double setpoint;
-  PIDController pid = new PIDController(0.1, 0, 0);
-  /** Creates a new Taxi. */
-  public PIDtest(SwerveSubsystem swerve, double setpoint) {
+  double[] setpoints;
+  boolean rotate;
+  /** Creates a new FollowTag. */
+  public PIDOffset(SwerveSubsystem swerve, double[] setpoints, boolean rotate) { 
     this.swerve = swerve;
-    this.setpoint = setpoint;
+    this.setpoints = setpoints;
+    this.setpoints[2] = Units.degreesToRadians(setpoints[2]);
+    this.rotate = rotate;
     addRequirements(swerve);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    System.out.println("coral offset start");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    speeds = new ChassisSpeeds(0, swerve.robotPIDCalc('y', swerve.getPose().getY(), setpoint), 0);//swerve.robotPIDCalc('o', swerve.getPose().getRotation().getRadians(),Units.degreesToRadians(setpoint)));
-    swerve.driveRobotRelative(speeds);
+    ChassisSpeeds chassisSpeeds;
+    double X = swerve.robotPIDCalc('x', swerve.getPose().getX(), setpoints[0]);
+    double Y = swerve.robotPIDCalc('y', swerve.getPose().getY(), setpoints[1]);
+    double O = 0;
+    if (rotate){
+      O = swerve.robotPIDCalc('o', swerve.getPose().getRotation().getRadians(), setpoints[2]);
+    }
+    chassisSpeeds = new ChassisSpeeds(X, Y, O);
+    swerve.driveRobotRelative(chassisSpeeds);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    swerve.stopModules();
+    System.out.println("coral offset end");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //return Math.abs(targetPose[0])  <= 0.1 && Math.abs(targetPose[4]) <= 5;
     return false;
   }
 }
