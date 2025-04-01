@@ -121,6 +121,7 @@ public final class Constants {
         public static final double intakeMotorRotToRad = intakeRatio * (2 * Math.PI);
         public static final double voltageMin = 9.9;
         public static final double pivotMin = 0;
+        public static final double pivotKick = 152;
         public static final double pivotOut = 20.0;
         public static final double pivotDanger = 90.0;
         public static final double pivotMax = 185;

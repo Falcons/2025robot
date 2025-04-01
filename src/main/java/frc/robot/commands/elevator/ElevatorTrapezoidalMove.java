@@ -35,6 +35,7 @@ public class ElevatorTrapezoidalMove extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println(this.getName() + " start");
     SmartDashboard.putNumber("trap/end", endPos);
     profile = new TrapezoidProfile(constraints);
     current = new TrapezoidProfile.State(elevator.getEncoder(), elevator.getVelocity()/60.0);
@@ -62,13 +63,14 @@ public class ElevatorTrapezoidalMove extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println(this.getName() + " end");
     elevator.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return elevator.getEncoder() >= endPos-0.15 && elevator.getLeftEncoder() <= endPos+0.15;
+    return elevator.getEncoder() >= endPos-0.15 && elevator.getEncoder() <= endPos+0.15;
     // return profile.isFinished(timer.get()-0.5);
   }
 }
