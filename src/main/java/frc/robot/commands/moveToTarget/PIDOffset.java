@@ -4,6 +4,8 @@
 
 package frc.robot.commands.moveToTarget;
 
+import com.fasterxml.jackson.databind.deser.impl.NullsAsEmptyProvider;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,11 +15,13 @@ import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 public class PIDOffset extends Command {
   SwerveSubsystem swerve;
   double[] setpoints;
+  boolean rotate;
   /** Creates a new FollowTag. */
-  public PIDOffset(SwerveSubsystem swerve, double[] setpoints) { 
+  public PIDOffset(SwerveSubsystem swerve, double[] setpoints, boolean rotate) { 
     this.swerve = swerve;
     this.setpoints = setpoints;
     this.setpoints[2] = Units.degreesToRadians(setpoints[2]);
+    this.rotate = rotate;
     addRequirements(swerve);
   }
 
@@ -33,7 +37,10 @@ public class PIDOffset extends Command {
     ChassisSpeeds chassisSpeeds;
     double X = swerve.robotPIDCalc('x', swerve.getPose().getX(), setpoints[0]);
     double Y = swerve.robotPIDCalc('y', swerve.getPose().getY(), setpoints[1]);
-    double O = swerve.robotPIDCalc('o', swerve.getPose().getRotation().getRadians(), setpoints[2]);
+    double O = 0;
+    if (rotate){
+      O = swerve.robotPIDCalc('o', swerve.getPose().getRotation().getRadians(), setpoints[2]);
+    }
     chassisSpeeds = new ChassisSpeeds(X, Y, O);
     swerve.driveRobotRelative(chassisSpeeds);
   }
