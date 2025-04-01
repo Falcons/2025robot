@@ -14,11 +14,10 @@ public class PIDOffset extends Command {
   SwerveSubsystem swerve;
   double[] setpoints;
   /** Creates a new FollowTag. */
-  public PIDOffset(SwerveSubsystem swerve, double X, double Y, double O) { 
+  public PIDOffset(SwerveSubsystem swerve, double[] setpoints) { 
     this.swerve = swerve;
-    setpoints[0] = X;
-    setpoints[1] = Y;
-    setpoints[2] = Units.degreesToRadians(O);
+    this.setpoints = setpoints;
+    this.setpoints[2] = Units.degreesToRadians(setpoints[2]);
     addRequirements(swerve);
   }
 

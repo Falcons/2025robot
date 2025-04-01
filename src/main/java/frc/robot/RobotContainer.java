@@ -22,7 +22,6 @@ import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.ElevatorLowAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
-import frc.robot.commands.auto.PIDtest;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.UnfilterdPIDL2;
 import frc.robot.commands.auto.UnfilterdRelLimeL1;
