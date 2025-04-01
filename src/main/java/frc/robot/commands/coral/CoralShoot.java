@@ -7,7 +7,6 @@ package frc.robot.commands.coral;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.shooter.Coral;
 

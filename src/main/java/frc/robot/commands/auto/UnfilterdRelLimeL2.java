@@ -7,7 +7,6 @@ package frc.robot.commands.auto;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.commands.coral.CoralShoot;
 import frc.robot.commands.coral.RawShootForTime;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.commands.moveToTarget.UnfilterdFollowTagG;
