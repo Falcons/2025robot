@@ -27,7 +27,7 @@ public class UnfilterdRelLimeL2 extends SequentialCommandGroup {
     addCommands( 
       new Taxi(swerve, 0.5),
       new UnfilterdFollowTagG(swerve, offset),
-      new relAutoDrive(swerve, new ChassisSpeeds(0, lOrR, 0), 0.4),
+      new relAutoDrive(swerve, new ChassisSpeeds(0, lOrR, 0), 0.3),
       new relAutoDrive(swerve, new ChassisSpeeds(0.25, 0, 0), 0.4),
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2).asProxy(),
       // new CoralShoot(coral, elevator, () -> -0.30)

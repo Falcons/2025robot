@@ -6,6 +6,7 @@ package frc.robot.commands.moveToTarget;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
@@ -41,7 +42,8 @@ public class PIDFollowTag extends Command {
     SmartDashboard.putNumber("Auto/Target O Rad", Units.degreesToRadians(targetPose[4]));
     setpoints[0] = swerve.getPose().getX() + -targetPose[2];
     setpoints[1] = swerve.getPose().getY() + -targetPose[0];
-    setpoints[2] = swerve.getPose().getRotation().getRadians() + Units.degreesToRadians(-targetPose[4]);
+    // setpoints[2] = swerve.getPose().getRotation().getRadians() + Units.degreesToRadians(-targetPose[4]);
+    setpoints[2] = Units.degreesToRadians(-targetPose[4]);
     SmartDashboard.putNumber("Auto/real y", swerve.getPose().getY());
     SmartDashboard.putNumber("Auto/real O", swerve.getPose().getRotation().getRadians());
     SmartDashboard.putNumber("Auto/Setpoint Y", setpoints[1]);

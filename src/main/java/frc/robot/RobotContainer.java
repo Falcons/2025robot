@@ -42,6 +42,8 @@ import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.commands.elevator.PivotAndElevatorHome;
 import frc.robot.commands.moveToTarget.PIDFollowTag;
+import frc.robot.commands.moveToTarget.UnfilterdFollowTag;
+import frc.robot.commands.moveToTarget.UnfilterdPIDFollowTag;
 import frc.robot.subsystems.Airlock;
 import frc.robot.subsystems.FalconFlare;
 import frc.robot.subsystems.algae.Pivot;
@@ -161,9 +163,7 @@ public class RobotContainer {
     driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
-    // driver.x().whileTrue(new AllModulePID(swerve));
-    // driver.x().whileTrue(new PIDtest(swerve, 1));
-    driver.x().onTrue(new PIDFollowTag(swerve, 6));
+    // driver.x().onTrue(new UnfilterdPIDFollowTag(swerve));
     /*
     driver.povUp().onTrue(new SetElevatorSmallPIDMan(elevator, +0.5));
     driver.povDown().onTrue(new SetElevatorSmallPIDMan(elevator, -0.5));

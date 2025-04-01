@@ -26,9 +26,7 @@ public class UnfilterdPIDFollowTag extends Command {
   public void initialize() {
     setpoints = new double[] {0,0,0};
     try {
-      if (LimelightHelpers.getTV("limelight-tag")) {
-        targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-tag");
-      }else if (LimelightHelpers.getTV("limelight-end")) {
+      if (LimelightHelpers.getTV("limelight-end")) {
         targetPose = LimelightHelpers.getTargetPose_RobotSpace("limelight-end");
       }else targetPose = new double[]{0,0,0,0,0,0};
     } catch (Exception e) {
@@ -39,21 +37,21 @@ public class UnfilterdPIDFollowTag extends Command {
     SmartDashboard.putNumber("Auto/Target O Rad", Units.degreesToRadians(-targetPose[4]));
     setpoints[0] = swerve.getPose().getX() + -targetPose[2];
     setpoints[1] = swerve.getPose().getY() + -targetPose[0];
-    setpoints[2] = swerve.getPose().getRotation().getRadians() + Units.degreesToRadians(-targetPose[4]);
-    SmartDashboard.putNumber("Auto/real y", swerve.getPose().getY());
-    SmartDashboard.putNumber("Auto/real O", swerve.getPose().getRotation().getRadians());
-    SmartDashboard.putNumber("Auto/Setpoint Y", setpoints[1]);
-    SmartDashboard.putNumber("Auto/Setpoint O", setpoints[2]);
-    SmartDashboard.putNumber("Auto/Setpoint O Deg", Units.radiansToDegrees(setpoints[2]));
+    // setpoints[2] = swerve.getWrappedHeadingRadians() + Units.degreesToRadians(-targetPose[4]);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    targetPose[4] = LimelightHelpers.getTargetPose_RobotSpace("limelight-end")[4];
+    SmartDashboard.putNumber("Auto/real y", swerve.getPose().getY());
+    SmartDashboard.putNumber("Auto/real O", swerve.getWrappedHeadingRadians());
+    SmartDashboard.putNumber("Auto/Setpoint Y", setpoints[1]);
+    SmartDashboard.putNumber("Auto/Setpoint O", setpoints[2]);
+    SmartDashboard.putNumber("Auto/Setpoint O Deg", Units.radiansToDegrees(setpoints[2]));
     ChassisSpeeds chassisSpeeds;
     double Y = swerve.robotPIDCalc('y', swerve.getPose().getY(), setpoints[1]);
-    Double O = swerve.robotPIDCalc('o', swerve.getPose().getRotation().getRadians(), setpoints[2]);
-    chassisSpeeds = new ChassisSpeeds(0, Y, O);
+    chassisSpeeds = new ChassisSpeeds(0, Y, Units.degreesToRadians(-targetPose[4]));
     swerve.driveRobotRelative(chassisSpeeds);
   }
 
@@ -64,6 +62,6 @@ public class UnfilterdPIDFollowTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(targetPose[0])  <= 0.1 && Math.abs(targetPose[4]) <= 5;
+    return swerve.getPose().getY() == swerve.robotPIDSetpoint('y') && Math.abs(targetPose[4]) <= 5;
   }
 }
