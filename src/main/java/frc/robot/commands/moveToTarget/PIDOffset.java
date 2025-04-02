@@ -33,8 +33,8 @@ public class PIDOffset extends Command {
   @Override
   public void execute() {
     ChassisSpeeds chassisSpeeds;
-    double X = swerve.robotPIDCalc('x', swerve.getPose().getX(), setpoints[0]);
-    double Y = swerve.robotPIDCalc('y', swerve.getPose().getY(), setpoints[1]);
+    double X = swerve.robotPIDCalc('x', swerve.getPose().getX(), setpoints[0] + swerve.getPose().getX());
+    double Y = swerve.robotPIDCalc('y', swerve.getPose().getY(), setpoints[1] + swerve.getPose().getY());
     double O = 0;
     if (rotate){
       O = swerve.robotPIDCalc('o', swerve.getPose().getRotation().getRadians(), setpoints[2]);
