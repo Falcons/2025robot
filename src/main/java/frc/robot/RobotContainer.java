@@ -15,15 +15,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.ElevatorLowAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
-import frc.robot.commands.algae.PivotPid;
 import frc.robot.commands.auto.DRL1;
-import frc.robot.commands.auto.ElevatorAndAlgae;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.UnfilterdRelLimeL1;
 import frc.robot.commands.auto.UnfilterdRelLimeL2;
@@ -173,7 +170,7 @@ public class RobotContainer {
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
     // driver.x().onTrue(new UnfilterdPIDFollowTag(swerve));
-    driver.x().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotKick).andThen(new ElevatorAndAlgae(elevator, algaeI)));
+    // driver.x().onTrue(new PivotPid(algaeP, AlgaeConstants.pivotKick).andThen(new ElevatorAndAlgae(elevator, algaeI)));
     /*
     driver.povUp().onTrue(new SetElevatorSmallPIDMan(elevator, +0.5));
     driver.povDown().onTrue(new SetElevatorSmallPIDMan(elevator, -0.5));

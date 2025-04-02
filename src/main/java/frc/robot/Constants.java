@@ -122,10 +122,11 @@ public final class Constants {
         public static final double voltageMin = 9.9;
         public static final double pivotMin = 0;
         public static final double pivotKick = 152;
-        public static final double pivotOut = 20.0;
+        public static final double pivotOut = 30.0;
         public static final double pivotDanger = 90.0;
         public static final double pivotMax = 185;
-        public static final double MaxAlgaeHeight = 7.0;
+        public static final double MinAlgaeHeight = 7.0;
+        public static final double MaxAlgaeHeight = 117.5;
     }
     public static final class ElevatorConstants {
         public static final int motorRatio = 12; //12:1 
