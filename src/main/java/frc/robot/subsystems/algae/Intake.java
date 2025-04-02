@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Intake/Velocity", getVelocity());
     SmartDashboard.putNumber("Intake/Position", getPosition());
     SmartDashboard.putNumber("Intake/current", getCurrent());
-    SmartDashboard.putNumber("Intake/bus", getBusVolt());
+    SmartDashboard.putNumber("Intake/bus voltage", getBusVolt());
     intakeFaultAlert.setText("algae intake:" + intake.getFaults().toString()); intakeFaultAlert.set(intake.hasActiveFault());
     intakeWarningAlert.setText("algae intake:" + intake.getFaults().toString()); intakeWarningAlert.set(intake.hasActiveWarning());
   }

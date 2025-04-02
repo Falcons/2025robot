@@ -5,15 +5,19 @@
 package frc.robot.commands.algae;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.AlgaeConstants;
 import frc.robot.subsystems.algae.Pivot;
+import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaePivotPID extends Command {
   Pivot algae;
+  Elevator elevator;
   double angle;
   /** Creates a new shoot. */
-  public AlgaePivotPID(Pivot algae, double angle) {
+  public AlgaePivotPID(Pivot algae, Elevator elevator, double angle) {
     this.algae = algae;
+    this.elevator = elevator;
     this.angle = angle;
     addRequirements(algae);
   }
@@ -37,6 +41,6 @@ public class AlgaePivotPID extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return elevator.getEncoder() >= AlgaeConstants.MaxAlgaeHeight && angle < 160;
   }
 }
