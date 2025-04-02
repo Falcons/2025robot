@@ -60,6 +60,7 @@ public class Pivot extends SubsystemBase {
     SmartDashboard.putNumber("Pivot/Abs Encoder", getAbsolute());
     SmartDashboard.putNumber("Pivot/Abs Encoder deg", getAbsEncoderDeg());
     SmartDashboard.putNumber("Pivot/current", getCurrent());
+    SmartDashboard.putNumber("Pivot/bus voltage", getBusVoltage());
     SmartDashboard.putBoolean("Pivot/at max", atMax);
     SmartDashboard.putBoolean("Pivot/at min", atMin);
     pivotFaultAlert.setText("algae pivot:" + pivot.getFaults().toString()); pivotFaultAlert.set(pivot.hasActiveFault());
@@ -98,6 +99,9 @@ public class Pivot extends SubsystemBase {
   }
   public double getCurrent() {
     return pivot.getOutputCurrent();
+  }
+  public double getBusVoltage(){
+    return pivot.getBusVoltage();
   }
   public boolean atSetpoint(){
     return pivotPid.atSetpoint();
