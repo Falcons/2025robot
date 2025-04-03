@@ -36,10 +36,7 @@ public class FalconFlare extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (DriverStation.isDisabled()) {
-      timer.reset();
-      if(timer.get() > 3.5) reset();
-    }
+    if(DriverStation.isDisabled() && timer.get() > 60)reset();
   }
 
   public void setLights(boolean in1, boolean in2, boolean in3){

@@ -21,6 +21,7 @@ import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.ElevatorLowAndPivotOut;
 import frc.robot.commands.algae.IntakeForTime;
 import frc.robot.commands.auto.DRL1;
+import frc.robot.commands.auto.PIDRelLimeL2;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.auto.UnfilterdRelLimeL1;
 import frc.robot.commands.auto.UnfilterdRelLimeL2;
@@ -121,7 +122,7 @@ public class RobotContainer {
     auto_chooser.addOption("L4 Mid left", new UnfilterdRelLimeL4(swerve, elevator, algaeP, coral, 1, ElevatorConstants.coralL4M));
     auto_chooser.addOption("L4 High right", new UnfilterdRelLimeL4(swerve, elevator, algaeP, coral, -1, ElevatorConstants.coralL4H));
     auto_chooser.addOption("L4 High left", new UnfilterdRelLimeL4(swerve, elevator, algaeP, coral, 1, ElevatorConstants.coralL4H));
-    // auto_chooser.addOption("PID L2 right", new UnfilterdPIDL2(swerve, elevator, algaeP, coral, -1));
+    auto_chooser.addOption("L2 pid left", new PIDRelLimeL2(swerve, elevator, algaeP, coral, true));
     /*
     auto_chooser.addOption("Red right L1", new relLimeL1(swerve, elevator, coral, algaeP, 9));
     auto_chooser.addOption("Red back L1", new relLimeL1(swerve, elevator, coral, algaeP, 10));
