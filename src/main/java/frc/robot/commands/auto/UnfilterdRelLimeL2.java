@@ -29,7 +29,7 @@ public class UnfilterdRelLimeL2 extends SequentialCommandGroup {
       new relAutoDrive(swerve, new ChassisSpeeds(0.5, 0, 0), 0.5),
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2).asProxy(),
       // new CoralShoot(coral, elevator, () -> -0.30)
-      new RawShootForTime(coral, -0.30, -0.30, 2).asProxy()
+      new RawShootForTime(coral, -0.23, -0.23, 2).asProxy()
      );
   }
 }
