@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.falconFlareConstants;
 
@@ -19,7 +20,7 @@ public class FalconFlare extends SubsystemBase {
   DigitalOutput D3 = new DigitalOutput(falconFlareConstants.dio3);
   Map<String,Boolean[]> colours = new HashMap<String,Boolean[]>();
   Optional<DriverStation.Alliance> Alliance = DriverStation.getAlliance();
-  int priority = 0;
+  Timer timer = new Timer();
   /** Creates a new FalconFlare. */
   public FalconFlare() {
     colours.put("white", new Boolean[]{false,true,false});
@@ -33,7 +34,11 @@ public class FalconFlare extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if (DriverStation.isDisabled()) {
+      timer.reset();
+      timer.start();
+      if(timer.get() > 3.5) reset();
+    }
   }
 
   public void setLights(boolean in1, boolean in2, boolean in3){
@@ -50,14 +55,6 @@ public class FalconFlare extends SubsystemBase {
     D2.set(data[1]);
     D3.set(data[2]);
   }
-
-  public void setPriority(int priority){
-    this.priority = priority;
-  }
-  public int getPriority(){
-    return priority;
-  }
-
   public void reset() {
     boolean isRed = Alliance.get() == DriverStation.Alliance.Red;
     setLights(false, false, isRed);
