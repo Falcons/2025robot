@@ -48,7 +48,7 @@ public class FalconFlare extends SubsystemBase {
     D3.set(in3);
   }
   /**
-   * @param colour white, green, purple, yellow, blue, red
+   * @param colour white, green, purple, yellow, blue or red
    */
   public void setLights(String colour){
     Boolean[] data = colours.get(colour);
