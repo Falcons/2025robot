@@ -46,7 +46,7 @@ public class ElevatorTrapezoidalMove extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {//TODO: fix real state not matching target
+  public void execute() {
     current = profile.calculate(0.05, current, end);
     double pos = current.position;
     if(current.position < ElevatorConstants.Min) {System.err.println("position under range"); pos = ElevatorConstants.Min;}
