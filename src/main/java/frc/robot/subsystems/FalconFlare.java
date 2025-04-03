@@ -31,13 +31,13 @@ public class FalconFlare extends SubsystemBase {
     colours.put("red", new Boolean[]{true,true,true});
     // reset();
     setLights("blue");
+    timer.start();
   }
 
   @Override
   public void periodic() {
     if (DriverStation.isDisabled()) {
       timer.reset();
-      timer.start();
       if(timer.get() > 3.5) reset();
     }
   }
