@@ -16,9 +16,9 @@ import frc.robot.subsystems.elevator.Elevator;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ElevatorAndAlgae extends ParallelRaceGroup {
   /** Creates a new ElevatorAndAlgae. */
-  public ElevatorAndAlgae(Elevator elevator, Intake intake) {
+  public ElevatorAndAlgae(Elevator elevator, Intake intake, double height) {
     addCommands(
-      new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL3),
+      new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, height),
       new AlgaeIntake(intake, -1.0)
     );
   }
