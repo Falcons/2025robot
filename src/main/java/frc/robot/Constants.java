@@ -147,9 +147,9 @@ public final class Constants {
         public static final double coralL1 = 12; 
         public static final double coralL2 = 26;
         public static final double coralL3 = 62;
-        public static final double coralL4H = 118.2;
-        public static final double coralL4M = 118.1;
-        public static final double coralL4L = 117.7;
+        public static final double coralL4H = 120.1;
+        public static final double coralL4M = 119.1;//119.1
+        public static final double coralL4L = 118.7;//118.1
         public static final double algaeL0 = 0.1;
         public static final double algaeL2 = 49;
         public static final double algaeL3 = 86;
