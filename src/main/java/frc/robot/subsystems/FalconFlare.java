@@ -28,7 +28,7 @@ public class FalconFlare extends SubsystemBase {
     colours.put("yellow", new Boolean[]{true,false,true});
     colours.put("blue", new Boolean[]{true,true,false});
     colours.put("red", new Boolean[]{true,true,true});
-    reset();
+    setLights("blue");
   }
 
   @Override
