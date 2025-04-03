@@ -41,6 +41,7 @@ public class AlgaePivotPID extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return elevator.getEncoder() >= AlgaeConstants.MaxAlgaeHeight && angle < 160;
+    // return elevator.getEncoder() >= AlgaeConstants.MaxAlgaeHeight && angle < 160;
+    return false;
   }
 }
