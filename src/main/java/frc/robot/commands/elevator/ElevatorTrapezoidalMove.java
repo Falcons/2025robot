@@ -71,7 +71,6 @@ public class ElevatorTrapezoidalMove extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (elevator.getEncoder() >= endPos-0.15 && elevator.getEncoder() <= endPos+0.15) || (DriverStation.isAutonomous() && profile.isFinished(timer.get()-5));
-    // return profile.isFinished(timer.get()-0.5);
+    return (elevator.getEncoder() >= endPos-0.15 && elevator.getEncoder() <= endPos+0.15) || (DriverStation.isAutonomous() && profile.isFinished(timer.get()-2.5));
   }
 }
