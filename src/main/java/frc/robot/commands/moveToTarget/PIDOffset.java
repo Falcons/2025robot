@@ -13,13 +13,11 @@ import frc.robot.subsystems.driveTrain.SwerveSubsystem;
 public class PIDOffset extends Command {
   SwerveSubsystem swerve;
   double[] setpoints;
-  boolean rotate;
   /** Creates a new FollowTag. */
-  public PIDOffset(SwerveSubsystem swerve, double[] setpoints, boolean rotate) { 
+  public PIDOffset(SwerveSubsystem swerve, double[] setpoints) { 
     this.swerve = swerve;
     this.setpoints = setpoints;
     this.setpoints[2] = Units.degreesToRadians(setpoints[2]);
-    this.rotate = rotate;
     addRequirements(swerve);
   }
 
@@ -35,10 +33,7 @@ public class PIDOffset extends Command {
     ChassisSpeeds chassisSpeeds;
     double X = swerve.robotPIDCalc('x', swerve.getPose().getX(), setpoints[0] + swerve.getPose().getX());
     double Y = swerve.robotPIDCalc('y', swerve.getPose().getY(), setpoints[1] + swerve.getPose().getY());
-    double O = 0;
-    if (rotate){
-      O = swerve.robotPIDCalc('o', swerve.getPose().getRotation().getRadians(), setpoints[2]);
-    }
+    double O = swerve.robotPIDCalc('o', swerve.getPose().getRotation().getRadians(), setpoints[2] + swerve.getPose().getRotation().getRadians());
     chassisSpeeds = new ChassisSpeeds(X, Y, O);
     swerve.driveRobotRelative(chassisSpeeds);
   }

@@ -27,7 +27,7 @@ public class PIDRelLimeL2 extends SequentialCommandGroup {
     addCommands( 
       new Taxi(swerve, 0.5),
       new UnfilterdFollowTagG(swerve),
-      new PIDOffset(swerve, offset, false),
+      new PIDOffset(swerve, offset),
       new relAutoDrive(swerve, new ChassisSpeeds(0.5, 0, 0), 0.5),
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL2).asProxy(),
       new RawShootForTime(coral, -0.30, -0.30, 2).asProxy()
