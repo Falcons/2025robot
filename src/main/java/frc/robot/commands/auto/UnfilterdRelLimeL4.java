@@ -26,10 +26,10 @@ public class UnfilterdRelLimeL4 extends SequentialCommandGroup {
     addCommands( 
       new Taxi(swerve, 0.5),
       new UnfilterdFollowTagG(swerve),
-      new relAutoDrive(swerve, new ChassisSpeeds(0, lOrR, 0), 0.34),
-      new relAutoDrive(swerve, new ChassisSpeeds(0.5, 0, 0), 0.5),
+      new relAutoDrive(swerve, new ChassisSpeeds(0, lOrR, 0), 0.36),
+      new relAutoDrive(swerve, new ChassisSpeeds(0.5, 0, 0), 0.7),
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, Hight).asProxy(),
-      // new CoralShoot(coral, elevator, () -> -0.30)
+      new wait(0.5),
       new RawShootForTime(coral, ShooterConstants.L4Speed, ShooterConstants.L4Speed, 2).asProxy()
      );
   }
