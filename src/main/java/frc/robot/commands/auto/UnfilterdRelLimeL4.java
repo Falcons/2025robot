@@ -7,6 +7,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.coral.RawShootForTime;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.commands.moveToTarget.UnfilterdFollowTagG;
@@ -29,7 +30,7 @@ public class UnfilterdRelLimeL4 extends SequentialCommandGroup {
       new relAutoDrive(swerve, new ChassisSpeeds(0.5, 0, 0), 0.5),
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, Hight).asProxy(),
       // new CoralShoot(coral, elevator, () -> -0.30)
-      new RawShootForTime(coral, -0.30, -0.30, 2).asProxy()
+      new RawShootForTime(coral, ShooterConstants.L4Speed, ShooterConstants.L4Speed, 2).asProxy()
      );
   }
 }

@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.algae.AlgaePivot;
 import frc.robot.commands.algae.ElevatorAndPivotOut;
 import frc.robot.commands.algae.ElevatorLowAndPivotOut;
@@ -141,10 +142,10 @@ public class RobotContainer {
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new PivotAndElevatorHome(algaeP, elevator));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.08));
-    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, -0.03, -0.18));
+    operator.axisGreaterThan(2, operatorLTDeadZone).whileTrue(new rawCoralSet(coral, ShooterConstants.L1LeftSpeed, ShooterConstants.L1RightSpeed));
     operator.axisMagnitudeGreaterThan(5, operatorRSDeadZone).whileTrue(new ElevatorManual(elevator, swerve, () -> (-operator.getRightY() + 0.03)*0.2));
     operator.axisMagnitudeGreaterThan(1, operatorLSDeadZone).whileTrue(new AlgaePivot(algaeP, () -> (-operator.getLeftY())*0.30));
-    operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> -0.23)); // outake
+    operator.axisGreaterThan(3, operatorRTDeadZone).whileTrue(new CoralShoot(coral, elevator, () -> ShooterConstants.ShootSpeed)); // outake
     
     
     operator.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1));

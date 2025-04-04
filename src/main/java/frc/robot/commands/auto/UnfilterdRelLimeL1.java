@@ -6,6 +6,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.elevator.ElevatorTrapezoidalMove;
 import frc.robot.commands.moveToTarget.UnfilterdFollowTagG;
@@ -26,7 +27,7 @@ public class UnfilterdRelLimeL1 extends SequentialCommandGroup {
       new UnfilterdFollowTagG(swerve),
       new Taxi(swerve, 0.5),
       new wait(1.0),
-      new rawCoralSet(coral, -0.05, -0.20).withTimeout(1).asProxy()
+      new rawCoralSet(coral, ShooterConstants.L1LeftSpeed, ShooterConstants.L1RightSpeed).withTimeout(1).asProxy()
       // new PivotAndElevatorHome(pivot, elevator).asProxy()
      );
   }

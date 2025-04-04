@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.algae.PivotPid;
 import frc.robot.commands.coral.RawShootForTime;
 import frc.robot.commands.moveToTarget.UnfilterdFollowTagG;
@@ -33,7 +34,7 @@ public class UnfilterdRelLimeL3 extends SequentialCommandGroup {
       new relAutoDrive(swerve, new ChassisSpeeds(-0.25, 0, 0), 0.15),
       new relAutoDrive(swerve, new ChassisSpeeds(0, lOrR, 0), 0.34),
       new relAutoDrive(swerve, new ChassisSpeeds(0.5, 0, 0), 0.7),
-      new RawShootForTime(coral, -0.23, -0.23, 2).asProxy()
+      new RawShootForTime(coral, ShooterConstants.ShootSpeed, ShooterConstants.ShootSpeed, 2).asProxy()
      );
   }
 }
