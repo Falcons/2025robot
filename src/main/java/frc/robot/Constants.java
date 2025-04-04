@@ -153,7 +153,7 @@ public final class Constants {
         public static final double coralL3 = 62;
         public static final double coralL4H = 120.1;
         public static final double coralL4M = 119.1;
-        public static final double coralL4L = 118.1;
+        public static final double coralL4L = 118.6;
         public static final double algaeL0 = 0.1;
         public static final double algaeL2 = 49;
         public static final double algaeL3 = 86;

@@ -74,3 +74,4 @@ public class ElevatorTrapezoidalMove extends Command {
     return (elevator.getEncoder() >= endPos-0.15 && elevator.getEncoder() <= endPos+0.15) || (DriverStation.isAutonomous() && profile.isFinished(timer.get()-2.5));
   }
 }
+  
