@@ -5,6 +5,7 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -70,7 +71,7 @@ public class ElevatorTrapezoidalMove extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return elevator.getEncoder() >= endPos-0.15 && elevator.getEncoder() <= endPos+0.15;
+    return (elevator.getEncoder() >= endPos-0.15 && elevator.getEncoder() <= endPos+0.15) || (DriverStation.isAutonomous() && profile.isFinished(timer.get()-0.5));
     // return profile.isFinished(timer.get()-0.5);
   }
 }
