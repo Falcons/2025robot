@@ -138,8 +138,9 @@ public class SwerveSubsystem extends SubsystemBase {
       } catch (Exception e) {
       }
     }).start();
-
-    resetPose(new Pose2d());
+    var alliance = DriverStation.getAlliance();
+    if(alliance.isPresent()) if(alliance.get() == DriverStation.Alliance.Red) resetPose(new Pose2d(11.9, 4.0, new Rotation2d(180)));
+    else resetPose(new Pose2d(5.7, 4.0, getRotation2d()));
 
     // Sends PID Controllers to Shuffleboard
     SmartDashboard.putData("RobotPID/X PID", xPID);
@@ -161,7 +162,6 @@ public class SwerveSubsystem extends SubsystemBase {
       holoController,
       config,
       () -> {
-        var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
           return alliance.get() == DriverStation.Alliance.Red;
         }
