@@ -5,6 +5,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.coral.rawCoralSet;
@@ -23,6 +24,7 @@ public class UnfilterdRelLimeL1 extends SequentialCommandGroup {
   public UnfilterdRelLimeL1(SwerveSubsystem swerve, Elevator elevator, Pivot pivot, Coral coral) {
     // Add your commands in the addCommands() call, e.g.
     addCommands(
+      new WaitCommand(3),
       new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL1).asProxy(),
       new UnfilterdFollowTagG(swerve),
       new Taxi(swerve, 0.5),

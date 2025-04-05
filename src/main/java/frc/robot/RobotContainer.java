@@ -118,7 +118,7 @@ public class RobotContainer {
   
   private void configureBindings() {
     operator.x().whileTrue(new AlgaeIntake(algaeI, -1)); // intake algae
-    operator.a().whileTrue(new AlgaeIntake(algaeI, 1)); // shoot algae
+    operator.a().whileTrue(new AlgaeIntake(algaeI, 0.75)); // shoot algae
     // operator.y().whileTrue(new CoralShoot(coral, elevator,() -> 0.15));
     operator.y().onTrue(new PivotAndElevatorHome(algaeP, elevator));
     operator.b().toggleOnTrue(new AlgaeIntake(algaeI, -0.08));
