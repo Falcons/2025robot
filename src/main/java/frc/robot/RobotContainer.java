@@ -169,6 +169,7 @@ public class RobotContainer {
     // driver.start().whileTrue(new FollowTagG(swerve, 11));
     // driver.back().whileTrue(new relLimeL1(swerve, elevator, coral, 11));
     driver.rightBumper().whileTrue(new SwerveSlowModeHold(swerve, elevator));
+    driver.x().toggleOnTrue(new SwerveSlowModeHold(swerve, elevator))
     driver.y().onTrue(new invertdrive(swerve));
     driver.b().onTrue(new InstantCommand(swerve::zeroHeading));
     // driver.x().onTrue(new UnfilterdPIDFollowTag(swerve));
