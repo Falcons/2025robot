@@ -73,6 +73,7 @@ public class Pivot extends SubsystemBase {
   public void setPivot(double speed) {
     if(atMax && speed > 0){speed = 0; stopPivot();}
     if(atMin && speed < 0){speed = 0; stopPivot();}
+    if(elevator.getEncoder() >= AlgaeConstants.MaxAlgaeHeight && speed < 0){speed = 0; stopPivot();}
     SmartDashboard.putNumber("Pivot/speed", speed);
     pivot.set(speed);
   }
@@ -80,12 +81,12 @@ public class Pivot extends SubsystemBase {
     double pid = pivotPid.calculate(getAbsolute(), setpoint);
     if(setpoint > AlgaeConstants.pivotMax) setpoint = AlgaeConstants.pivotMax;
     if(setpoint < AlgaeConstants.pivotMin) setpoint = AlgaeConstants.pivotMin;
+    if(elevator.getEncoder() >= AlgaeConstants.MaxAlgaeHeight && setpoint < AlgaeConstants.pivotMin) return;
     if(pid > 0.5) pid = 0.5;
     if(pid < -0.5) pid = -0.5;
     SmartDashboard.putNumber("Pivot/PID/error", pivotPid.getError());
     SmartDashboard.putNumber("Pivot/PID/setpoint", setpoint);
     SmartDashboard.putNumber("Pivot/PID/calc", pid);
-
     setPivot(pid);
   }
   public double getReletive() {
