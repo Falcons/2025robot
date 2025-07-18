@@ -130,7 +130,7 @@ public final class Constants {
         public static final double pivotDanger = 90.0;
         public static final double pivotMax = 185;
         public static final double MinAlgaeHeight = 7.0;
-        public static final double MaxAlgaeHeight = 117.5;
+        public static final double MaxAlgaeHeight = 74; //Change chrit from 117  so it stops the algae pivot lower 
     }
     public static final class ElevatorConstants {
         public static final int motorRatio = 12; //12:1 
