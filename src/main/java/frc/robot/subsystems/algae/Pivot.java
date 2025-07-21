@@ -28,7 +28,7 @@ public class Pivot extends SubsystemBase {
   Alert pivotFaultAlert = new Alert("Faults", "", AlertType.kError);
   Alert pivotWarningAlert = new Alert("Warnings", "", AlertType.kWarning);
   double previousCurrent = 0;
-  public boolean atMin, atMax;
+  public boolean atMin, atMax, cancelPID;
   Elevator elevator;
   /** Creates a new algea_pivot. */
   public Pivot(Elevator elevator) {
@@ -81,7 +81,12 @@ public class Pivot extends SubsystemBase {
     double pid = pivotPid.calculate(getAbsolute(), setpoint);
     if(setpoint > AlgaeConstants.pivotMax) setpoint = AlgaeConstants.pivotMax;
     if(setpoint < AlgaeConstants.pivotMin) setpoint = AlgaeConstants.pivotMin;
-    if(elevator.getEncoder() >= AlgaeConstants.MaxAlgaeHeight && setpoint < AlgaeConstants.pivotMin) return;
+    if(elevator.getEncoder() >= AlgaeConstants.MaxAlgaeHeight && setpoint < AlgaeConstants.pivotMin) {
+      cancelPID = true;
+      return;
+    }else{
+      cancelPID = false;
+    }
     if(pid > 0.5) pid = 0.5;
     if(pid < -0.5) pid = -0.5;
     SmartDashboard.putNumber("Pivot/PID/error", pivotPid.getError());

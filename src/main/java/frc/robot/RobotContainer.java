@@ -35,6 +35,7 @@ import frc.robot.commands.coral.CoralStep;
 import frc.robot.commands.coral.rawCoralSet;
 import frc.robot.commands.driveTrain.SwerveJoystick;
 import frc.robot.commands.driveTrain.SwerveSlowModeHold;
+import frc.robot.commands.driveTrain.SwerveToggleSlowMode;
 import frc.robot.commands.driveTrain.invertdrive;
 import frc.robot.commands.elevator.ElevatorHoldVoltage;
 import frc.robot.commands.elevator.ElevatorManual;
@@ -178,6 +179,7 @@ public class RobotContainer {
     driver.povUp().onTrue(new SetElevatorSmallPIDMan(elevator, +0.5));
     driver.povDown().onTrue(new SetElevatorSmallPIDMan(elevator, -0.5));
     */
+    driver.povLeft().toggleOnTrue(new SwerveSlowModeHold(swerve, elevator));
     driver.povUp().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4H));
     driver.povRight().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4M));
     driver.povDown().onTrue(new ElevatorTrapezoidalMove(elevator, ElevatorConstants.maxSpeed, ElevatorConstants.maxAcceleration, ElevatorConstants.coralL4L));
