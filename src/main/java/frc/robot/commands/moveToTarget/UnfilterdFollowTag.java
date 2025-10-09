@@ -64,6 +64,11 @@ public class UnfilterdFollowTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(targetPose[0])  <= 0.1;// && Math.abs(targetPose[4]) <= 6;
+    if(Math.abs(targetPose[0])  <= 0.1){
+      System.out.println("Finished");
+      return true;
+    }else{
+      return false; // && Math.abs(targetPose[4]) <= 6;
+    }
   }
 }

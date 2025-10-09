@@ -25,6 +25,7 @@ public class Taxi extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.reset();
     timer.start();
     speeds = new ChassisSpeeds(1, 0, 0);
   }
