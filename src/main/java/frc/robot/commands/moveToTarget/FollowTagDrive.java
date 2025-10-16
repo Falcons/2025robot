@@ -60,7 +60,7 @@ public class FollowTagDrive extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !LimelightHelpers.getTV("limelight-end");
-    // return Math.abs(targetPose[2]+offset[2]) < 0.5;
+    // return !LimelightHelpers.getTV("limelight-end");
+    return Math.abs(targetPose[2]) < 0.5;
   }
 }
