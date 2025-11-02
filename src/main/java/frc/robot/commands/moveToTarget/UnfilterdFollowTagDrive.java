@@ -26,6 +26,7 @@ public class UnfilterdFollowTagDrive extends Command {
   /** Creates a new FollowTag. */
   public UnfilterdFollowTagDrive(SwerveSubsystem swerve) { 
     this.swerve = swerve;
+    this.end = false;
     addRequirements(swerve);
   }
 
