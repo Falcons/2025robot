@@ -34,6 +34,7 @@ public class UnfilterdFollowTagDrive extends Command {
   @Override
   public void initialize() {
     System.out.println(this.getName() + " start");
+    end = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
